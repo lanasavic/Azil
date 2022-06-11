@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "217310894009",
+    "firebase_url": "https://azil-7bdf6-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "azil-7bdf6",
+    "storage_bucket": "azil-7bdf6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217310894009:android:4764074fc5f229fc0a8868",
+        "android_client_info": {
+          "package_name": "com.example.azil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217310894009-liin8krptbj0q5a0nbmbum9motube5ut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvUaSzxmbiGqE-v5A3PffREoZABvsPjmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217310894009-liin8krptbj0q5a0nbmbum9motube5ut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
