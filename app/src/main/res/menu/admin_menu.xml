@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/shelter"
+        android:icon="@drawable/ic_home"
+        android:title=""/>
+    <item
+        android:id="@+id/animals"
+        android:icon="@drawable/ic_animal"
+        android:title=""/>
+    <item
+        android:id="@+id/donations"
+        android:icon="@drawable/ic_heart"
+        android:title=""/>
+</menu>

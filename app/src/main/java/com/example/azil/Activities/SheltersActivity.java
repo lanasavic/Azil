@@ -35,7 +35,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class SheltersActivity extends AppCompatActivity {
-    private Button btnBack;
+    private Button btnBack, btnDonacije;
     DatabaseReference dbRefSkloniste, dbRefAdmin, dbRefZivotinja, dbRefSklonisteAdmin,  dbRefSklonisteZivotinja;
     TextView tvNaziv, tvAdresa, tvGrad, tvOib, tvIban, tvDostupnihMjesta, tvKontakt;
     private String sNaziv, sAdresa, sGrad, sOib, sIban, sDostupnihMjesta;
@@ -56,6 +56,16 @@ public class SheltersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        btnDonacije = (Button) findViewById(R.id.btnDonacije);
+        btnDonacije.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class); //TODO: new activity - DonationsActivity
                 startActivity(intent);
                 finish();
             }

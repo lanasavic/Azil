@@ -48,5 +48,9 @@
     <string name="holder_Kontakt">***kontakt/admin mail***</string>
     <string name="holder_Ime">***ime životinje***</string>
     <string name="holder_Opis">***opis životinje***</string>
+    <string name="holder_helloAdmin">Pozdrav, %1$s!</string>
 
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
