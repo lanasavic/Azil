@@ -98,3 +98,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this,SheltersActivity.class).putExtra("data", shelter));
     }
 }
+
+//TODO: back button on phone izlazi iz app umjesto da ode nazad u prosli activity

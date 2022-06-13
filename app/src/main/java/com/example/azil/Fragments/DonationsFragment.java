@@ -19,7 +19,7 @@ public class DonationsFragment extends Fragment {
     }
 
 
-    public static DonationsFragment newInstance(String param1, String param2) {
+    public static DonationsFragment newInstance(int position) {
         DonationsFragment fragment = new DonationsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

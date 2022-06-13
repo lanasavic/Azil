@@ -53,7 +53,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginBottom="34dp"
+            android:layout_marginBottom="5dp"
             android:text="@string/btnNastavak" />
 
         <LinearLayout
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="130dp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -177,9 +177,9 @@
             android:layout_below="@id/linear"
             android:gravity="center"
             android:padding="5dp"
-            android:textSize="13sp"
             android:text="@string/helper_accessKeyInfo"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="11sp" />
 
     </RelativeLayout>
 

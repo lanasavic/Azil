@@ -13,11 +13,7 @@ import com.example.azil.R;
 
 public class AnimalsFragment extends Fragment {
 
-    public AnimalsFragment() {
-        // Required empty public constructor
-    }
-
-    public static AnimalsFragment newInstance(String param1, String param2) {
+    public static AnimalsFragment newInstance(int position) {
         AnimalsFragment fragment = new AnimalsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -25,16 +21,9 @@ public class AnimalsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_animals, container, false);
+        View view = inflater.inflate(R.layout.fragment_animals, container, false);
+        return view;
     }
 }

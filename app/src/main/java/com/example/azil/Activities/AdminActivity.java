@@ -2,6 +2,7 @@ package com.example.azil.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.azil.Fragments.AnimalsFragment;
-import com.example.azil.Fragments.DonationsFragment;
-import com.example.azil.Fragments.ShelterFragment;
+import com.example.azil.Adapters.ViewPagerAdapter;
 import com.example.azil.Models.Admin;
 import com.example.azil.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,6 +33,8 @@ public class AdminActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference dbRefAdmin;
     TextView helloAdmin;
+    private ViewPager viewPager;
+    private ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,28 +72,50 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
+        viewPager = findViewById(R.id.viewPagerFragments);
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.shelter :
-                        selectorFragment = new ShelterFragment();
+                        viewPager.setCurrentItem(0);
                         break;
-
                     case R.id.animals :
-                        selectorFragment = new AnimalsFragment();
+                        viewPager.setCurrentItem(1);
                         break;
-
                     case R.id.donations :
-                        selectorFragment = new DonationsFragment();
+                        viewPager.setCurrentItem(2);
                         break;
                 }
-                if(selectorFragment != null){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutAdmin, selectorFragment).commit();
-                }
-
                 return true;
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        bottomNavigationView.getMenu().findItem(R.id.shelter).setChecked(true);
+                        break;
+                    case 1:
+                        bottomNavigationView.getMenu().findItem(R.id.animals).setChecked(true);
+                        break;
+                    case 2:
+                        bottomNavigationView.getMenu().findItem(R.id.donations).setChecked(true);
+                        break;
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
