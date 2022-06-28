@@ -1,15 +1,15 @@
 package com.example.azil.Models;
 
-public class ReceivedDonations {
+public class ReceivedDonation {
     private String email;
     private String kolicina;
     private String komentar;
     private String sifra;
 
-    public ReceivedDonations() {
+    public ReceivedDonation() {
     }
 
-    public ReceivedDonations(String email, String kolicina, String komentar, String sifra) {
+    public ReceivedDonation(String email, String kolicina, String komentar, String sifra) {
         this.email = email;
         this.kolicina = kolicina;
         this.komentar = komentar;

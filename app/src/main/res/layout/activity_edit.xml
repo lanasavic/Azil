@@ -5,115 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8CDC2B9"
-    tools:context=".Activities.SheltersActivity">
+    tools:context=".Activities.EditActivity">
 
     <Button
-        android:id="@+id/btnBack"
+        android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="55dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/btnBack"
-        app:layout_constraintEnd_toStartOf="@id/btnDonacije"
-        app:layout_constraintHorizontal_bias="0.051"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:text="@string/btnCancel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnDonacije"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnSave"
+        android:layout_width="100dp"
         android:layout_height="55dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/btnDonacije"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#37B400"
+        android:text="@string/btnSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         android:background="@drawable/layout_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBack">
-
-        <LinearLayout
-            android:id="@+id/linearSecond"
-            android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:orientation="vertical" >
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:layout_constraintBottom_toTopOf="@+id/relativeLayoutShelters"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_search_white" />
-
-                <EditText
-                    android:id="@+id/search_animals"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/helper_search" />
-            </androidx.appcompat.widget.Toolbar>
-
-            <RelativeLayout
-                android:id="@+id/relativeLayoutShelters"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-                <ScrollView
-                    android:id="@+id/scrollView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    android:orientation="vertical"
-                    android:scrollbars="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/layout_bg"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            tools:listitem="@layout/animal_item"
-                            android:id="@+id/rvAnimals"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-                </ScrollView>
-            </RelativeLayout>
-        </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/btnCancel">
 
         <LinearLayout
             android:id="@+id/linearFirst"
@@ -128,11 +55,10 @@
                 android:layout_marginTop="15dp"
                 android:gravity="center">
 
-                <TextView
-                    android:id="@+id/tvNaziv"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/etNaziv"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/holder_Naziv"
                     android:textAlignment="center"
                     android:textColor="#222222"
                     android:textSize="20sp" />
@@ -143,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="7dp"
                 android:layout_marginBottom="7dp"
                 android:orientation="vertical">
@@ -162,11 +88,10 @@
                         android:textColor="#222222"
                         android:textSize="17sp" />
 
-                    <TextView
-                        android:id="@+id/tvAdresa"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/etAdresa"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/holder_Adresa"
                         android:textColor="#222222"
                         android:textSize="17sp" />
                 </LinearLayout>
@@ -187,14 +112,12 @@
                         android:textColor="#222222"
                         android:textSize="17sp" />
 
-                    <TextView
-                        android:id="@+id/tvGrad"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/etGrad"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/holder_Grad"
                         android:textColor="#222222"
-                        android:textSize="17sp"
-                        android:layout_marginBottom="8dp"/>
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -212,13 +135,12 @@
                         android:textColor="#222222"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tvOib"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/etOib"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/holder_Oib"
                         android:textColor="#222222"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -237,14 +159,12 @@
                         android:textColor="#222222"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tvIban"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/etIban"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/holder_Iban"
                         android:textColor="#222222"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="8dp"/>
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -262,13 +182,12 @@
                         android:textColor="#222222"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tvDostupnihMjesta"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/etDostupnihMjesta"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/holder_DostupnihMjesta"
                         android:textColor="#222222"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -286,18 +205,14 @@
                         android:textColor="#222222"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/tvKontakt"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/etKontakt"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/holder_Kontakt"
                         android:textColor="#222222"
-                        android:textSize="16sp" />
+                        android:textSize="17sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!-- TODO:bottom details scroll in case theres more text idk,
-        also, press adresa -> go to activity - map - show on map no-->

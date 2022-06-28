@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.azil.Activities.DeleteActivity;
+import com.example.azil.Activities.EditActivity;
 import com.example.azil.Activities.LoginActivity;
 import com.example.azil.Activities.MainActivity;
 import com.example.azil.Models.Admin;
@@ -43,18 +45,17 @@ public class ShelterFragment extends Fragment {
     FirebaseUser firebaseUser;
     ImageButton imageButtonEdit;
     private View view;
+    private Intent intent;
 
     public void imageButtonOnClick() {
         imageButtonEdit = (ImageButton) view.findViewById(R.id.imageButtonEdit);
-
-        /*Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-        getActivity().finish();*/
         imageButtonEdit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Edit", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Edit", Toast.LENGTH_SHORT).show();
+                intent = new Intent(getActivity(), EditActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -69,8 +70,9 @@ public class ShelterFragment extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Delete", Toast.LENGTH_SHORT).show(); //TODO: maybe rather open activity on click nego dialog jer je dialog isto fragment, sort of - por favor, baguette
-
+                //Toast.makeText(getActivity(), "Delete", Toast.LENGTH_SHORT).show(); //TODO: maybe rather open activity on click nego dialog jer je dialog isto fragment, sort of - por favor, baguette
+                intent = new Intent(getActivity(), DeleteActivity.class);
+                startActivity(intent);
                 /*AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                 alertDialog.setTitle("Brisanje skloništa"); //i profila?
                 alertDialog.setMessage("Brisanje skloništa je nepovratno. Svi podaci bit će obrisani u potpunosti. Jeste li sigurni da želite nastaviti?");

@@ -20,7 +20,7 @@
             app:srcCompat="@mipmap/ic_paw" />
     </FrameLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -29,16 +29,29 @@
             android:id="@+id/tvImeZivotinje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@id/imageButtonFavorite"
             android:gravity="center"
-            android:textSize="18sp"
-            android:text="@string/holder_Ime" />
+            android:text="@string/holder_Ime"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvOpisZivotinje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvImeZivotinje"
+            android:layout_toStartOf="@id/imageButtonFavorite"
             android:padding="5dp"
             android:text="@string/holder_Opis" />
-    </LinearLayout>
 
+        <ImageButton
+            android:id="@+id/imageButtonFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@android:color/transparent"
+            android:onClick="imageButtonFavorite"
+            android:src="@drawable/ic_heart_red_outline" />
+
+    </RelativeLayout>
 </LinearLayout>

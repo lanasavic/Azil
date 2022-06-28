@@ -10,6 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Azil">
         <activity
+            android:name=".Activities.DonationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.DonateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.EditAnimalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.DeleteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.EditActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ForgotPasswordActivity"
             android:exported="false" />
         <activity
@@ -20,6 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.AdminActivity"
+            android:windowSoftInputMode="stateHidden"
             android:exported="false" />
         <activity
             android:name=".Activities.LoginActivity"

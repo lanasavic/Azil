@@ -6,6 +6,7 @@
     tools:context=".Fragments.AnimalsFragment">
 
     <LinearLayout
+        android:id="@+id/linearLayoutMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -29,6 +30,13 @@
                 android:layout_height="match_parent"
                 android:hint="@string/helper_search"/>
         </androidx.appcompat.widget.Toolbar>
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btnAdd"/>
 
         <RelativeLayout
             android:id="@+id/relativeLayoutAnimals_Fragment"
@@ -54,13 +62,12 @@
                     android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvAnimals"
+                        android:id="@+id/rvAdminAnimals"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         tools:listitem="@layout/animal_item_fragment" />
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>
-
     </LinearLayout>
 </RelativeLayout>

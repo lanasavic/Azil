@@ -22,7 +22,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@id/imageButtonActions"
+            android:layout_toStartOf="@id/imageButtonEdit"
             android:gravity="center"
             android:text="@string/holder_Ime"
             android:textSize="18sp" />
@@ -39,19 +39,28 @@
             android:id="@+id/tvOpisZivotinje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/imageButtonActions"
             android:layout_below="@id/tvImeZivotinje"
+            android:layout_toStartOf="@id/imageButtonEdit"
             android:padding="5dp"
             android:text="@string/holder_Opis" />
 
         <ImageButton
-            android:id="@+id/imageButtonActions"
+            android:id="@+id/imageButtonEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/ic_more_black" />
+            android:onClick="imageButtonEdit"
+            android:src="@drawable/ic_edit_black" />
+
+        <ImageButton
+            android:id="@+id/imageButtonDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageButtonEdit"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_delete_red" />
 
     </RelativeLayout>
-
 </LinearLayout>

@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 public class SheltersActivity extends AppCompatActivity {
     private Button btnBack, btnDonacije;
-    DatabaseReference dbRefSkloniste, dbRefAdmin, dbRefZivotinja, dbRefSklonisteAdmin,  dbRefSklonisteZivotinja;
+    DatabaseReference dbRefSkloniste, dbRefAdmin, dbRefZivotinja, dbRefSklonisteAdmin, dbRefSklonisteZivotinja;
     TextView tvNaziv, tvAdresa, tvGrad, tvOib, tvIban, tvDostupnihMjesta, tvKontakt;
     private String sNaziv, sAdresa, sGrad, sOib, sIban, sDostupnihMjesta;
     Intent intent;
@@ -65,7 +65,7 @@ public class SheltersActivity extends AppCompatActivity {
         btnDonacije.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class); //TODO: new activity - DonationsActivity
+                Intent intent = new Intent(getApplicationContext(), DonationsActivity.class);
                 startActivity(intent);
                 finish();
             }

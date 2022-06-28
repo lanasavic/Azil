@@ -11,10 +11,13 @@
     <string name="btnNastavak">Nastavak</string>
     <string name="btnPosalji">Pošalji</string>
     <string name="btnBack">Nazad</string>
-    <string name="btnEdit">Spremi promjene</string>
     <string name="btnDelete">Obriši</string>
+    <string name="btnSave">Spremi</string>
+    <string name="btnCancel">Odustani</string>
     <string name="btnPrikazSkloniste">Administracija skloništa</string>
     <string name="btnPrikazDonacije">Uređivanje donacija</string>
+    <string name="btnAdd">Dodaj životinju</string>
+    <string name="btnAddImg">Dodaj sliku</string>
 
     <!-- Txt, placeholders, or whatever -->
     <string name="helperMain">Skloništa za životinje u RH</string>
@@ -27,7 +30,7 @@
     <string name="helper_reg">Registracija</string>
     <string name="helper_inputAccessKey">Pristupni ključ</string>
     <string name="helper_accessKeyInfo">Pristupni ključ koristi se kako bi se spriječio broj zlonamjernih/bespotrebnih registracija.
-    U slučaju da ne posjedujete pristupni ključ, obratite se na email adresu: admin@mail.com.
+    U slučaju da ne posjedujete pristupni ključ, obratite se na email adresu: azil@gmail.com.
         Molimo priložite dokumente o posjedovanju i radu svoga skloništa.</string>
     <string name="helper_log">Prijava</string>
     <string name="helper_search">Pretraga</string>
@@ -38,6 +41,11 @@
     <string name="helper_iban">IBAN: </string>
     <string name="helper_dostupnihmjesta">Dostupnih mjesta: </string>
     <string name="helper_kontakt">Kontakt: </string>
+    <string name="helper_ime">Ime: </string>
+    <string name="helper_opis">Opis: </string>
+    <string name="helper_edit">Uredi detalje skloništa</string>
+    <string name="helper_deletionWarning">Brisanje skloništa je nepovratno!\nSvi podaci vezani uz sklonište, kao i vaš račun,
+        bit će obrisani u potpunosti. Jeste li sigurni da želite nastaviti?</string>
 
     <string name="holder_Naziv">***naziv skloništa***</string>
     <string name="holder_Adresa">***adresa***</string>
@@ -48,8 +56,9 @@
     <string name="holder_Kontakt">***kontakt/admin mail***</string>
     <string name="holder_Ime">***ime životinje***</string>
     <string name="holder_Opis">***opis životinje***</string>
+    <string name="holder_OpisDonacije">***opis donacije***</string>
+    <string name="holder_KolicinaDonacije">Potrebna količina: %1$s</string>
     <string name="holder_helloAdmin">Pozdrav, %1$s!</string>
-
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
