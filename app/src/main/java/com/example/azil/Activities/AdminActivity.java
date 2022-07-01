@@ -62,6 +62,7 @@ public class AdminActivity extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Admin admin = dataSnapshot.getValue(Admin.class);
                     helloAdmin = findViewById(R.id.helloAdmin);
+                    assert admin != null;
                     helloAdmin.setText(getString(R.string.holder_helloAdmin, admin.getUsername()));
                 }
             }

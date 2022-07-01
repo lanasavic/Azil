@@ -70,27 +70,8 @@ public class ShelterFragment extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getActivity(), "Delete", Toast.LENGTH_SHORT).show(); //TODO: maybe rather open activity on click nego dialog jer je dialog isto fragment, sort of - por favor, baguette
                 intent = new Intent(getActivity(), DeleteActivity.class);
                 startActivity(intent);
-                /*AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-                alertDialog.setTitle("Brisanje skloništa"); //i profila?
-                alertDialog.setMessage("Brisanje skloništa je nepovratno. Svi podaci bit će obrisani u potpunosti. Jeste li sigurni da želite nastaviti?");
-                alertDialog.setIcon(R.mipmap.ic_paw);
-                alertDialog.setPositiveButton("Nastavi", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        progressDialog.setMessage("Brisanje...");
-                        progressDialog.dismiss();
-                    }
-                });
-                alertDialog.setNegativeButton("Odustani", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });*/
             }
         });
 

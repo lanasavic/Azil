@@ -5,23 +5,69 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.DonationsFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:id="@+id/linearLayoutMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_white" />
+
+            <EditText
+                android:id="@+id/search_fragmentAnimals"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/helper_search"/>
+        </androidx.appcompat.widget.Toolbar>
+
+        <Button
+            android:id="@+id/btnAddDonation"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_search_white" />
+            android:text="@string/btnAdd"/>
 
-        <EditText
-            android:id="@+id/search_fragmentDonations"
+        <RelativeLayout
+            android:id="@+id/relativeLayoutDonations_Fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/helper_search"/>
-    </androidx.appcompat.widget.Toolbar>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp">
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:orientation="vertical"
+                android:scrollbars="vertical">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_bg"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAdminDonations"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:listitem="@layout/donation_item_fragment" />
+                </LinearLayout>
+            </ScrollView>
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

@@ -58,19 +58,20 @@
                 android:layout_gravity="center">
 
                 <ImageView
+                    android:id="@+id/imgZivotinja"
                     android:scaleType="fitXY"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:id="@+id/addImage"
                     android:src="@mipmap/ic_paw_foreground"/>
             </FrameLayout>
 
             <Button
+                android:id="@+id/btnEditImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
-                android:text="@string/btnAddImg"/>
+                android:text="@string/btnEditImg"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

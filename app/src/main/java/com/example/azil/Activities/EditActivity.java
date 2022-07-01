@@ -17,6 +17,7 @@ import com.example.azil.Fragments.ShelterFragment;
 import com.example.azil.Models.Admin;
 import com.example.azil.Models.Shelter;
 import com.example.azil.Models.Shelter_Admin;
+import com.example.azil.Models.Shelter_Animal;
 import com.example.azil.R;
 import com.example.azil.databinding.ActivityEditBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,6 +38,8 @@ public class EditActivity extends AppCompatActivity {
     DatabaseReference dbRefSkloniste, dbRefAdmin, dbRefSklonisteAdmin;
     ProgressDialog progressDialog;
     private ActivityEditBinding binding;
+    String lastChild, checkShelter, sAdminUser;
+    Integer newKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public class EditActivity extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Admin admin = dataSnapshot.getValue(Admin.class);
                     assert admin != null;
-                    String sAdminUser = admin.getUsername();
+                    sAdminUser = admin.getUsername();
                     String email = firebaseUser.getEmail();
 
                     binding.etKontakt.setText(email);
@@ -153,9 +156,9 @@ public class EditActivity extends AppCompatActivity {
         else if(TextUtils.isEmpty(sGrad)){
             Toast.makeText(this, "Unesite grad", Toast.LENGTH_SHORT).show();
         }
-        /*else if(TextUtils.isEmpty(sOib)){
+        else if(TextUtils.isEmpty(sOib)){
             Toast.makeText(this, "Unesite novi OIB", Toast.LENGTH_SHORT).show();
-        }*/
+        }
         else if(TextUtils.isEmpty(sIban) || !sIban.matches("^[H][R]\\d{7}")){
             Toast.makeText(this, "Unesite novi pravilni IBAN (npr. HR1234567)", Toast.LENGTH_SHORT).show();
         }
@@ -163,39 +166,79 @@ public class EditActivity extends AppCompatActivity {
             Toast.makeText(this, "Unesite broj dostupnih mjesta", Toast.LENGTH_SHORT).show();
         }
         else{
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Ažuriranje podataka o skloništu...");
-            progressDialog.show();
-
-            HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("naziv", sNaziv);
-            hashMap.put("adresa", sAdresa);
-            hashMap.put("grad", sGrad);
-            hashMap.put("oib", sOib);
-            hashMap.put("iban", sIban);
-            hashMap.put("dostupnih_mjesta", sDostupnihMjesta);
-
-            DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("skloniste");
-
-            dbRef.child(sOib).updateChildren(hashMap)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            progressDialog.dismiss();
-                            Toast.makeText(EditActivity.this, "Promjene spremljene!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(EditActivity.this, AdminActivity.class));
-                            finish();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            updateShelter();
         }
     }
-}
 
-//INTENT ne dohvaca podatke ?
+    private void updateShelter() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Ažuriranje podataka o skloništu...");
+        progressDialog.show();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("naziv", sNaziv);
+        hashMap.put("adresa", sAdresa);
+        hashMap.put("grad", sGrad);
+        hashMap.put("oib", sOib);
+        hashMap.put("iban", sIban);
+        hashMap.put("dostupnih_mjesta", sDostupnihMjesta);
+
+        dbRefSkloniste = FirebaseDatabase.getInstance().getReference("skloniste");
+        dbRefSklonisteAdmin = FirebaseDatabase.getInstance().getReference("skloniste_admin");
+
+        dbRefSkloniste.child(sOib).updateChildren(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        assert firebaseUser != null;
+                        String userEmail = firebaseUser.getEmail();
+
+                        dbRefSklonisteAdmin.limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    Shelter_Admin shelter_admin = dataSnapshot.getValue(Shelter_Admin.class);
+                                    assert shelter_admin != null;
+                                    checkShelter = shelter_admin.getSkloniste();
+
+                                    if(!checkShelter.equals(sOib)){
+                                        lastChild = dataSnapshot.getKey();
+                                        assert lastChild != null;
+                                        newKey = (Integer.parseInt(lastChild)+1);
+                                        HashMap<String, Object> hashMap1 = new HashMap<>();
+                                        hashMap1.put("id", ""+newKey);
+                                        hashMap1.put("skloniste", ""+sOib);
+                                        hashMap1.put("admin", ""+sAdminUser);
+
+                                        dbRefSklonisteAdmin.child(newKey.toString()).setValue(hashMap1);
+                                        progressDialog.dismiss();
+                                        Toast.makeText(EditActivity.this, "Uspješno ažurirano!", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(EditActivity.this, AdminActivity.class));
+                                        finish();
+                                    }
+                                    else{
+                                        progressDialog.dismiss();
+                                        Toast.makeText(EditActivity.this, "Uspješno ažurirano!", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(EditActivity.this, AdminActivity.class));
+                                        finish();
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Došlo je do pogreške.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+}

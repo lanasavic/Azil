@@ -46,6 +46,12 @@ public class SheltersActivity extends AppCompatActivity {
     RecyclerView rvAnimals;
     EditText search_animals;
 
+    public void imageButtonAdopt(View v) {
+        Intent intent = new Intent(getApplicationContext(), DonateActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +72,7 @@ public class SheltersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), DonationsActivity.class);
-                startActivity(intent);
+                startActivity(intent.putExtra("data", shelter));
                 finish();
             }
         });
@@ -167,7 +173,7 @@ public class SheltersActivity extends AppCompatActivity {
         rvAnimals.setLayoutManager(new LinearLayoutManager(this));
 
         lAnimals = new ArrayList<>();
-        animalsAdapter = new AnimalsAdapter(this, lAnimals);//, this::selectedAnimal
+        animalsAdapter = new AnimalsAdapter(this, lAnimals);
         rvAnimals.setAdapter(animalsAdapter);
 
         Query shelterAnimalQuery = dbRefSklonisteZivotinja.orderByChild("skloniste").equalTo(sOib);
@@ -178,7 +184,7 @@ public class SheltersActivity extends AppCompatActivity {
                     Shelter_Animal shelter_animal = dataSnapshot.getValue(Shelter_Animal.class);
                     assert shelter_animal != null;
                     String sAnimal = shelter_animal.getZivotinja();
-                    Log.d("sifra", sAnimal);
+                    //Log.d("sifra", sAnimal);
 
                     Query animalQuery = dbRefZivotinja.orderByChild("sifra").equalTo(sAnimal);
                     animalQuery.addValueEventListener(new ValueEventListener() {
@@ -202,9 +208,5 @@ public class SheltersActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public void selectedAnimal(Animal animal) {
-        startActivity(new Intent(this,SheltersActivity.class).putExtra("data", animal));
     }
 }

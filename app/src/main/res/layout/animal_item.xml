@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@id/imageButtonFavorite"
+            android:layout_toStartOf="@id/imageButtonAdopt"
             android:gravity="center"
             android:text="@string/holder_Ime"
             android:textSize="18sp" />
@@ -40,17 +40,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvImeZivotinje"
-            android:layout_toStartOf="@id/imageButtonFavorite"
+            android:layout_toStartOf="@id/imageButtonAdopt"
             android:padding="5dp"
             android:text="@string/holder_Opis" />
 
         <ImageButton
-            android:id="@+id/imageButtonFavorite"
+            android:id="@+id/imageButtonAdopt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:backgroundTint="@android:color/transparent"
-            android:onClick="imageButtonFavorite"
+            android:onClick="imageButtonAdopt"
             android:src="@drawable/ic_heart_red_outline" />
 
     </RelativeLayout>

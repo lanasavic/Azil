@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void selectedShelter(Shelter shelter) {
-        startActivity(new Intent(this,SheltersActivity.class).putExtra("data", shelter));
+        startActivity(new Intent(this, SheltersActivity.class).putExtra("data", shelter));
     }
 }
 

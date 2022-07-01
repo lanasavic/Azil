@@ -16,8 +16,9 @@
     <string name="btnCancel">Odustani</string>
     <string name="btnPrikazSkloniste">Administracija skloništa</string>
     <string name="btnPrikazDonacije">Uređivanje donacija</string>
-    <string name="btnAdd">Dodaj životinju</string>
+    <string name="btnAdd">Dodaj</string>
     <string name="btnAddImg">Dodaj sliku</string>
+    <string name="btnEditImg">Promijeni sliku</string>
 
     <!-- Txt, placeholders, or whatever -->
     <string name="helperMain">Skloništa za životinje u RH</string>
@@ -56,8 +57,9 @@
     <string name="holder_Kontakt">***kontakt/admin mail***</string>
     <string name="holder_Ime">***ime životinje***</string>
     <string name="holder_Opis">***opis životinje***</string>
-    <string name="holder_OpisDonacije">***opis donacije***</string>
-    <string name="holder_KolicinaDonacije">Potrebna količina: %1$s</string>
+    <string name="holder_Skloniste">***skloniste***</string>
+    <string name="holder_OpisDonacije">***opis***</string>
+    <string name="holder_KolicinaDonacije">**</string>
     <string name="holder_helloAdmin">Pozdrav, %1$s!</string>
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -13,26 +13,6 @@ import com.example.azil.R;
 
 public class DonationsFragment extends Fragment {
 
-
-    public DonationsFragment() {
-        // Required empty public constructor
-    }
-
-
-    public static DonationsFragment newInstance(int position) {
-        DonationsFragment fragment = new DonationsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

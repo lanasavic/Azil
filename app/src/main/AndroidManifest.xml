@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.azil">
+    package="com.example.azil" >
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"  />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -8,7 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_paw_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Azil">
+        android:theme="@style/Theme.Azil" >
+        <activity
+            android:name=".Activities.AddAnimalActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.DonationsActivity"
             android:exported="false" />
@@ -23,8 +30,8 @@
             android:exported="false" />
         <activity
             android:name=".Activities.EditActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activities.ForgotPasswordActivity"
             android:exported="false" />
@@ -36,15 +43,15 @@
             android:exported="false" />
         <activity
             android:name=".Activities.AdminActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activities.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
             android:exported="true"
-            android:noHistory="true">
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
