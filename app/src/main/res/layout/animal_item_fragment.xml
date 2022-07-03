@@ -17,7 +17,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/imgZivotinja"
-            app:srcCompat="@mipmap/ic_paw" />
+            app:srcCompat="@mipmap/ic_paw"
+            android:layout_marginEnd="5dp" />
     </FrameLayout>
 
     <RelativeLayout
@@ -42,6 +43,7 @@
             android:layout_below="@id/tvImeZivotinje"
             android:layout_toStartOf="@id/imageButtonEdit"
             android:padding="5dp"
+            android:gravity="center_horizontal|center|center_vertical"
             android:text="@string/holder_Opis" />
 
         <ImageButton
@@ -62,5 +64,14 @@
             android:backgroundTint="@android:color/transparent"
             android:src="@drawable/ic_delete_red" />
 
+        <ImageView
+            android:id="@+id/animalWarning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageButtonDelete"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_warning"
+            app:tint="@color/red" />
     </RelativeLayout>
 </LinearLayout>

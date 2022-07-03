@@ -5,29 +5,24 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.azil.Activities.AddAnimalActivity;
-import com.example.azil.Activities.DeleteActivity;
-import com.example.azil.Activities.EditActivity;
-import com.example.azil.Activities.EditAnimalActivity;
+import com.example.azil.Activities.RequestsActivity;
 import com.example.azil.Adapters.AdminAnimalsAdapter;
-import com.example.azil.Adapters.AnimalsAdapter;
-import com.example.azil.Filters.AdminAnimalsFilter;
 import com.example.azil.Models.Admin;
 import com.example.azil.Models.Animal;
-import com.example.azil.Models.Shelter;
 import com.example.azil.Models.Shelter_Admin;
 import com.example.azil.Models.Shelter_Animal;
 import com.example.azil.R;
@@ -44,10 +39,9 @@ import java.util.ArrayList;
 
 
 public class AnimalsFragment extends Fragment {
-    private Button btnAddAnimal;
+    private Button btnAddAnimal, btnRequests;
     private RecyclerView rvAdminAnimals;
     private EditText search_fragmentAnimals;
-    public AdminAnimalsFilter adminAnimalsFilter;
     DatabaseReference dbRefAdmin, dbRefZivotinja, dbRefSklonisteAdmin, dbRefSklonisteZivotinja;
     FirebaseUser firebaseUser;
     ArrayList<Animal> lAnimals;
@@ -70,6 +64,16 @@ public class AnimalsFragment extends Fragment {
             }
         });
 
+        btnRequests = view.findViewById(R.id.btnRequests);
+        btnRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(getActivity(), RequestsActivity.class);
+                intent.putExtra("adminEmail", firebaseUser.getEmail());
+                startActivity(intent);
+            }
+        });
+
         dbRefAdmin = FirebaseDatabase.getInstance().getReference("admin");
         dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
         dbRefSklonisteAdmin = FirebaseDatabase.getInstance().getReference("skloniste_admin");
@@ -77,13 +81,12 @@ public class AnimalsFragment extends Fragment {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        //RECYCLERVIEW ITEM INSERT + DATA
         rvAdminAnimals = view.findViewById(R.id.rvAdminAnimals);
         rvAdminAnimals.setHasFixedSize(true);
         rvAdminAnimals.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         lAnimals = new ArrayList<>();
-        adminAnimalsAdapter = new AdminAnimalsAdapter(getActivity(), lAnimals);//, this::selectedAnimal
+        adminAnimalsAdapter = new AdminAnimalsAdapter(getActivity(), lAnimals);
         rvAdminAnimals.setAdapter(adminAnimalsAdapter);
 
         Query adminEmailQuery = dbRefAdmin.orderByChild("email").equalTo(firebaseUser.getEmail());
@@ -152,6 +155,27 @@ public class AnimalsFragment extends Fragment {
             }
         });
 
+        search_fragmentAnimals = view.findViewById(R.id.search_fragmentAnimals);
+        search_fragmentAnimals.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    adminAnimalsAdapter.getFilter().filter(s);
+                }
+                catch (Exception e){
+                    Log.d("ERROR", "Error:" + e.getMessage());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         return view;
     }
 }

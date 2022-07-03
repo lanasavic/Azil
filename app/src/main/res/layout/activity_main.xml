@@ -95,5 +95,3 @@
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!-- TODO: wrap upper part into a relative/linear layout? -->

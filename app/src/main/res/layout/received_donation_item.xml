@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,59 +8,71 @@
     android:background="@drawable/textlines">
 
     <LinearLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/ibEdit"
-        android:layout_alignBottom="@id/ibDelete"
-        android:layout_toStartOf="@id/ibEdit"
+        android:layout_toStartOf="@id/imageButtonCheck"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvOpisDonacije"
+            android:id="@+id/tvImePrezime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="3"
+            android:text="@string/holder_ImePrezime"
+            android:textColor="#222222"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="3"
             android:background="@drawable/line"
             android:paddingBottom="5dp"
-            android:text="@string/holder_OpisDonacije"
+            android:layout_marginBottom="5dp"
+            android:text="@string/holder_Email"
             android:textColor="#222222"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvKomentar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/holder_Komentar"
+            android:textColor="#222222"
+            android:layout_marginBottom="3dp"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tvKolicinaDonacije"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="end"
             android:text="@string/holder_KolicinaDonacije"
             android:textColor="#222222"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/donationWarning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/ibEdit"
-        android:src="@drawable/ic_warning"
-        app:tint="@color/red" />
-
     <ImageButton
-        android:id="@+id/ibEdit"
+        android:id="@+id/imageButtonCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:backgroundTint="@android:color/transparent"
-        android:onClick="imageButtonEdit"
-        android:src="@drawable/ic_edit_black" />
+        android:onClick="imageButtonCheck"
+        android:src="@drawable/ic_check" />
 
     <ImageButton
-        android:id="@+id/ibDelete"
+        android:id="@+id/imageButtonDecline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ibEdit"
+        android:layout_below="@id/imageButtonCheck"
         android:layout_alignParentEnd="true"
         android:backgroundTint="@android:color/transparent"
-        android:src="@drawable/ic_delete_red" />
-
+        android:onClick="imageButtonDecline"
+        android:src="@drawable/ic_decline_red" />
 </RelativeLayout>

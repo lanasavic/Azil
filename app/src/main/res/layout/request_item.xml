@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_centerVertical="true"
+    android:background="@drawable/textlines">
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@id/imageButtonCheck"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvImePrezime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="3"
+            android:text="@string/holder_ImePrezime"
+            android:textColor="#222222"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="3"
+            android:background="@drawable/line"
+            android:paddingBottom="3dp"
+            android:text="@string/holder_Email"
+            android:textColor="#222222"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvKomentar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/holder_Komentar"
+            android:background="@drawable/line"
+            android:paddingBottom="3dp"
+            android:textColor="#222222"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvDatum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/holder_Datum"
+            android:textColor="#222222"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/imageButtonCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@android:color/transparent"
+        android:onClick="imageButtonCheck"
+        android:src="@drawable/ic_check" />
+
+    <ImageButton
+        android:id="@+id/imageButtonDecline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageButtonCheck"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@android:color/transparent"
+        android:onClick="imageButtonDecline"
+        android:src="@drawable/ic_decline_red" />
+</RelativeLayout>

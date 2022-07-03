@@ -15,8 +15,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.azil.Models.AccessKey;
-import com.example.azil.Models.Admin;
-import com.example.azil.Models.Shelter_Admin;
 import com.example.azil.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,7 +24,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;

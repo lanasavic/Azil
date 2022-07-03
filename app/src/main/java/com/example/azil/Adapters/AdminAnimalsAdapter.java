@@ -3,7 +3,6 @@ package com.example.azil.Adapters;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.azil.Activities.AddAnimalActivity;
 import com.example.azil.Activities.AdminActivity;
 import com.example.azil.Activities.EditAnimalActivity;
+import com.example.azil.Filters.AdminAnimalsFilter;
 import com.example.azil.Models.Animal;
+import com.example.azil.Models.Shelter_Animal;
 import com.example.azil.databinding.AnimalItemFragmentBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +30,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -45,8 +46,9 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
     private AnimalItemFragmentBinding binding;
     Intent intent;
     ProgressDialog progressDialog;
-    DatabaseReference dbRefShelterAnimal;
+    DatabaseReference dbRefSklonisteZivotinja, dbRefZivotinja, dbRefSkloniste;
     String key;
+    public AdminAnimalsFilter adminAnimalsFilter;
 
     public AdminAnimalsAdapter(Context context, ArrayList<Animal> lAnimals) {
         this.context = context;
@@ -65,12 +67,10 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
     public void onBindViewHolder(@NonNull AdminAnimalsAdapter.ViewHolder holder, int position) {
         Animal animal = lAnimals.get(position);
 
-        /*holder.ime.setText(animal.getIme());
-        holder.opis.setText(animal.getOpis());
-        Picasso.get().load(animal.getImgurl()).into(holder.img);*/
         String ime = animal.getIme();
         String opis = animal.getOpis();
         String img = animal.getImgurl();
+        String zahtjevi = animal.getZahtjevi();
 
         holder.ime.setText(ime);
         holder.opis.setText(opis);
@@ -91,6 +91,20 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
                 deleteAnimal(animal, holder);
             }
         });
+
+        int count;
+        try {
+            count = Integer.parseInt(zahtjevi);
+            if(count > 0){
+                binding.animalWarning.setVisibility(View.VISIBLE);
+            }
+            else{
+                binding.animalWarning.setVisibility(View.INVISIBLE);
+            }
+        } catch (NumberFormatException e) {
+            count = 0;
+            Log.d("test", "Except "+e);
+        }
     }
 
     private void deleteAnimal(Animal animal, AdminAnimalsAdapter.ViewHolder holder) {
@@ -108,21 +122,49 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
                     public void onSuccess(Void unused) {
                         Log.d("Success", "Deleted from storage");
 
-                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("zivotinja");
-                        databaseReference.child(zivotinjaSifra).removeValue();
+                        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
+                        dbRefZivotinja.child(zivotinjaSifra).removeValue();
+                        progressDialog.dismiss();
+                        Toast.makeText(context, "Uspješno obrisano!", Toast.LENGTH_SHORT).show();
+                        Log.d("Success", "Deleted from database");
 
-                        Query deleteShelterAnimal = dbRefShelterAnimal.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        dbRefSklonisteZivotinja = FirebaseDatabase.getInstance().getReference("skloniste_zivotinja");
+                        Query deleteShelterAnimal = dbRefSklonisteZivotinja.orderByChild("zivotinja").equalTo(zivotinjaSifra);
                         deleteShelterAnimal.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     key = dataSnapshot.getKey();
                                     assert key != null;
-                                    dbRefShelterAnimal.child(key).removeValue();
-                                    progressDialog.dismiss();
-                                    Toast.makeText(context, "Uspješno obrisano!", Toast.LENGTH_SHORT).show();
-                                    intent = new Intent(context, AdminActivity.class);
-                                    context.startActivity(intent);
+                                    dbRefSklonisteZivotinja.child(key).removeValue();
+
+                                    Shelter_Animal shelter_animal = dataSnapshot.getValue(Shelter_Animal.class);
+                                    assert shelter_animal != null;
+                                    String sSklonisteOib = shelter_animal.getSkloniste();
+
+                                    dbRefSkloniste = FirebaseDatabase.getInstance().getReference("skloniste").child(sSklonisteOib).child("dostupnih_mjesta");
+                                    dbRefSkloniste.runTransaction(new Transaction.Handler() {
+                                        @NonNull
+                                        @Override
+                                        public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                                            int count;
+                                            try {
+                                                count = Integer.parseInt(currentData.getValue(String.class));
+                                            } catch (NumberFormatException e) {
+                                                count = 0;
+                                            }
+                                            count++;
+                                            currentData.setValue(Integer.toString(count));
+                                            intent = new Intent(context, AdminActivity.class);
+                                            context.startActivity(intent);
+                                            return Transaction.success(currentData);
+                                        }
+
+                                        @Override
+                                        public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                                            Log.d("TAG", "countTransaction:onComplete -- Error:" + error);
+                                        }
+                                    });
                                 }
                             }
                             @Override
@@ -136,9 +178,8 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("Error", e.toString());
                         progressDialog.dismiss();
-                        Toast.makeText(context, "Došlo je do pogreške.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Error: " + e, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -150,7 +191,10 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
 
     @Override
     public Filter getFilter() {
-        return null;
+        if (adminAnimalsFilter == null){
+            adminAnimalsFilter = new AdminAnimalsFilter(animalsList, this);
+        }
+        return adminAnimalsFilter;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

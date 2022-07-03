@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -13,7 +14,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,7 +33,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -42,14 +44,15 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 
 public class AddAnimalActivity extends AppCompatActivity {
-    ActivityAddAnimalBinding binding;
+    private ActivityAddAnimalBinding binding;
     StorageReference storageReference;
     ProgressDialog progressDialog;
     private Uri imgUri = null;
     Intent intent;
-    DatabaseReference dbRefZivotinja, dbRefSklonisteZivotinja, dbRefAdmin, dbRefSklonisteAdmin;
+    DatabaseReference dbRefZivotinja, dbRefSklonisteZivotinja, dbRefAdmin, dbRefSklonisteAdmin, dbRefSkloniste;
     private String lastChild, adminEmail, sShelterOib;
     private Integer newKey, newKey1;
+    int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,54 +124,23 @@ public class AddAnimalActivity extends AppCompatActivity {
                         while(!uriTask.isSuccessful());
                         String uploadedImgUrl = ""+uriTask.getResult();
 
-                        addAnimal(uploadedImgUrl);
+                        saveAnimal(uploadedImgUrl);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("Error", e.toString());
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "Došlo je do pogreške.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Došlo je do pogreške", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    /*private void addAnimal(String uploadedImgUrl, long timestamp) {
+    private void saveAnimal(String uploadedImgUrl){
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("sifra", ""+timestamp);
         hashMap.put("ime", ""+ime);
         hashMap.put("opis", ""+opis);
-        if(imgUri != null){
-            hashMap.put("imgurl", ""+uploadedImgUrl);
-        }
-
-        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
-        dbRefSklonisteZivotinja = FirebaseDatabase.getInstance().getReference("skloniste_zivotinja");
-
-        dbRefZivotinja.child(""+timestamp).setValue(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Uspješno spremljeno!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(AddAnimalActivity.this, AdminActivity.class));
-                        finish();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Error", e.toString());
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "Došlo je do pogreške.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-*/
-    private void addAnimal(String uploadedImgUrl){
-        HashMap<String, Object> hashMap = new HashMap<>();
-        //hashMap.put("sifra", ""+timestamp);
-        hashMap.put("ime", ""+ime);
-        hashMap.put("opis", ""+opis);
+        hashMap.put("zahtjevi", "0");
         if(imgUri != null){
             hashMap.put("imgurl", ""+uploadedImgUrl);
         }
@@ -238,11 +210,49 @@ public class AddAnimalActivity extends AppCompatActivity {
                         hashMap1.put("skloniste", ""+sShelterOib);
                         hashMap1.put("zivotinja", ""+newKey);
 
-                        dbRefSklonisteZivotinja.child(newKey1.toString()).setValue(hashMap1);
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Uspješno spremljeno!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(AddAnimalActivity.this, AdminActivity.class));
-                        finish();
+                        dbRefSkloniste = FirebaseDatabase.getInstance().getReference("skloniste").child(sShelterOib).child("dostupnih_mjesta");
+                        dbRefSkloniste.runTransaction(new Transaction.Handler() {
+                            @NonNull
+                            @Override
+                            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                                try {
+                                    count = Integer.parseInt(currentData.getValue(String.class));
+                                } catch (NumberFormatException e) {
+                                    count = 0;
+                                }
+                                currentData.setValue(Integer.toString(count));
+                                return Transaction.success(currentData);
+                            }
+                            @Override
+                            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                                if(count > 0){
+                                    dbRefSkloniste.runTransaction(new Transaction.Handler() {
+                                        @NonNull
+                                        @Override
+                                        public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                                            count--;
+                                            currentData.setValue(Integer.toString(count));
+                                            return Transaction.success(currentData);
+                                        }
+                                        @Override
+                                        public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                                            dbRefSklonisteZivotinja.child(newKey1.toString()).setValue(hashMap1);
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getApplicationContext(), "Uspješno spremljeno!", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(AddAnimalActivity.this, AdminActivity.class));
+                                            finish();
+                                        }
+                                    });
+                                }
+                                else{
+                                    count = 0;
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Ups! U skloništu više nema dostupnih mjesta.", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(AddAnimalActivity.this, AdminActivity.class));
+                                    finish();
+                                }
+                            }
+                        });
                     }
 
                     @Override
@@ -304,7 +314,6 @@ public class AddAnimalActivity extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if(result.getResultCode() == Activity.RESULT_OK){
-                        Intent data = result.getData(); //unnecessary bcs camera
                         binding.imgZivotinja.setImageURI(imgUri);
                     }
                     else{

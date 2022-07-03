@@ -55,16 +55,30 @@
                 android:id="@+id/relativeLayoutNaziv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:gravity="center"
+                android:layout_marginBottom="10dp">
 
                 <TextView
-                    android:id="@+id/tvOdabranaDonacija"
+                    android:id="@+id/tvOdabranaZivotinja"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/holder_OdabranaDonacija"
+                    android:text="@string/holder_OdabranaZivotinja"
                     android:textAlignment="center"
                     android:textColor="#222222"
                     android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvRand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvOdabranaZivotinja"
+                    android:text="@string/holder_Rand"
+                    android:textAlignment="center"
+                    android:paddingBottom="5dp"
+                    android:background="@drawable/line"
+                    android:textColor="#222222"
+
+                    android:textSize="16sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -119,29 +133,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/helper_Kolicina"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="10dp"
-                    android:text="@string/helper_kolicina"
-                    android:textColor="#222222"
-                    android:textSize="17sp" />
-
-                <EditText
-                    android:id="@+id/etKolicina"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#222222"
-                    android:textSize="17sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
                     android:id="@+id/helper_Komentar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -154,13 +145,13 @@
                     android:id="@+id/etKomentar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#222222"
                     android:hint="@string/holder_Optional"
+                    android:textColor="#222222"
                     android:textSize="17sp" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvKomentarHelp2"
+                android:id="@+id/tvKomentarHelp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"

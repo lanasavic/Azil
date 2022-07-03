@@ -1,7 +1,6 @@
 package com.example.azil.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -29,7 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 public class AdminActivity extends AppCompatActivity {
     private Button btnLogout;
     private BottomNavigationView bottomNavigationView;
-    private Fragment selectorFragment;
     FirebaseUser firebaseUser;
     DatabaseReference dbRefAdmin;
     TextView helloAdmin;

@@ -2,18 +2,18 @@ package com.example.azil.Filters;
 
 import android.widget.Filter;
 
-import com.example.azil.Adapters.DonationsAdapter;
+import com.example.azil.Adapters.AdminDonationsAdapter;
 import com.example.azil.Models.RequestedDonation;
 
 import java.util.ArrayList;
 
-public class DonationsFilter extends Filter {
+public class AdminDonationsFilter extends Filter {
     ArrayList<RequestedDonation> donationsList;
-    DonationsAdapter donationsAdapter;
+    AdminDonationsAdapter adminDonationsAdapter;
 
-    public DonationsFilter(ArrayList<RequestedDonation> donationsList, DonationsAdapter donationsAdapter){
+    public AdminDonationsFilter(ArrayList<RequestedDonation> donationsList, AdminDonationsAdapter adminDonationsAdapter){
         this.donationsList = donationsList;
-        this.donationsAdapter = donationsAdapter;
+        this.adminDonationsAdapter = adminDonationsAdapter;
     }
 
     protected FilterResults performFiltering(CharSequence constraint){
@@ -40,7 +40,7 @@ public class DonationsFilter extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        donationsAdapter.lDonations = (ArrayList<RequestedDonation>)results.values;
-        donationsAdapter.notifyDataSetChanged();
+        adminDonationsAdapter.lDonations = (ArrayList<RequestedDonation>)results.values;
+        adminDonationsAdapter.notifyDataSetChanged();
     }
 }

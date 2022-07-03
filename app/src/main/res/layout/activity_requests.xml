@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8CDC2B9"
-    tools:context=".Activities.DonateActivity">
+    tools:context=".Activities.RequestsActivity">
 
     <Button
         android:id="@+id/btnBack"
@@ -17,24 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvDonacijeSklonista"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@id/btnBack"
-        app:layout_constraintBottom_toTopOf="@id/linearOut"
-        android:text="@string/helper_skloniste"
-        android:textColor="#2B2724"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
-        android:id="@+id/linearOut"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -65,7 +48,7 @@
                 android:src="@drawable/ic_search_white" />
 
             <EditText
-                android:id="@+id/search_donations"
+                android:id="@+id/search_requests"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/helper_search" />
@@ -91,10 +74,10 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvDonations"
+                    android:id="@+id/rvRequests"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/donation_item" />
+                    tools:listitem="@layout/request_item" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

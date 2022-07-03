@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     sheltersAdapter.getFilter().filter(s);
                 }
                 catch (Exception e){
-                    Log.d("search_main:ERR_", e.getMessage());
+                    Log.d("ERROR", "Error:" + e.getMessage());
                 }
             }
 
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("dbRef:ERR_", error.getMessage());
+                Log.d("ERROR", "Error:" + error.getMessage());
             }
         });
     }
@@ -98,5 +98,3 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, SheltersActivity.class).putExtra("data", shelter));
     }
 }
-
-//TODO: back button on phone izlazi iz app umjesto da ode nazad u prosli activity

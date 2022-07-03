@@ -1,21 +1,17 @@
 package com.example.azil.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.azil.Activities.DonateActivity;
 import com.example.azil.Filters.DonationsFilter;
-import com.example.azil.Filters.SheltersFilter;
 import com.example.azil.Models.RequestedDonation;
 import com.example.azil.databinding.DonationItemBinding;
 
@@ -25,14 +21,15 @@ public class DonationsAdapter extends RecyclerView.Adapter<DonationsAdapter.View
     private Context context;
     public ArrayList<RequestedDonation> lDonations, donationsList;
     private DonationItemBinding binding;
-    Intent intent;
     public DonationsFilter donationsFilter;
-    public SheltersFilter sheltersFilter;
+    private RecyclerViewClickListener listener;
 
-    public DonationsAdapter(Context context, ArrayList<RequestedDonation> lDonations) {
+
+    public DonationsAdapter(Context context, ArrayList<RequestedDonation> lDonations, DonationsAdapter.RecyclerViewClickListener listener) {
         this.context = context;
         this.lDonations = lDonations;
         this.donationsList = lDonations;
+        this.listener = listener;
     }
 
     @NonNull
@@ -50,21 +47,19 @@ public class DonationsAdapter extends RecyclerView.Adapter<DonationsAdapter.View
         String kolicina = requestedDonation.getKolicina();
 
         holder.opis.setText(opis);
-        holder.kolicina.setText(kolicina);
+        holder.kolicina.setText("Potrebna količina: "+kolicina);
 
-        holder.ibDonate.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(context, DonateActivity.class);
-                context.startActivity(intent);
+                listener.selectedDonation(requestedDonation);
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return lDonations.size();
     }
 
     @Override
@@ -76,16 +71,19 @@ public class DonationsAdapter extends RecyclerView.Adapter<DonationsAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView skloniste, opis, kolicina;
-        ImageButton ibDonate;
+        TextView opis, kolicina;
+        //ImageButton ibDonate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            skloniste = binding.tvSkloniste;
             opis = binding.tvOpisDonacije;
             kolicina = binding.tvKolicinaDonacije;
-            ibDonate = binding.ibDonate;
+            //ibDonate = binding.ibDonate;
         }
+    }
+
+    public interface RecyclerViewClickListener {
+        void selectedDonation(RequestedDonation requestedDonation);
     }
 }

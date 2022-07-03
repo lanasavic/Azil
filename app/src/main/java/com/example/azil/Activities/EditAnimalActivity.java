@@ -19,19 +19,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.azil.R;
 import com.example.azil.databinding.ActivityEditAnimalBinding;
-import com.example.azil.databinding.ActivityEditBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +33,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +43,7 @@ public class EditAnimalActivity extends AppCompatActivity {
     StorageReference storageReference;
     private Uri imgUri = null;
     ProgressDialog progressDialog;
-    DatabaseReference databaseReference;
+    DatabaseReference dbRefZivotinja;
     private String zivotinjaSifra;
     Intent intent;
 
@@ -88,8 +81,8 @@ public class EditAnimalActivity extends AppCompatActivity {
     }
 
     private void loadAnimalInfo() {
-        databaseReference = FirebaseDatabase.getInstance().getReference("zivotinja");
-        databaseReference.child(zivotinjaSifra).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
+        dbRefZivotinja.child(zivotinjaSifra).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String ime = ""+snapshot.child("ime").getValue();
@@ -137,8 +130,8 @@ public class EditAnimalActivity extends AppCompatActivity {
         hashMap.put("ime", ""+ime);
         hashMap.put("opis", ""+opis);
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("zivotinja");
-        databaseReference.child(zivotinjaSifra).updateChildren(hashMap)
+        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
+        dbRefZivotinja.child(zivotinjaSifra).updateChildren(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -152,7 +145,7 @@ public class EditAnimalActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.d("Error", e.toString());
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Došlo je do pogreške.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Došlo je do pogreške", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -179,7 +172,7 @@ public class EditAnimalActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.d("Error", e.toString());
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Došlo je do pogreške.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Došlo je do pogreške", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -192,8 +185,8 @@ public class EditAnimalActivity extends AppCompatActivity {
             hashMap.put("imgurl", ""+uploadedImgUrl);
         }
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("zivotinja");
-        databaseReference.child(zivotinjaSifra).updateChildren(hashMap)
+        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
+        dbRefZivotinja.child(zivotinjaSifra).updateChildren(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -207,14 +200,14 @@ public class EditAnimalActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.d("Error", e.toString());
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Došlo je do pogreške.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Došlo je do pogreške", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void addImageMenu() {
         PopupMenu popupMenu = new PopupMenu(this, binding.imgZivotinja);
-        popupMenu.getMenu().add(Menu.NONE, 0, 0, "Kamera"); //iz nekog razloga ne radi na mobitelu
+        popupMenu.getMenu().add(Menu.NONE, 0, 0, "Kamera"); //iz nekog razloga ne radi na mom mobitelu
         popupMenu.getMenu().add(Menu.NONE, 1, 1, "Galerija");
         popupMenu.show();
 
@@ -255,7 +248,6 @@ public class EditAnimalActivity extends AppCompatActivity {
             @Override
             public void onActivityResult(ActivityResult result) {
                 if(result.getResultCode() == Activity.RESULT_OK){
-                    Intent data = result.getData(); //unnecessary bcs camera
                     binding.imgZivotinja.setImageURI(imgUri);
                 }
                 else{

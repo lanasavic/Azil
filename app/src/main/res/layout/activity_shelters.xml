@@ -9,11 +9,11 @@
 
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
+        android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/btnBack"
+        android:drawableEnd="@drawable/ic_back_white"
         app:layout_constraintEnd_toStartOf="@id/btnDonacije"
         app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent"
@@ -298,6 +298,3 @@
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!-- TODO:bottom details scroll in case theres more text idk,
-        also, press adresa -> go to activity - map - show on map no-->

@@ -10,7 +10,8 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp">
 
         <ImageView
             android:scaleType="fitXY"
@@ -30,7 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@id/imageButtonAdopt"
             android:gravity="center"
             android:text="@string/holder_Ime"
             android:textSize="18sp" />
@@ -40,18 +40,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvImeZivotinje"
-            android:layout_toStartOf="@id/imageButtonAdopt"
+            android:gravity="center_horizontal|center|center_vertical"
             android:padding="5dp"
             android:text="@string/holder_Opis" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imageButtonAdopt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvOpisZivotinje"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:backgroundTint="@android:color/transparent"
-            android:onClick="imageButtonAdopt"
-            android:src="@drawable/ic_heart_red_outline" />
-
+            android:src="@drawable/ic_adopt" />
     </RelativeLayout>
 </LinearLayout>

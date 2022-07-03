@@ -6,15 +6,17 @@ public class Animal implements Serializable {
     private String ime;
     private String opis;
     private String sifra;
+    private String zahtjevi;
     private String imgurl;
 
     public Animal() {
     }
 
-    public Animal(String ime, String opis, String sifra, String imgurl) {
+    public Animal(String ime, String opis, String sifra, String zahtjevi, String imgurl) {
         this.ime = ime;
         this.opis = opis;
         this.sifra = sifra;
+        this.zahtjevi = zahtjevi;
         this.imgurl = imgurl;
     }
 
@@ -40,6 +42,14 @@ public class Animal implements Serializable {
 
     public void setSifra(String sifra) {
         this.sifra = sifra;
+    }
+
+    public String getZahtjevi() {
+        return zahtjevi;
+    }
+
+    public void setZahtjevi(String zahtjevi) {
+        this.zahtjevi = zahtjevi;
     }
 
     public String getImgurl() {

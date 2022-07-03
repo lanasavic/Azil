@@ -10,26 +10,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_toStartOf="@id/ibDonate">
-
-        <TextView
-            android:id="@+id/tvSkloniste"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/holder_Skloniste"
-            android:textSize="18sp"
-            android:textColor="#222222"/>
+        android:layout_toStartOf="@id/ibDonate"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvOpisDonacije"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_weight="3"
+            android:background="@drawable/line"
+            android:paddingBottom="5dp"
             android:text="@string/holder_OpisDonacije"
             android:textColor="#222222"
-            android:textSize="16sp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/tvKolicinaDonacije"
@@ -38,15 +32,15 @@
             android:layout_weight="1"
             android:text="@string/holder_KolicinaDonacije"
             android:textColor="#222222"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/ibDonate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:backgroundTint="@android:color/transparent"
-        android:onClick="imageButtonDonate"
-        android:src="@drawable/ic_heart_red" />
+        android:src="@drawable/ic_donate" />
 </RelativeLayout>

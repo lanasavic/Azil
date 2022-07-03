@@ -1,15 +1,11 @@
 package com.example.azil.Fragments;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +16,6 @@ import android.widget.Toast;
 
 import com.example.azil.Activities.DeleteActivity;
 import com.example.azil.Activities.EditActivity;
-import com.example.azil.Activities.LoginActivity;
-import com.example.azil.Activities.MainActivity;
 import com.example.azil.Models.Admin;
 import com.example.azil.Models.Shelter;
 import com.example.azil.Models.Shelter_Admin;
@@ -35,11 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.security.PrivateKey;
 
 public class ShelterFragment extends Fragment {
     private Button btnDelete;
-    ProgressDialog progressDialog;
     TextView tvNaziv, tvAdresa, tvGrad, tvOib, tvIban, tvDostupnihMjesta, tvKontakt;
     DatabaseReference dbRefSkloniste, dbRefAdmin, dbRefSklonisteAdmin;
     FirebaseUser firebaseUser;
@@ -53,7 +45,6 @@ public class ShelterFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getActivity(), "Edit", Toast.LENGTH_SHORT).show();
                 intent = new Intent(getActivity(), EditActivity.class);
                 startActivity(intent);
             }

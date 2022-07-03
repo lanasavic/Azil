@@ -1,6 +1,8 @@
 package com.example.azil.Models;
 
-public class RequestedDonation {
+import java.io.Serializable;
+
+public class RequestedDonation implements Serializable {
     private String kolicina;
     private String opis;
     private String sifra;

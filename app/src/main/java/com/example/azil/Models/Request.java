@@ -1,20 +1,20 @@
 package com.example.azil.Models;
 
-public class ReceivedDonation {
+public class Request {
     private String ime_prezime;
     private String email;
-    private String kolicina;
     private String komentar;
+    private String datum;
     private String sifra;
 
-    public ReceivedDonation() {
+    public Request() {
     }
 
-    public ReceivedDonation(String ime_prezime, String email, String kolicina, String komentar, String sifra) {
+    public Request(String ime_prezime, String email, String komentar, String datum, String sifra) {
         this.ime_prezime = ime_prezime;
         this.email = email;
-        this.kolicina = kolicina;
         this.komentar = komentar;
+        this.datum = datum;
         this.sifra = sifra;
     }
 
@@ -34,20 +34,20 @@ public class ReceivedDonation {
         this.email = email;
     }
 
-    public String getKolicina() {
-        return kolicina;
-    }
-
-    public void setKolicina(String kolicina) {
-        this.kolicina = kolicina;
-    }
-
     public String getKomentar() {
         return komentar;
     }
 
     public void setKomentar(String komentar) {
         this.komentar = komentar;
+    }
+
+    public String getDatum() {
+        return datum;
+    }
+
+    public void setDatum(String datum) {
+        this.datum = datum;
     }
 
     public String getSifra() {

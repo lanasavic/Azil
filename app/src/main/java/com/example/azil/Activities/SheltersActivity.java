@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -46,16 +44,12 @@ public class SheltersActivity extends AppCompatActivity {
     RecyclerView rvAnimals;
     EditText search_animals;
 
-    public void imageButtonAdopt(View v) {
-        Intent intent = new Intent(getApplicationContext(), DonateActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelters);
+
+        intent = getIntent();
 
         btnBack = (Button) findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +66,7 @@ public class SheltersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), DonationsActivity.class);
-                startActivity(intent.putExtra("data", shelter));
+                startActivity(intent.putExtra("nazivSklonista", sNaziv));
                 finish();
             }
         });
@@ -85,7 +79,6 @@ public class SheltersActivity extends AppCompatActivity {
         tvDostupnihMjesta = findViewById(R.id.tvDostupnihMjesta);
         tvKontakt = findViewById(R.id.tvKontakt);
 
-        intent = getIntent();
         if(intent != null){
             shelter = (Shelter) intent.getSerializableExtra("data");
             sNaziv = shelter.getNaziv();
@@ -103,7 +96,6 @@ public class SheltersActivity extends AppCompatActivity {
         tvIban.setText(sIban);
         tvDostupnihMjesta.setText(sDostupnihMjesta);
 
-        //DATABASE REFERENCES
         dbRefSkloniste = FirebaseDatabase.getInstance().getReference("skloniste");
         dbRefAdmin = FirebaseDatabase.getInstance().getReference("admin");
         dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
@@ -144,7 +136,6 @@ public class SheltersActivity extends AppCompatActivity {
             }
         });
 
-        //SEARCH
         search_animals = findViewById(R.id.search_animals);
         search_animals.addTextChangedListener(new TextWatcher() {
             @Override
@@ -158,7 +149,7 @@ public class SheltersActivity extends AppCompatActivity {
                     animalsAdapter.getFilter().filter(s);
                 }
                 catch (Exception e){
-                    Log.d("search_animals:ERR_", e.getMessage());
+                    Log.d("ERROR", "Error:" + e.getMessage());
                 }
             }
 
@@ -167,13 +158,12 @@ public class SheltersActivity extends AppCompatActivity {
             }
         });
 
-        //RECYCLERVIEW ITEM INSERT + DATA
         rvAnimals = findViewById(R.id.rvAnimals);
         rvAnimals.setHasFixedSize(true);
         rvAnimals.setLayoutManager(new LinearLayoutManager(this));
 
         lAnimals = new ArrayList<>();
-        animalsAdapter = new AnimalsAdapter(this, lAnimals);
+        animalsAdapter = new AnimalsAdapter(this, lAnimals, this::selectedAnimal);
         rvAnimals.setAdapter(animalsAdapter);
 
         Query shelterAnimalQuery = dbRefSklonisteZivotinja.orderByChild("skloniste").equalTo(sOib);
@@ -184,7 +174,6 @@ public class SheltersActivity extends AppCompatActivity {
                     Shelter_Animal shelter_animal = dataSnapshot.getValue(Shelter_Animal.class);
                     assert shelter_animal != null;
                     String sAnimal = shelter_animal.getZivotinja();
-                    //Log.d("sifra", sAnimal);
 
                     Query animalQuery = dbRefZivotinja.orderByChild("sifra").equalTo(sAnimal);
                     animalQuery.addValueEventListener(new ValueEventListener() {
@@ -208,5 +197,9 @@ public class SheltersActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void selectedAnimal(Animal animal) {
+        startActivity(new Intent(this, AdoptActivity.class).putExtra("data2", animal));
     }
 }

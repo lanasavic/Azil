@@ -33,16 +33,15 @@ import java.util.ArrayList;
 
 public class DonationsActivity extends AppCompatActivity {
     private Button btnBack;
-    TextView tvSkloniste, tvOpis, tvKolicina;
-    String sNaziv;
     ArrayList<RequestedDonation> lDonations;
     private DonationsAdapter donationsAdapter;
     RecyclerView rvDonations;
     EditText search_donations;
+    TextView tvDonacijeSklonista;
     DatabaseReference dbRefSkloniste, dbRefSklonisteDonacija, dbRefTrazenaDonacija;
     DonationItemBinding binding;
-    Intent intent;
-    Shelter shelter;
+    String nazivSklonista, opisDonacije, kolicinaDonacije;
+    RequestedDonation requestedDonation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,35 +53,33 @@ public class DonationsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SheltersActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
 
-        tvSkloniste = binding.tvSkloniste;
-        intent = getIntent();
-        if(intent != null){
-            shelter = (Shelter) intent.getSerializableExtra("data");
-            sNaziv = shelter.getNaziv();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            nazivSklonista = extras.getString("nazivSklonista");
         }
-        tvSkloniste.setText(sNaziv);
 
-        //RECYCLERVIEW ITEM INSERT + DATA
+        tvDonacijeSklonista = findViewById(R.id.tvDonacijeSklonista);
+        tvDonacijeSklonista.setText(getString(R.string.helper_skloniste, nazivSklonista));
+
         rvDonations = findViewById(R.id.rvDonations);
         rvDonations.setHasFixedSize(true);
         rvDonations.setLayoutManager(new LinearLayoutManager(this));
 
         lDonations = new ArrayList<>();
-        donationsAdapter = new DonationsAdapter(this, lDonations);//, this::selectedAnimal
+        donationsAdapter = new DonationsAdapter(this, lDonations, this::selectedDonation);
         rvDonations.setAdapter(donationsAdapter);
 
-        //DATABASE REFERENCES
         dbRefSkloniste = FirebaseDatabase.getInstance().getReference("skloniste");
         dbRefSklonisteDonacija = FirebaseDatabase.getInstance().getReference("skloniste_donacija");
         dbRefTrazenaDonacija = FirebaseDatabase.getInstance().getReference("trazena_donacija");
 
-        Query shelterQuery = dbRefSkloniste.orderByChild("naziv").equalTo(sNaziv);
+        Query shelterQuery = dbRefSkloniste.orderByChild("naziv").equalTo(nazivSklonista);
         shelterQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -90,7 +87,7 @@ public class DonationsActivity extends AppCompatActivity {
                     Shelter shelter = dataSnapshot.getValue(Shelter.class);
                     assert shelter != null;
                     String skloniste = shelter.getOib();
-                    //Log.d("test", "SHELTER:"+shelter.getNaziv()+" "+sNaziv);
+                    //Log.d("test", "SHELTER:"+shelter.getNaziv()+" | "+nazivSklonista);
 
                     Query shelterDonationQuery = dbRefSklonisteDonacija.orderByChild("skloniste").equalTo(skloniste);
                     shelterDonationQuery.addValueEventListener(new ValueEventListener() {
@@ -100,19 +97,22 @@ public class DonationsActivity extends AppCompatActivity {
                                 Shelter_Donation shelter_donation = dataSnapshot.getValue(Shelter_Donation.class);
                                 assert shelter_donation != null;
                                 String donacija = shelter_donation.getDonacija();
-                                //Log.d("test", "SHELTER DONATION:"+shelter_donation.getSkloniste()+" "+shelter_donation.getDonacija()+" "+donacija);
+                                //Log.d("test", "SHELTER DONATION:"+shelter_donation.getSkloniste()+" | "+shelter_donation.getDonacija()+" | "+donacija);
 
                                 Query donationQuery = dbRefTrazenaDonacija.orderByChild("sifra").equalTo(donacija);
                                 donationQuery.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         for(DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
-                                            RequestedDonation requestedDonation = dataSnapshot1.getValue(RequestedDonation.class);
+                                            requestedDonation = dataSnapshot1.getValue(RequestedDonation.class);
                                             assert requestedDonation != null;
-                                            binding.tvOpisDonacije.setText(requestedDonation.getOpis());
-                                            binding.tvKolicinaDonacije.setText(requestedDonation.getKolicina());
-                                            Log.d("test", "DONATION:"+requestedDonation.getOpis()+" "+requestedDonation.getKolicina());
+                                            opisDonacije = requestedDonation.getOpis();
+                                            Log.d("test", opisDonacije);
+                                            kolicinaDonacije = requestedDonation.getKolicina();
+                                            lDonations.add(requestedDonation);
+                                            //Log.d("test", "DONATION:"+requestedDonation.getOpis()+" | "+requestedDonation.getKolicina()+" | "+nazivSklonista);
                                         }
+                                        donationsAdapter.notifyDataSetChanged();
                                     }
 
                                     @Override
@@ -136,12 +136,10 @@ public class DonationsActivity extends AppCompatActivity {
             }
         });
 
-        //SEARCH
         search_donations = findViewById(R.id.search_donations);
         search_donations.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -150,7 +148,7 @@ public class DonationsActivity extends AppCompatActivity {
                     donationsAdapter.getFilter().filter(s);
                 }
                 catch (Exception e){
-                    Log.d("search_donations:ERR_", e.getMessage());
+                    Log.d("ERROR", "Error:" + e.getMessage());
                 }
             }
 
@@ -158,5 +156,9 @@ public class DonationsActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+    }
+
+    public void selectedDonation(RequestedDonation requestedDonation) {
+        startActivity(new Intent(this, DonateActivity.class).putExtra("data", requestedDonation));
     }
 }

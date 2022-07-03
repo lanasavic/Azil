@@ -10,10 +10,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.azil.Activities.MainActivity;
 import com.example.azil.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -66,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPassword)){
                     Toast.makeText(getApplicationContext(), "Popunite oba polja i pokušajte ponovno.", Toast.LENGTH_SHORT).show();
                 } else {
+                    progressDialog.setMessage("Prijava u tijeku...");
+                    progressDialog.show();
                     loginUser(txtEmail, txtPassword);
                 }
             }
@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Prijava uspješna!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -87,9 +88,9 @@ public class LoginActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                //TODO: ERR MSG prevest na hrv -> e.getLocalizedMessage(), ali device je na eng
-                // *Firebase ne daje lokalizaciju errora
+                //Firebase ne daje lokalizaciju errora
             }
         });
     }

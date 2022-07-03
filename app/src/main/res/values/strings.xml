@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Azil</string>
 
     <!-- Buttons -->
@@ -19,6 +19,8 @@
     <string name="btnAdd">Dodaj</string>
     <string name="btnAddImg">Dodaj sliku</string>
     <string name="btnEditImg">Promijeni sliku</string>
+    <string name="btnReceivedDonations">Primljene donacije</string>
+    <string name="btnRequests">Zahtjevi za udomljavanje</string>
 
     <!-- Txt, placeholders, or whatever -->
     <string name="helperMain">Skloništa za životinje u RH</string>
@@ -35,7 +37,7 @@
         Molimo priložite dokumente o posjedovanju i radu svoga skloništa.</string>
     <string name="helper_log">Prijava</string>
     <string name="helper_search">Pretraga</string>
-    <string name="helper_skloniste">Moje sklonište: </string>
+    <string name="helper_skloniste">Donacije skloništa:\n%1$s</string>
     <string name="helper_adresa">Adresa: </string>
     <string name="helper_grad">Grad: </string>
     <string name="helper_oib">OIB: </string>
@@ -45,23 +47,33 @@
     <string name="helper_ime">Ime: </string>
     <string name="helper_opis">Opis: </string>
     <string name="helper_edit">Uredi detalje skloništa</string>
+    <string name="helper_kolicina" tools:ignore="ExtraTranslation">Količina: </string>
+    <string name="helper_imePrezime">Ime i prezime: </string>
+    <string name="helper_email">Email: </string>
+    <string name="helper_komentar">Komentar: </string>
+    <string name="helper_komentarHelp">Npr. datum i vrijeme dolaska, opis svog izgleda,\nili nešto drugo!☺</string>
     <string name="helper_deletionWarning">Brisanje skloništa je nepovratno!\nSvi podaci vezani uz sklonište, kao i vaš račun,
         bit će obrisani u potpunosti. Jeste li sigurni da želite nastaviti?</string>
 
-    <string name="holder_Naziv">***naziv skloništa***</string>
-    <string name="holder_Adresa">***adresa***</string>
-    <string name="holder_Grad">***grad***</string>
-    <string name="holder_Oib">***oib***</string>
-    <string name="holder_Iban">***iban***</string>
-    <string name="holder_DostupnihMjesta">***dostupnih mjesta***</string>
-    <string name="holder_Kontakt">***kontakt/admin mail***</string>
-    <string name="holder_Ime">***ime životinje***</string>
-    <string name="holder_Opis">***opis životinje***</string>
-    <string name="holder_Skloniste">***skloniste***</string>
-    <string name="holder_OpisDonacije">***opis***</string>
-    <string name="holder_KolicinaDonacije">**</string>
+    <string name="holder_Naziv">_Naziv skloništa_</string>
+    <string name="holder_Adresa">_Adresa</string>
+    <string name="holder_Grad">_Grad_</string>
+    <string name="holder_Oib">_Oib_</string>
+    <string name="holder_Iban">_Iban_</string>
+    <string name="holder_DostupnihMjesta">_Broj dostupnih mjesta_</string>
+    <string name="holder_Kontakt">_Kontakt/admin email_</string>
+    <string name="holder_Ime">_Ime životinje_</string>
+    <string name="holder_Opis">_Opis životinje_</string>
+    <string name="holder_Skloniste">_Skloniste_</string>
+    <string name="holder_OpisDonacije">_Opis donacije_</string>
+    <string name="holder_KolicinaDonacije">_Potrebna količina_</string>
     <string name="holder_helloAdmin">Pozdrav, %1$s!</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="holder_ImePrezime">_Ime i prezime_</string>
+    <string name="holder_Email">_Email adresa_</string>
+    <string name="holder_Datum">_Datum_</string>
+    <string name="holder_Komentar">_Komentar_</string>
+    <string name="holder_OdabranaDonacija">Odabrali ste donaciju:\n%1$s (%2$s)</string>
+    <string name="holder_OdabranaZivotinja">%1$s vas čeka!\nDođite na našu adresu i upoznajte se.</string>
+    <string name="holder_Rand">Molimo unesite podatke kako bismo bili spremni za vašu posjetu. Hvala!</string>
+    <string name="holder_Optional">*Opcionalno</string>
 </resources>
