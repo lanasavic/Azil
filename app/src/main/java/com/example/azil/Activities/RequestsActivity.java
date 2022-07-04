@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -149,8 +150,6 @@ public class RequestsActivity extends AppCompatActivity {
             }
         });
 
-
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             adminEmail = extras.getString("adminEmail");
@@ -163,6 +162,31 @@ public class RequestsActivity extends AppCompatActivity {
         lRequests = new ArrayList<>();
         requestsAdapter = new RequestsAdapter(this, lRequests);
         rvRequests.setAdapter(requestsAdapter);
+
+        ImageView ivNoResult = findViewById(R.id.ivNoResult);
+        requestsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            void checkEmpty() {
+                ivNoResult.setVisibility(requestsAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
 
         dbRefAdmin = FirebaseDatabase.getInstance().getReference("admin");
         dbRefSklonisteAdmin = FirebaseDatabase.getInstance().getReference("skloniste_admin");

@@ -56,7 +56,7 @@
         bit će obrisani u potpunosti. Jeste li sigurni da želite nastaviti?</string>
 
     <string name="holder_Naziv">_Naziv skloništa_</string>
-    <string name="holder_Adresa">_Adresa</string>
+    <string name="holder_Adresa">_Adresa_</string>
     <string name="holder_Grad">_Grad_</string>
     <string name="holder_Oib">_Oib_</string>
     <string name="holder_Iban">_Iban_</string>

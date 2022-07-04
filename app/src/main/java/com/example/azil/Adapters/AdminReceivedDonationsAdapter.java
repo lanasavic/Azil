@@ -48,7 +48,12 @@ public class AdminReceivedDonationsAdapter extends RecyclerView.Adapter<AdminRec
         holder.ime_prezime.setText("Ime i prezime: "+ime_prezime);
         holder.email.setText("Email: "+email);
         holder.kolicina.setText("Količina: "+kolicina);
-        holder.komentar.setText("Komentar: "+komentar);
+        if(komentar.equals("")){
+            holder.komentar.setText("Komentar: /");
+        }
+        else{
+            holder.komentar.setText("Komentar: "+komentar);
+        }
     }
 
     @Override

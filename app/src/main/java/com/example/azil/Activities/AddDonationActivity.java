@@ -25,7 +25,6 @@ import java.util.HashMap;
 public class AddDonationActivity extends AppCompatActivity {
     private ActivityAddDonationBinding binding;
     ProgressDialog progressDialog;
-    Intent intent;
     DatabaseReference dbRefTrazenaDonacija, dbRefSklonisteDonacija, dbRefAdmin, dbRefSklonisteAdmin;
     private String lastChild, lastChild1,  adminEmail, sShelterOib;
     private Integer newKey, newKey1;

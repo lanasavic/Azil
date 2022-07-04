@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +76,31 @@ public class DonationsActivity extends AppCompatActivity {
         donationsAdapter = new DonationsAdapter(this, lDonations, this::selectedDonation);
         rvDonations.setAdapter(donationsAdapter);
 
+        ImageView ivNoResult = findViewById(R.id.ivNoResult);
+        donationsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            void checkEmpty() {
+                ivNoResult.setVisibility(donationsAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
+
         dbRefSkloniste = FirebaseDatabase.getInstance().getReference("skloniste");
         dbRefSklonisteDonacija = FirebaseDatabase.getInstance().getReference("skloniste_donacija");
         dbRefTrazenaDonacija = FirebaseDatabase.getInstance().getReference("trazena_donacija");
@@ -107,7 +133,7 @@ public class DonationsActivity extends AppCompatActivity {
                                             requestedDonation = dataSnapshot1.getValue(RequestedDonation.class);
                                             assert requestedDonation != null;
                                             opisDonacije = requestedDonation.getOpis();
-                                            Log.d("test", opisDonacije);
+                                            //Log.d("test", opisDonacije);
                                             kolicinaDonacije = requestedDonation.getKolicina();
                                             lDonations.add(requestedDonation);
                                             //Log.d("test", "DONATION:"+requestedDonation.getOpis()+" | "+requestedDonation.getKolicina()+" | "+nazivSklonista);

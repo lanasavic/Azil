@@ -52,7 +52,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
         else{
             holder.komentar.setText("Komentar: "+komentar);
-
         }
         holder.datum.setText("Datum slanja: "+datum);
     }

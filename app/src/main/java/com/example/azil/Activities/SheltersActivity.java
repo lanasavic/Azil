@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -165,6 +166,31 @@ public class SheltersActivity extends AppCompatActivity {
         lAnimals = new ArrayList<>();
         animalsAdapter = new AnimalsAdapter(this, lAnimals, this::selectedAnimal);
         rvAnimals.setAdapter(animalsAdapter);
+
+        ImageView ivNoResult = findViewById(R.id.ivNoResult);
+        animalsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            void checkEmpty() {
+                ivNoResult.setVisibility(animalsAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
 
         Query shelterAnimalQuery = dbRefSklonisteZivotinja.orderByChild("skloniste").equalTo(sOib);
         shelterAnimalQuery.addValueEventListener(new ValueEventListener() {

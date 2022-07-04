@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.azil.Activities.AddDonationActivity;
@@ -88,6 +89,31 @@ public class DonationsFragment extends Fragment {
         lDonations = new ArrayList<>();
         adminDonationsAdapter = new AdminDonationsAdapter(getActivity(), lDonations);
         rvAdminDonations.setAdapter(adminDonationsAdapter);
+
+        ImageView ivNoResult = view.findViewById(R.id.ivNoResult);
+        adminDonationsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            void checkEmpty() {
+                ivNoResult.setVisibility(adminDonationsAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
 
         Query adminEmailQuery = dbRefAdmin.orderByChild("email").equalTo(firebaseUser.getEmail());
         adminEmailQuery.addValueEventListener(new ValueEventListener() {

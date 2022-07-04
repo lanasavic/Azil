@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.azil.Adapters.AdminReceivedDonationsAdapter;
@@ -43,7 +44,7 @@ public class ReceivedDonationsActivity extends AppCompatActivity {
     private Button btnBack;
     ArrayList<ReceivedDonation> lDonations;
     ReceivedDonationItemBinding binding;
-    String adminEmail, sReceivedDonation, receivedNum, sRequestedDonation;
+    String adminEmail, sReceivedDonation, sReceivedNum, sRequestedDonation, targetDonation, targetReceived;
     RecyclerView rvReceivedDonations;
     AdminReceivedDonationsAdapter adminReceivedDonationsAdapter;
     DatabaseReference dbRefTrazenaDonacija, dbRefTrazenoZaprimljeno, dbRefZaprimljenaDonacija, dbRefAdmin, dbRefSklonisteAdmin, dbRefSklonisteDonacija;
@@ -59,7 +60,7 @@ public class ReceivedDonationsActivity extends AppCompatActivity {
     public void imageButtonDecline(View v) {
         progressDialog.setMessage("Brisanje donacije...");
         progressDialog.show();
-        dbRefZaprimljenaDonacija.child(sReceivedDonation).removeValue();
+        dbRefZaprimljenaDonacija.child(targetReceived).removeValue();
         progressDialog.dismiss();
         Toast.makeText(getApplicationContext(), "Uspješno obrisano!", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(ReceivedDonationsActivity.this, AdminActivity.class));
@@ -70,7 +71,7 @@ public class ReceivedDonationsActivity extends AppCompatActivity {
         progressDialog.setMessage("Ažuriranje u tijeku...");
         progressDialog.show();
 
-        dbRefTrazenaDonacija = FirebaseDatabase.getInstance().getReference("trazena_donacija").child(sRequestedDonation).child("kolicina");
+        dbRefTrazenaDonacija = FirebaseDatabase.getInstance().getReference("trazena_donacija").child(targetDonation).child("kolicina");
         dbRefTrazenaDonacija.runTransaction(new Transaction.Handler() {
             @NonNull
             @Override
@@ -90,7 +91,7 @@ public class ReceivedDonationsActivity extends AppCompatActivity {
                         @NonNull
                         @Override
                         public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-                            received = Integer.parseInt(receivedNum);
+                            received = Integer.parseInt(sReceivedNum);
                             count = count - received;
                             currentData.setValue(Integer.toString(count));
                             if(count <= 0){
@@ -101,7 +102,7 @@ public class ReceivedDonationsActivity extends AppCompatActivity {
                         }
                         @Override
                         public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
-                            dbRefZaprimljenaDonacija.child(sReceivedDonation).removeValue();
+                            dbRefZaprimljenaDonacija.child(targetReceived).removeValue();
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Uspješno ažurirano!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(ReceivedDonationsActivity.this, AdminActivity.class));
@@ -112,7 +113,7 @@ public class ReceivedDonationsActivity extends AppCompatActivity {
                 else{
                     count = 0;
                     dbRefTrazenaDonacija.setValue(Integer.toString(count));
-                    dbRefZaprimljenaDonacija.child(sReceivedDonation).removeValue();
+                    dbRefZaprimljenaDonacija.child(targetReceived).removeValue();
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Količina donacija ispunjena!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(ReceivedDonationsActivity.this, AdminActivity.class));
@@ -152,6 +153,31 @@ public class ReceivedDonationsActivity extends AppCompatActivity {
         adminReceivedDonationsAdapter = new AdminReceivedDonationsAdapter(this, lDonations);
         rvReceivedDonations.setAdapter(adminReceivedDonationsAdapter);
 
+        ImageView ivNoResult = findViewById(R.id.ivNoResult);
+        adminReceivedDonationsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            void checkEmpty() {
+                ivNoResult.setVisibility(adminReceivedDonationsAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
+
         dbRefAdmin = FirebaseDatabase.getInstance().getReference("admin");
         dbRefSklonisteAdmin = FirebaseDatabase.getInstance().getReference("skloniste_admin");
         dbRefSklonisteDonacija = FirebaseDatabase.getInstance().getReference("skloniste_donacija");
@@ -176,6 +202,7 @@ public class ReceivedDonationsActivity extends AppCompatActivity {
                                 Shelter_Admin shelter_admin = dataSnapshot1.getValue(Shelter_Admin.class);
                                 assert shelter_admin != null;
                                 String sShelterOib = shelter_admin.getSkloniste();
+                                //Log.d("check:sShelterOib", sShelterOib);
 
                                 Query shelterDonationQuery = dbRefSklonisteDonacija.orderByChild("skloniste").equalTo(sShelterOib);
                                 shelterDonationQuery.addValueEventListener(new ValueEventListener() {
@@ -185,44 +212,34 @@ public class ReceivedDonationsActivity extends AppCompatActivity {
                                             Shelter_Donation shelter_donation = dataSnapshot2.getValue(Shelter_Donation.class);
                                             assert shelter_donation != null;
                                             String sDonationId = shelter_donation.getDonacija();
+                                            //Log.d("check:sDonationId", sDonationId);
 
-                                            Query donationQuery = dbRefTrazenaDonacija.orderByChild("sifra").equalTo(sDonationId);
+                                            Query donationQuery = dbRefTrazenoZaprimljeno.orderByChild("trazeno").equalTo(sDonationId);
                                             donationQuery.addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     for(DataSnapshot dataSnapshot3 : snapshot.getChildren()){
-                                                        RequestedDonation requestedDonation = dataSnapshot3.getValue(RequestedDonation.class);
-                                                        assert requestedDonation != null;
-                                                        sRequestedDonation = requestedDonation.getSifra();
+                                                        Requested_Received requested_received = dataSnapshot3.getValue(Requested_Received.class);
+                                                        assert requested_received != null;
+                                                        sReceivedDonation = requested_received.getZaprimljeno();
+                                                        targetDonation = requested_received.getTrazeno();
+                                                        //Log.d("check:sReceivedDonation", sReceivedDonation);
+                                                        //Log.d("check:targetDonation", targetDonation);
 
-                                                        Query requestedDonationQuery = dbRefTrazenoZaprimljeno.orderByChild("trazeno").equalTo(sRequestedDonation);
+                                                        Query requestedDonationQuery = dbRefZaprimljenaDonacija.orderByChild("sifra").equalTo(sReceivedDonation);
                                                         requestedDonationQuery.addValueEventListener(new ValueEventListener() {
                                                             @Override
                                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                                 for(DataSnapshot dataSnapshot4 : snapshot.getChildren()){
-                                                                    Requested_Received requested_received = dataSnapshot4.getValue(Requested_Received.class);
-                                                                    assert requested_received != null;
-                                                                    sReceivedDonation = requested_received.getZaprimljeno();
-
-                                                                    Query receivedDonationQuery = dbRefZaprimljenaDonacija.orderByChild("sifra").equalTo(sReceivedDonation);
-                                                                    receivedDonationQuery.addValueEventListener(new ValueEventListener() {
-                                                                        @Override
-                                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                                            for(DataSnapshot dataSnapshot5 : snapshot.getChildren()){
-                                                                                ReceivedDonation receivedDonation = dataSnapshot5.getValue(ReceivedDonation.class);
-                                                                                assert receivedDonation != null;
-                                                                                receivedNum = receivedDonation.getKolicina();
-                                                                                lDonations.add(receivedDonation);
-                                                                            }
-                                                                            adminReceivedDonationsAdapter.notifyDataSetChanged();
-                                                                        }
-
-                                                                        @Override
-                                                                        public void onCancelled(@NonNull DatabaseError error) {
-                                                                            Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
+                                                                    ReceivedDonation receivedDonation = dataSnapshot4.getValue(ReceivedDonation.class);
+                                                                    assert receivedDonation != null;
+                                                                    targetReceived = receivedDonation.getSifra();
+                                                                    sReceivedNum = receivedDonation.getKolicina();
+                                                                    //Log.d("check:targetReceived", targetReceived);
+                                                                    //Log.d("check:sReceivedNum", sReceivedNum);
+                                                                    lDonations.add(receivedDonation);
                                                                 }
+                                                                adminReceivedDonationsAdapter.notifyDataSetChanged();
                                                             }
 
                                                             @Override

@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.azil.Adapters.SheltersAdapter;
 import com.example.azil.Models.Shelter;
@@ -76,6 +78,31 @@ public class MainActivity extends AppCompatActivity {
         lShelters = new ArrayList<>();
         sheltersAdapter = new SheltersAdapter(this, lShelters, this::selectedShelter);
         rvMain.setAdapter(sheltersAdapter);
+
+        ImageView ivNoResult = findViewById(R.id.ivNoResult);
+        sheltersAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            void checkEmpty() {
+                ivNoResult.setVisibility(sheltersAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference("skloniste");
         databaseReference.addValueEventListener(new ValueEventListener() {

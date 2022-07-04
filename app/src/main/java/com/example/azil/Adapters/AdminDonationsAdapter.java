@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.azil.Activities.AdminActivity;
 import com.example.azil.Activities.EditDonationActivity;
 import com.example.azil.Filters.AdminDonationsFilter;
+import com.example.azil.Models.ReceivedDonation;
 import com.example.azil.Models.RequestedDonation;
 import com.example.azil.Models.Requested_Received;
 import com.example.azil.databinding.DonationItemFragmentBinding;
@@ -39,7 +40,7 @@ public class AdminDonationsAdapter extends RecyclerView.Adapter<AdminDonationsAd
     Intent intent;
     ProgressDialog progressDialog;
     DatabaseReference dbRefSklonisteDonacija, dbRefTrazenaDonacija, dbRefTrazenoZaprimljeno, dbRefZaprimljenaDonacija;
-    String key, key1, key2;
+    String key, key1, key2, donacijaSifra, received, requested;
     private AdminDonationsFilter adminDonationsFilter;
 
     public AdminDonationsAdapter(Context context, ArrayList<RequestedDonation> lDonations) {
@@ -91,7 +92,7 @@ public class AdminDonationsAdapter extends RecyclerView.Adapter<AdminDonationsAd
     }
 
     private void deleteDonation(RequestedDonation requestedDonation, AdminDonationsAdapter.ViewHolder holder) {
-        String donacijaSifra = requestedDonation.getSifra();
+        donacijaSifra = requestedDonation.getSifra();
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Brisanje u tijeku...");
@@ -102,10 +103,6 @@ public class AdminDonationsAdapter extends RecyclerView.Adapter<AdminDonationsAd
         dbRefTrazenoZaprimljeno = FirebaseDatabase.getInstance().getReference("trazeno_zaprimljeno");
         dbRefZaprimljenaDonacija = FirebaseDatabase.getInstance().getReference("zaprimljena_donacija");
 
-        progressDialog.dismiss();
-        Toast.makeText(context, "Uspješno obrisano!", Toast.LENGTH_SHORT).show();
-        dbRefTrazenaDonacija.child(donacijaSifra).removeValue();
-
         Query deleteShelterDonation = dbRefSklonisteDonacija.orderByChild("donacija").equalTo(donacijaSifra);
         deleteShelterDonation.addValueEventListener(new ValueEventListener() {
             @Override
@@ -113,6 +110,11 @@ public class AdminDonationsAdapter extends RecyclerView.Adapter<AdminDonationsAd
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     key = dataSnapshot.getKey();
                     assert key != null;
+                    //Log.d("check:0", key);
+                    dbRefSklonisteDonacija.child(key).removeValue();
+                    dbRefTrazenaDonacija.child(donacijaSifra).removeValue();
+                    progressDialog.dismiss();
+                    Toast.makeText(context, "Uspješno obrisano!", Toast.LENGTH_SHORT).show();
 
                     Query deleteRequestedReceived = dbRefTrazenoZaprimljeno.orderByChild("trazeno").equalTo(donacijaSifra);
                     deleteRequestedReceived.addValueEventListener(new ValueEventListener() {
@@ -121,33 +123,44 @@ public class AdminDonationsAdapter extends RecyclerView.Adapter<AdminDonationsAd
                             for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
                                 key1 = dataSnapshot1.getKey();
                                 assert key1 != null;
-
+                                //Log.d("check:1", key1);
                                 Requested_Received requested_received = dataSnapshot1.getValue(Requested_Received.class);
                                 assert requested_received != null;
-                                String received = requested_received.getZaprimljeno();
+                                received = requested_received.getZaprimljeno();
+                                requested = requested_received.getTrazeno();
+                                //Log.d("check:received", received);
+                                //Log.d("check:requested", requested);
 
-                                Query deleteReceived = dbRefZaprimljenaDonacija.orderByChild("sifra").equalTo(received);
-                                deleteReceived.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for (DataSnapshot dataSnapshot2 : snapshot.getChildren()) {
-                                            key2 = dataSnapshot2.getKey();
-                                            assert key2 != null;
+                                if(donacijaSifra.equals(requested)){
+                                    dbRefTrazenoZaprimljeno.child(key1).removeValue();
+                                    intent = new Intent(context, AdminActivity.class);
+                                    context.startActivity(intent);
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            progressDialog.dismiss();
+                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                                            dbRefSklonisteDonacija.child(key).removeValue();
-                                            dbRefTrazenoZaprimljeno.child(key1).removeValue();
-                                            dbRefZaprimljenaDonacija.child(key2).removeValue();
+                    Query deleteReceived = dbRefZaprimljenaDonacija.orderByChild("sifra").equalTo(received);
+                    deleteReceived.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot2 : snapshot.getChildren()) {
+                                key2 = dataSnapshot2.getKey();
+                                assert key2 != null;
+                                //Log.d("check:key2", key2);
+                                ReceivedDonation receivedDonation = dataSnapshot2.getValue(ReceivedDonation.class);
+                                String receivedDonId = receivedDonation.getSifra();
 
-                                            intent = new Intent(context, AdminActivity.class);
-                                            context.startActivity(intent);
-                                        }
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                if(receivedDonId.equals(received)){
+                                    dbRefZaprimljenaDonacija.child(key2).removeValue();
+                                    intent = new Intent(context, AdminActivity.class);
+                                    context.startActivity(intent);
+                                }
                             }
                         }
                         @Override

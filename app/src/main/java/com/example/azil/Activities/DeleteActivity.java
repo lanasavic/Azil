@@ -78,6 +78,27 @@ public class DeleteActivity extends AppCompatActivity {
                     assert admin != null;
                     String sAdminUser = admin.getUsername();
 
+                    dataSnapshot.getRef().removeValue();
+                    AuthCredential credential = EmailAuthProvider
+                            .getCredential(firebaseUser.getEmail(), "123456"); //password
+
+                    // Prompt the user to re-provide their sign-in credentials
+                    firebaseUser.reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    firebaseUser.delete()
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.d("DELETE", "User account deleted.");
+                                                    }
+                                                }
+                                            });
+                                }
+                            });
+
                     Query adminShelterQuery = dbRefSklonisteAdmin.orderByChild("admin").equalTo(sAdminUser);
                     adminShelterQuery.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -86,6 +107,7 @@ public class DeleteActivity extends AppCompatActivity {
                                 Shelter_Admin shelter_admin = dataSnapshot1.getValue(Shelter_Admin.class);
                                 assert shelter_admin != null;
                                 String sShelterOib = shelter_admin.getSkloniste();
+                                dataSnapshot1.getRef().removeValue();
 
                                 Query shelterQuery = dbRefSkloniste.orderByChild("oib").equalTo(sShelterOib);
                                 shelterQuery.addValueEventListener(new ValueEventListener() {
@@ -94,34 +116,7 @@ public class DeleteActivity extends AppCompatActivity {
                                         for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
                                             progressDialog.dismiss();
                                             Toast.makeText(DeleteActivity.this, "Brisanje uspješno!", Toast.LENGTH_SHORT).show();
-
-                                            dataSnapshot.getRef().removeValue();
-                                            dataSnapshot1.getRef().removeValue();
                                             dataSnapshot2.getRef().removeValue();
-
-                                            AuthCredential credential = EmailAuthProvider
-                                                    .getCredential(firebaseUser.getEmail(), "123456"); //password
-
-                                            // Prompt the user to re-provide their sign-in credentials
-                                            firebaseUser.reauthenticate(credential)
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                           @Override
-                                                           public void onComplete(@NonNull Task<Void> task) {
-                                                               firebaseUser.delete()
-                                                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                           @Override
-                                                                           public void onComplete(@NonNull Task<Void> task) {
-                                                                               if (task.isSuccessful()) {
-                                                                                   Log.d("DELETE", "User account deleted.");
-                                                                               }
-                                                                           }
-                                                                       });
-                                                           }
-                                                       });
-                                            FirebaseAuth.getInstance().signOut();
-                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
                                         }
                                     }
                                     @Override
@@ -138,6 +133,11 @@ public class DeleteActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
             @Override

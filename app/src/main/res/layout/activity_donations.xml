@@ -71,6 +71,14 @@
                 android:hint="@string/helper_search" />
         </androidx.appcompat.widget.Toolbar>
 
+        <ImageView
+            android:id="@+id/ivNoResult"
+            app:tint="#584B3A"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_no_result" />
+
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"

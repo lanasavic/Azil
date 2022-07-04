@@ -129,7 +129,7 @@ public class AddAnimalActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("Error", e.toString());
+                //Log.d("Error", e.toString());
                 progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "Došlo je do pogreške", Toast.LENGTH_SHORT).show();
             }
@@ -195,7 +195,6 @@ public class AddAnimalActivity extends AppCompatActivity {
                 assert lastChild != null;
                 newKey = (Integer.parseInt(lastChild)+1);
                 hashMap.put("sifra", ""+newKey);
-                dbRefZivotinja.child(newKey.toString()).setValue(hashMap);
 
                 dbRefSklonisteZivotinja.limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -236,6 +235,7 @@ public class AddAnimalActivity extends AppCompatActivity {
                                         }
                                         @Override
                                         public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                                            dbRefZivotinja.child(newKey.toString()).setValue(hashMap);
                                             dbRefSklonisteZivotinja.child(newKey1.toString()).setValue(hashMap1);
                                             progressDialog.dismiss();
                                             Toast.makeText(getApplicationContext(), "Uspješno spremljeno!", Toast.LENGTH_SHORT).show();

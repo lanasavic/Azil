@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,8 +33,8 @@ public class EditActivity extends AppCompatActivity {
     DatabaseReference dbRefSkloniste, dbRefAdmin, dbRefSklonisteAdmin;
     ProgressDialog progressDialog;
     private ActivityEditBinding binding;
-    String lastChild, checkShelter, sAdminUser;
-    Integer newKey;
+    String newKey, lastChild1, checkShelter, userEmail, adminUsername, shelterOib;
+    Integer newKey1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,30 +61,31 @@ public class EditActivity extends AppCompatActivity {
         dbRefSklonisteAdmin = FirebaseDatabase.getInstance().getReference("skloniste_admin");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        userEmail = firebaseUser.getEmail();
 
-        Query adminEmailQuery = dbRefAdmin.orderByChild("email").equalTo(firebaseUser.getEmail());
+        Query adminEmailQuery = dbRefAdmin.orderByChild("email").equalTo(userEmail);
         adminEmailQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Admin admin = dataSnapshot.getValue(Admin.class);
                     assert admin != null;
-                    sAdminUser = admin.getUsername();
-                    String email = firebaseUser.getEmail();
+                    adminUsername = admin.getUsername();
 
-                    binding.etKontakt.setText(email);
+                    binding.etKontakt.setText(userEmail);
                     binding.etKontakt.setEnabled(false);
 
-                    Query adminShelterQuery = dbRefSklonisteAdmin.orderByChild("admin").equalTo(sAdminUser);
+                    Query adminShelterQuery = dbRefSklonisteAdmin.orderByChild("admin").equalTo(adminUsername);
                     adminShelterQuery.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
                                 Shelter_Admin shelter_admin = dataSnapshot1.getValue(Shelter_Admin.class);
                                 assert shelter_admin != null;
-                                String sShelterOib = shelter_admin.getSkloniste();
+                                shelterOib = shelter_admin.getSkloniste();
 
-                                Query shelterQuery = dbRefSkloniste.orderByChild("oib").equalTo(sShelterOib);
+                                Query shelterQuery = dbRefSkloniste.orderByChild("oib").equalTo(shelterOib);
                                 shelterQuery.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -150,8 +152,8 @@ public class EditActivity extends AppCompatActivity {
         else if(TextUtils.isEmpty(sGrad)){
             Toast.makeText(this, "Unesite grad", Toast.LENGTH_SHORT).show();
         }
-        else if(TextUtils.isEmpty(sOib)){
-            Toast.makeText(this, "Unesite novi OIB", Toast.LENGTH_SHORT).show();
+        else if(TextUtils.isEmpty(sOib) || sOib.length() < 11){
+            Toast.makeText(this, "Unesite novi pravilni OIB", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(sIban) || !sIban.matches("^[H][R]\\d{7}")){
             Toast.makeText(this, "Unesite novi pravilni IBAN (npr. HR1234567)", Toast.LENGTH_SHORT).show();
@@ -169,54 +171,53 @@ public class EditActivity extends AppCompatActivity {
         progressDialog.setMessage("Ažuriranje podataka o skloništu...");
         progressDialog.show();
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("naziv", sNaziv);
-        hashMap.put("adresa", sAdresa);
-        hashMap.put("grad", sGrad);
-        hashMap.put("oib", sOib);
-        hashMap.put("iban", sIban);
-        hashMap.put("dostupnih_mjesta", sDostupnihMjesta);
-
         dbRefSkloniste = FirebaseDatabase.getInstance().getReference("skloniste");
         dbRefSklonisteAdmin = FirebaseDatabase.getInstance().getReference("skloniste_admin");
 
-        dbRefSkloniste.child(sOib).updateChildren(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                        assert firebaseUser != null;
-                        String userEmail = firebaseUser.getEmail();
+        dbRefSkloniste.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Shelter shelter = dataSnapshot.getValue(Shelter.class);
+                    assert shelter != null;
+                    checkShelter = shelter.getOib();
+                    Log.d("checkShelter", checkShelter);
+                    Log.d("sOib", sOib);
 
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("naziv", sNaziv);
+                    hashMap.put("adresa", sAdresa);
+                    hashMap.put("grad", sGrad);
+                    hashMap.put("oib", sOib);
+                    hashMap.put("iban", sIban);
+                    hashMap.put("dostupnih_mjesta", sDostupnihMjesta);
+
+                    if(!checkShelter.equals(sOib)){
+                        newKey = sOib;
+                        dbRefSkloniste.child(newKey).setValue(hashMap);
                         dbRefSklonisteAdmin.limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    Shelter_Admin shelter_admin = dataSnapshot.getValue(Shelter_Admin.class);
-                                    assert shelter_admin != null;
-                                    checkShelter = shelter_admin.getSkloniste();
+                                for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+                                    firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                    assert firebaseUser != null;
+                                    userEmail = firebaseUser.getEmail();
 
-                                    if(!checkShelter.equals(sOib)){
-                                        lastChild = dataSnapshot.getKey();
-                                        assert lastChild != null;
-                                        newKey = (Integer.parseInt(lastChild)+1);
-                                        HashMap<String, Object> hashMap1 = new HashMap<>();
-                                        hashMap1.put("id", ""+newKey);
-                                        hashMap1.put("skloniste", ""+sOib);
-                                        hashMap1.put("admin", ""+sAdminUser);
+                                    //Shelter_Admin shelter_admin = dataSnapshot1.getValue(Shelter_Admin.class);
+                                    lastChild1 = dataSnapshot1.getKey();
+                                    assert lastChild1 != null;
+                                    newKey1 = (Integer.parseInt(lastChild1)+1);
 
-                                        dbRefSklonisteAdmin.child(newKey.toString()).setValue(hashMap1);
-                                        progressDialog.dismiss();
-                                        Toast.makeText(EditActivity.this, "Uspješno ažurirano!", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(EditActivity.this, AdminActivity.class));
-                                        finish();
-                                    }
-                                    else{
-                                        progressDialog.dismiss();
-                                        Toast.makeText(EditActivity.this, "Uspješno ažurirano!", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(EditActivity.this, AdminActivity.class));
-                                        finish();
-                                    }
+                                    HashMap<String, Object> hashMap1 = new HashMap<>();
+                                    hashMap1.put("id", ""+newKey);
+                                    hashMap1.put("skloniste", ""+sOib);
+                                    hashMap1.put("admin", ""+userEmail);
+
+                                    dbRefSklonisteAdmin.child(newKey1.toString()).setValue(hashMap1);
+                                    progressDialog.dismiss();
+                                    Toast.makeText(EditActivity.this, "Uspješno ažurirano!", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(EditActivity.this, AdminActivity.class));
+                                    finish();
                                 }
                             }
                             @Override
@@ -226,13 +227,17 @@ public class EditActivity extends AppCompatActivity {
                             }
                         });
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                    else{
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Došlo je do pogreške", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditActivity.this, "Sklonište sa istim OIB-om već postoji!", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

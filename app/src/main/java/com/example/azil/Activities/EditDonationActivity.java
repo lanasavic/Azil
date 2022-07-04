@@ -25,7 +25,6 @@ import java.util.HashMap;
 public class EditDonationActivity extends AppCompatActivity {
     private ActivityEditDonationBinding binding;
     ProgressDialog progressDialog;
-    Intent intent;
     private String donacijaSifra;
     DatabaseReference dbRefTrazenaDonacija;
 
@@ -111,7 +110,7 @@ public class EditDonationActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("Error", e.toString());
+                //Log.d("Error", e.toString());
                 progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "Došlo je do pogreške", Toast.LENGTH_SHORT).show();
             }
