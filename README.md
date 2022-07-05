@@ -8,4 +8,4 @@ Azil [Shelter] | Android (Java) project | Mobile Application Development @ Virov
 -Adding animals - picture and description of the animal
 (Author of the app description: Assistant professor at the University)*
 
-Works with Firebase: https://azil-7bdf6-default-rtdb.europe-west1.firebasedatabase.app/
+Works with Firebase Database (https://azil-7bdf6-default-rtdb.europe-west1.firebasedatabase.app/) and Firebase Storage (gs://azil-7bdf6.appspot.com)
