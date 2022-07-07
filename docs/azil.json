@@ -1,0 +1,481 @@
+{
+  "security":{
+    "accessKey":{
+      "primary":"jGn8zBB0pi",
+      "secondary":"FF081vit"
+    }
+  },
+  "admin": {
+    "feliksvet": {
+      "email": "feliksvet@mail.com",
+      "password": "123456",
+      "username": "feliksvet"
+    },
+    "ihorvat": {
+      "email": "ihorvat2468@gmail.com",
+      "password": "123456",
+      "username": "ihorvat"
+    },
+    "lsavic": {
+      "email": "lsavic@gmail.com",
+      "password": "123456",
+      "username": "lsavic"
+    },
+    "mhorvat": {
+      "email": "mhorvat@gmail.com",
+      "password": "123456",
+      "username": "mhorvat"
+    },
+    "sklonisteck": {
+      "email": "sklonisteck@gmail.com",
+      "password": "123456",
+      "username": "sklonisteck"
+    },
+    "sklonistedb": {
+      "email": "sklonistedb@gmail.com",
+      "password": "123456",
+      "username": "sklonistedb"
+    },
+    "sklonistemb": {
+      "email": "sklonistemb@gmail.com",
+      "password": "123456",
+      "username": "sklonistemb"
+    },
+    "sklonistesisak": {
+      "email": "sklonistesisak@gmail.com",
+      "password": "123456",
+      "username": "sklonistesisak"
+    },
+    "sklonisteutinja": {
+      "email": "sklonisteutinja@mail.com",
+      "password": "123456",
+      "username": "sklonisteutinja"
+    }
+  },
+  "skloniste": {
+    "12345678901": {
+      "adresa": "Carinarski odv., 40000 Čakovec",
+      "dostupnih_mjesta": "10",
+      "grad": "Čakovec",
+      "iban": "HR2487934",
+      "naziv": "Sklonište za životinje Prijatelji",
+      "oib": "12345678901"
+    },
+    "23456789012": {
+      "adresa": "Franjčevićeva ul. 43, 10361, Dumovec",
+      "dostupnih_mjesta": "45",
+      "grad": "Zagreb",
+      "iban": "HR3482435",
+      "naziv": "Sklonište za nezbrinute životinje Grad Zagreba",
+      "oib": "23456789012"
+    },
+    "34567890123": {
+      "adresa": "Matije Gupca 63, 33000 Virovitica",
+      "dostupnih_mjesta": "10",
+      "grad": "Virovitica",
+      "iban": "HR3904820",
+      "naziv": "Sklonište za životinje Virovitica Feliksvet",
+      "oib": "34567890123"
+    },
+    "45678901234": {
+      "adresa": "Krapinska ul. 111, 10298, Donja Bistra",
+      "dostupnih_mjesta": "15",
+      "grad": "Donja Bistra",
+      "iban": "HR3473858",
+      "naziv": "UDRUGA ŠAPICA sklonište za pse",
+      "oib": "45678901234"
+    },
+    "56789012345": {
+      "adresa": "Selnica 247, 49246, Marija Bistrica",
+      "dostupnih_mjesta": "65",
+      "grad": "Marija Bistrica",
+      "iban": "HR284938",
+      "naziv": "Sklonište za napuštene životinje 'Luč Zagorja'",
+      "oib": "56789012345"
+    },
+    "67890123456": {
+      "adresa": "Jagodno 113a, 10415, Jagodno",
+      "dostupnih_mjesta": "64",
+      "grad": "Jagodno",
+      "iban": "HR394384",
+      "naziv": "Sigurna Kućica",
+      "oib": "67890123456"
+    },
+    "78901234567": {
+      "adresa": "Zagrebačka ul. 45, 44000, Sisak",
+      "dostupnih_mjesta": "2",
+      "grad": "Sisak",
+      "iban": "HR394202",
+      "naziv": "Sklonište za životinje Sisak",
+      "oib": "78901234567"
+    },
+    "89012345678": {
+      "adresa": "Jurišićeva ul. 25, 10000, Zagreb",
+      "dostupnih_mjesta": "23",
+      "grad": "Zagreb",
+      "iban": "HR273462",
+      "naziv": "Prijatelji životinja",
+      "oib": "89012345678"
+    },
+    "90123456789": {
+      "adresa": "Utinja 12, 47000, Karlovac",
+      "dostupnih_mjesta": "5",
+      "grad": "Karlovac",
+      "iban": "HR384729",
+      "naziv": "Sklonište za životinje Utinja",
+      "oib": "90123456789"
+    }
+  },
+  "skloniste_admin": {
+    "1":{
+      "admin": "lsavic",
+      "id": "1",
+      "skloniste": "23456789012"
+    },
+    "2":{
+      "admin": "ihorvat",
+      "id": "2",
+      "skloniste": "67890123456"
+    },
+    "3":{
+      "admin": "mhorvat",
+      "id": "3",
+      "skloniste": "89012345678"
+    },
+    "4":{
+      "admin": "sklonistesisak",
+      "id": "4",
+      "skloniste": "78901234567"
+    },
+    "5":{
+      "admin": "sklonisteutinja",
+      "id": "5",
+      "skloniste": "90123456789"
+    },
+    "6":{
+      "admin": "sklonisteck",
+      "id": "6",
+      "skloniste": "12345678901"
+    },
+    "7":{
+      "admin": "sklonistedb",
+      "id": "7",
+      "skloniste": "45678901234"
+    },
+    "8":{
+      "admin": "sklonistemb",
+      "id": "8",
+      "skloniste": "56789012345"
+    },
+    "9":{
+      "admin": "feliksvet",
+      "id": "9",
+      "skloniste": "34567890123"
+    }
+  },
+  "skloniste_donacija": {
+    "1":{
+      "donacija": "",
+      "id": "1",
+      "skloniste": ""
+    },
+    "2":{
+      "donacija": "2",
+      "id": "2",
+      "skloniste": "78901234567"
+    },
+    "3":{
+      "donacija": "3",
+      "id": "3",
+      "skloniste": "12345678901"
+    }
+  },
+  "skloniste_zivotinja": {
+    "1":{
+      "id": "1",
+      "skloniste": "12345678901",
+      "zivotinja": "1"
+    },
+    "2":{
+      "id": "2",
+      "skloniste": "12345678901",
+      "zivotinja": "2"
+    },
+    "3":{
+      "id": "3",
+      "skloniste": "12345678901",
+      "zivotinja": "3"
+    },
+    "4":{
+      "id": "4",
+      "skloniste": "34567890123",
+      "zivotinja": "4"
+    },
+    "5":{
+      "id": "5",
+      "skloniste": "45678901234",
+      "zivotinja": "5"
+    },
+    "6":{
+      "id": "6",
+      "skloniste": "45678901234",
+      "zivotinja": "6"
+    },
+    "7":{
+      "id": "7",
+      "skloniste": "56789012345",
+      "zivotinja": "7"
+    },
+    "8":{
+      "id": "8",
+      "skloniste": "56789012345",
+      "zivotinja": "8"
+    },
+    "9":{
+      "id": "9",
+      "skloniste": "23456789012",
+      "zivotinja": "9"
+    },
+    "10":{
+      "id": "10",
+      "skloniste": "23456789012",
+      "zivotinja": "10"
+    },
+    "11":{
+      "id": "11",
+      "skloniste": "67890123456",
+      "zivotinja": "11"
+    },
+    "12":{
+      "id": "12",
+      "skloniste": "67890123456",
+      "zivotinja": "12"
+    },
+    "13":{
+      "id": "13",
+      "skloniste": "89012345678",
+      "zivotinja": "13"
+    },
+    "14":{
+      "id": "14",
+      "skloniste": "89012345678",
+      "zivotinja": "14"
+    },
+    "15":{
+      "id": "15",
+      "skloniste": "78901234567",
+      "zivotinja": "15"
+    },
+    "16":{
+      "id": "16",
+      "skloniste": "78901234567",
+      "zivotinja": "16"
+    },
+    "17":{
+      "id": "17",
+      "skloniste": "90123456789",
+      "zivotinja": "17"
+    },
+    "18":{
+      "id": "18",
+      "skloniste": "90123456789",
+      "zivotinja": "18"
+    }
+  },
+  "trazena_donacija": {
+    "1": {
+      "kolicina": "",
+      "opis": "",
+      "sifra": "1"
+    },
+    "2": {
+      "kolicina": "15",
+      "opis": "Deke koje će psima služiti kao podloga za spavanje",
+      "sifra": "2"
+    },
+    "3": {
+      "kolicina": "3",
+      "opis": "Deke za mačke",
+      "sifra": "3"
+    }
+  },
+  "trazeno_zaprimljeno": {
+    "1": {
+      "id": "1",
+      "trazeno": "",
+      "zaprimljeno": ""
+    },
+    "2": {
+      "id": "2",
+      "trazeno": "3",
+      "zaprimljeno": "2"
+    }
+  },
+  "zaprimljena_donacija": {
+    "1": {
+      "ime_prezime": "",
+      "email": "",
+      "kolicina": "",
+      "komentar": "",
+      "sifra": "1"
+    },
+    "2": {
+      "ime_prezime": "Iva Ivić",
+      "email": "i.ivic@gmail.com",
+      "kolicina": "5",
+      "komentar": "Šaljemo poštom!",
+      "sifra": "2"
+    },
+    "3": {
+      "ime_prezime": "Maja Majić",
+      "email": "m.majic@gmail.com",
+      "kolicina": "5",
+      "komentar": "",
+      "sifra": "3"
+    }
+  },
+  "zahtjev":{
+    "1": {
+      "ime_prezime": "",
+      "email": "",
+      "komentar": "",
+      "datum": "",
+      "sifra": "1"
+    }
+  },
+  "zivotinja_zahtjev":{
+    "1": {
+      "zahtjev": "",
+      "zivotinja": "",
+      "id": "1"
+    }
+  },
+  "zivotinja": {
+    "1": {
+      "ime": "Floki",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/jackrussellterrier.jpg?alt=media&token=03fbd25f-50a3-48da-aff1-61692cf9f2ea",
+      "opis": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fringilla lacus dolor, id varius dolor faucibus a. Jack Russel terijer. Štenci",
+      "zahtjevi":"0",
+      "sifra": "1"
+    },
+    "2": {
+      "ime": "Snoopy",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/patuljastipinc.jpg?alt=media&token=710463db-ab2e-4dcc-9ef3-deb597c4115b",
+      "opis": "Phasellus egestas elit ac maximus aliquam. Vestibulum iaculis, ligula sed vulputate tincidunt, lectus tortor mollis turpis, eget rutrum massa metus eu ante. Patuljasti pinč. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mlađi",
+      "zahtjevi":"0",
+      "sifra": "2"
+    },
+    "3": {
+      "ime": "Mika",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/kokerspanijel.jpg?alt=media&token=fc3ad619-4601-4b7a-9e7e-a44cd37d4f18",
+      "opis": "Cras eu eleifend erat stariji. Quisque porttitor tristique egestas. Koker španijel Nunc sollicitudin, nunc eu cursus facilisis, nisl magna fringilla quam, a porttitor diam enim malesuada augue.",
+      "zahtjevi":"0",
+      "sifra": "3"
+    },
+    "4": {
+      "ime": "Zera",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/bernskiplaninskipas1.jpeg?alt=media&token=433493fd-bac1-4f0d-a5e7-d14154777654",
+      "opis": "Štenci. Nam tortor ex, eleifend non condimentum nec, semper ut dolor. Suspendisse accumsan laoreet elit, non pulvinar urna dictum sit amet. In erat risus, bernski planinski pas posuere at orci eget, dapibus porta purus.",
+      "zahtjevi":"0",
+      "sifra": "4"
+    },
+    "5": {
+      "ime": "Enrique",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/jazavcar.jpg?alt=media&token=23ad2440-b5b3-4a52-b26f-ae63927e46b3",
+      "opis": "Pellentesque facilisis, tellus a viverra vestibulum, jazavčar eros augue cursus dui, Mlađi ac condimentum massa augue ut orci.",
+      "zahtjevi":"0",
+      "sifra": "5"
+    },
+    "6": {
+      "ime": "MC",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/jorksirskiterijer.jpg?alt=media&token=308aa23e-2ad7-4903-89b8-fd4a099a5540",
+      "opis": "Praesent nec augue id eros ullamcorper odrasli fermentum a eget ligula. Aliquam Jorkširski terijer erat volutpat.",
+      "zahtjevi":"0",
+      "sifra": "6"
+    },
+    "7": {
+      "ime": "Maia",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/zlatniretriver.jpg?alt=media&token=002acafb-1781-4478-9493-1b304684a724",
+      "opis": "Praesent vitae metus tincidunt, štenci efficitur zlatni retriver ligula quis, eleifend turpis. Sed interdum rhoncus odio eget bibendum. Ut a vulputate ex. Aenean tincidunt quam neque, a auctor urna commodo at.",
+      "zahtjevi":"0",
+      "sifra": "7"
+    },
+    "8": {
+      "ime": "Marie",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/labradorretriver.jpg?alt=media&token=3951c45d-1a95-4c58-9056-b78e8ba50238",
+      "opis": "Praesent non risus id urna dapibus mlađi imperdiet et eget est. Nullam dictum labrador retriver velit vel ipsum finibus hendrerit.",
+      "zahtjevi":"0",
+      "sifra": "8"
+    },
+    "9": {
+      "ime": "Rex",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/009?alt=media&token=cf8593c6-3a6d-43ed-8196-588cd3da9862",
+      "opis": "Proin eget dolor sollicitudin, blandit ipsum iaculis, mlađi vehicula nunc. Njemački ovčar Duis quis iaculis lorem. Aenean sit amet lorem sed odio maximus placerat.",
+      "zahtjevi":"0",
+      "sifra": "9"
+    },
+    "10": {
+      "ime": "Lola",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/pekinezer.jpg?alt=media&token=79164f5c-79cb-43e5-a356-d6d538d2bf86",
+      "opis": "Cras efficitur sem odrasli sit amet finibus dapibus. Pellentesque aliquet pekinezer risus et accumsan elementum. In erat urna, finibus sed erat sit amet, sodales sollicitudin magna.",
+      "zahtjevi":"0",
+      "sifra": "10"
+    },
+    "11": {
+      "ime": "Ella",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/jazavcar1.jpg?alt=media&token=6c9478af-4d8b-4e3d-86ae-70de2fb1a717",
+      "opis": "Fusce vehicula quam štenci nec sem elementum pharetra. Nam laoreet orci jazavčar et orci imperdiet, vitae rutrum libero commodo.",
+      "zahtjevi":"0",
+      "sifra": "11"
+    },
+    "12": {
+      "ime": "Olli",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/jorksirskiterijer1.jpg?alt=media&token=08a8b23e-b418-4b71-974d-c9f45f7ff668",
+      "opis": "Praesent dictum mi et mattis ornare. Štenci Cras vitae porta nibh. Pellentesque Jorkširski terijer sodales nibh in lectus volutpat dignissim in vel magna.",
+      "zahtjevi":"0",
+      "sifra": "12"
+    },
+    "13": {
+      "ime": "Jura",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/maltezer.jpg?alt=media&token=7aec6fcc-3ad3-47e0-a53c-784b43b563e6",
+      "opis": "Stariji Pellentesque habitant morbi tristique maltezer senectus et netus et malesuada fames ac turpis egestas.",
+      "zahtjevi":"0",
+      "sifra": "13"
+    },
+    "14": {
+      "ime": "Pero",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/njemackiovcar1.jpeg?alt=media&token=eaaa7c24-b0d0-4b77-8a46-12d8f59d9892",
+      "opis": "Mauris urna sem, fringilla faucibus accumsan in, rutrum nec Njemački ovčar lacus. Nam eu risus non erat dignissim commodo. Štenci In hac habitasse platea dictumst.",
+      "zahtjevi":"0",
+      "sifra": "14"
+    },
+    "15": {
+      "ime": "Lea",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/pekinezer1.jpg?alt=media&token=9750108b-b2c4-44a6-8fe3-16efc6660b2d",
+      "opis": "Nulla molestie facilisis mi, štenci nec accumsan sapien suscipit sit pekinezer amet. Curabitur aliquet pharetra nunc, a tincidunt arcu placerat ac.",
+      "zahtjevi":"0",
+      "sifra": "15"
+    },
+    "16": {
+      "ime": "Oskar",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/kokerspanijel1.jpg?alt=media&token=3b2fa600-6acf-40f9-999b-10c8f7fcad17",
+      "opis": "Ut accumsan rutrum ultricies. Odrasli Duis est mi, rutrum ac lobortis koker španijel cursus, egestas quis quam. Curabitur a hendrerit felis. Proin sit amet tempor mauris.",
+      "zahtjevi":"0",
+      "sifra": "16"
+    },
+    "17": {
+      "ime": "Knez",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/bernskiplaninskipas.jpeg?alt=media&token=30001154-82fa-4a8f-9cd4-9c6bd463619b",
+      "opis": "Sed id rutrum orci. Vivamus eu sodales massa. Stariji Phasellus ultrices ex eget Bernski planinski pas semper euismod. Integer lobortis volutpat enim, sed faucibus tortor dapibus quis.",
+      "zahtjevi":"0",
+      "sifra": "17"
+    },
+    "18": {
+      "ime": "Arnold",
+      "imgurl": "https://firebasestorage.googleapis.com/v0/b/azil-7bdf6.appspot.com/o/jackrussellterrier1.jpg?alt=media&token=7f9ebb80-50da-4cbf-9457-73cb8fe024fe",
+      "opis": "Fusce scelerisque ornare risus, odrasli at venenatis quam. Sed sodales dignissim eros, Jack Russel terijer a dignissim diam ultrices non. Nullam ut quam nec dolor mollis porta id at sem.",
+      "zahtjevi":"0",
+      "sifra": "18"
+    }
+  }
+}
