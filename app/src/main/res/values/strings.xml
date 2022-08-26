@@ -21,6 +21,12 @@
     <string name="btnEditImg">Promijeni sliku</string>
     <string name="btnReceivedDonations">Primljene donacije</string>
     <string name="btnRequests">Zahtjevi za udomljavanje</string>
+    <string name="btnGrafVrste">Vrste životinja</string>
+    <string name="btnGrafPasmine">Pasmine</string>
+    <string name="btnGrafLokacije">Lokacije pronalaska</string>
+    <string name="btnGrafVrijeme">Vrijeme rođenja</string>
+    <string name="btnGrafPasmineLokacije">Pasmine - najčešće lokacije</string>
+    <string name="btnGrafPasmineVrijeme">Pasmine - najčešće vrijeme</string>
 
     <!-- Txt, placeholders, or whatever -->
     <string name="helperMain">Skloništa za životinje u RH</string>
@@ -54,6 +60,11 @@
     <string name="helper_komentarHelp">Npr. datum i vrijeme dolaska, opis svog izgleda,\nili nešto drugo!☺</string>
     <string name="helper_deletionWarning">Brisanje skloništa je nepovratno!\nSvi podaci vezani uz sklonište, kao i vaš račun,
         bit će obrisani u potpunosti. Jeste li sigurni da želite nastaviti?</string>
+    <string name="helper_odaberigraf">Odaberite željeni prikaz grafa:</string>
+    <string name="helper_odaberiVrstu">Odaberite vrstu</string>
+    <string name="helper_odaberiPasminu">Odaberite pasminu</string>
+    <string name="helper_odaberiLokaciju">Odaberite lokaciju</string>
+    <string name="helper_odaberiMjesec">Odaberite mjesec</string>
 
     <string name="holder_Naziv">_Naziv skloništa_</string>
     <string name="holder_Adresa">_Adresa_</string>
@@ -66,7 +77,7 @@
     <string name="holder_Opis">_Opis životinje_</string>
     <string name="holder_Skloniste">_Skloniste_</string>
     <string name="holder_OpisDonacije">_Opis donacije_</string>
-    <string name="holder_KolicinaDonacije">_Potrebna količina_</string>
+    <string name="holder_KolicinaDonacije">_Količina donacije_</string>
     <string name="holder_helloAdmin">Pozdrav, %1$s!</string>
     <string name="holder_ImePrezime">_Ime i prezime_</string>
     <string name="holder_Email">_Email adresa_</string>

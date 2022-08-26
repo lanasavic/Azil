@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#727C5D37"
+    tools:context=".Activities.GraphBreedLocationActivity">
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableEnd="@drawable/ic_back_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dropdownBreed"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@id/btnBack"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="22dp"
+        android:paddingStart="5dp"
+        android:background="@drawable/shape_edittext"
+        android:drawableEnd="@drawable/ic_dropdown"
+        android:drawablePadding="5dp"
+        android:hint="@string/helper_odaberiPasminu"
+        android:textColorHint="#5C5C5C" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/graphBreedLocation"
+        android:layout_width="match_parent"
+        android:layout_height="530dp"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

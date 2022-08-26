@@ -5,28 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8CDC2B9"
-    tools:context=".Activities.AdminActivity">
-
-    <TextView
-        android:id="@+id/helloAdmin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/holder_helloAdmin"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/btnLogout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".Activities.AllAnimalsActivity">
 
     <Button
-        android:id="@+id/btnLogout"
+        android:id="@+id/btnBack"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:drawableEnd="@drawable/ic_logout"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableEnd="@drawable/ic_back_white"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
@@ -43,7 +31,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottomMenu">
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPagerFragments"
+            android:id="@+id/viewPager2Fragments"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
@@ -60,8 +48,7 @@
             android:id="@+id/bottomNavigationView"
             app:labelVisibilityMode="unlabeled"
             android:background="?android:attr/windowBackground"
-            app:menu="@menu/admin_menu"/>
+            app:menu="@menu/all_animals_menu"/>
 
     </com.google.android.material.appbar.AppBarLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

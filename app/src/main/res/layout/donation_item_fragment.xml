@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/ibEdit"
         android:layout_alignBottom="@id/ibDelete"
-        android:layout_toStartOf="@id/ibEdit"
+        android:layout_toStartOf="@id/donationWarning"
         android:orientation="vertical">
 
         <TextView

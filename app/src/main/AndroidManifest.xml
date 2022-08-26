@@ -16,6 +16,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Azil">
         <activity
+            android:name=".Activities.AllAnimalsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.GraphBreedTimeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.GraphBreedLocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.GraphSpeciesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.GraphBreedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.GraphTimeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.GraphLocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.StatisticsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.RequestsActivity"
             android:exported="false" />
         <activity

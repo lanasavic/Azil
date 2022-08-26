@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/species"
+        android:icon="@drawable/species"
+        android:title=""/>
+    <item
+        android:id="@+id/breed"
+        android:icon="@drawable/breed"
+        android:title=""/>
+    <item
+        android:id="@+id/location"
+        android:icon="@drawable/location"
+        android:title=""/>
+    <item
+        android:id="@+id/time"
+        android:icon="@drawable/time"
+        android:title=""/>
+</menu>

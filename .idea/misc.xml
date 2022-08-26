@@ -12,19 +12,23 @@
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_delete_red.xml" value="0.323" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_donate.xml" value="0.2015" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_email.xml" value="0.287" />
+        <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_insights.xml" value="0.2805" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_key.xml" value="0.2645" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_launcher_background.xml" value="0.274" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_more.xml" value="0.256" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_password.xml" value="0.2645" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_paw_background.xml" value="0.274" />
+        <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_statistics.xml" value="0.2805" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/ic_warning.xml" value="0.201" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/layout_bg.xml" value="0.3775" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/line.xml" value="0.3675" />
+        <entry key="..\:/FAX/azil/app/src/main/res/drawable/shape_edittext.xml" value="0.2875" />
         <entry key="..\:/FAX/azil/app/src/main/res/drawable/textlines.xml" value="0.382" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_add_animal.xml" value="0.5" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_add_donation.xml" value="0.33" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_admin.xml" value="0.5" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_adopt.xml" value="0.33" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_all_animals.xml" value="0.5578125" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_delete.xml" value="0.3890625" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_donate.xml" value="0.33" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_donations.xml" value="0.4" />
@@ -32,23 +36,35 @@
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_edit_animal.xml" value="0.36171875" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_edit_donation.xml" value="0.33" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_forgot_password.xml" value="0.264" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_graph_breed.xml" value="0.5578125" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_graph_breed_location.xml" value="0.5578125" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_graph_breed_time.xml" value="0.53671875" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_graph_location.xml" value="0.3703125" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_graph_species.xml" value="0.5" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_graph_time.xml" value="0.3703125" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_received_donations.xml" value="0.5578125" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_register.xml" value="0.5" />
-        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_requests.xml" value="0.5" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_requests.xml" value="0.39173553719008264" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_shelters.xml" value="0.4" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/activity_statistics.xml" value="0.33" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/animal_item.xml" value="0.4" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/animal_item_fragment.xml" value="0.371875" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/donation_item.xml" value="0.5578125" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/donation_item_fragment.xml" value="0.3890625" />
-        <entry key="..\:/FAX/azil/app/src/main/res/layout/fragment_animals.xml" value="0.33" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/fragment_animals.xml" value="0.5" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/fragment_breed.xml" value="0.5578125" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/fragment_donations.xml" value="0.371875" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/fragment_location.xml" value="0.5578125" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/fragment_shelter.xml" value="0.4" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/fragment_species.xml" value="0.5578125" />
+        <entry key="..\:/FAX/azil/app/src/main/res/layout/fragment_time.xml" value="0.5" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/received_donation_item.xml" value="0.5" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/request_item.xml" value="0.5" />
         <entry key="..\:/FAX/azil/app/src/main/res/layout/shelter_item.xml" value="0.5" />
         <entry key="..\:/FAX/azil/app/src/main/res/menu/admin_menu.xml" value="0.371875" />
+        <entry key="..\:/FAX/azil/app/src/main/res/menu/all_animals_menu.xml" value="0.5578125" />
         <entry key="..\:/FAX/azil/app/src/main/res/mipmap-anydpi-v26/ic_back_white.xml" value="0.2395" />
         <entry key="..\:/FAX/azil/app/src/main/res/mipmap-anydpi-v26/ic_paw.xml" value="0.291" />
         <entry key="..\:/FAX/azil/app/src/main/res/mipmap-anydpi-v26/ic_paw_round.xml" value="0.291" />

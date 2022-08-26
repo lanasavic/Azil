@@ -28,12 +28,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnLogin;
+    private Button btnLogin, btnStats;
     private RecyclerView rvMain;
     DatabaseReference databaseReference;
     private SheltersAdapter sheltersAdapter;
     ArrayList<Shelter> lShelters;
     private EditText search_main;
+
+    public void imageButtonPaw(View v) {
+        Intent intent = new Intent(getApplicationContext(), AllAnimalsActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnStats = (Button) findViewById(R.id.btnStats);
+        btnStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), StatisticsActivity.class);
                 startActivity(intent);
             }
         });
