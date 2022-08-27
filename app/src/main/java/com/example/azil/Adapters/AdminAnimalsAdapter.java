@@ -22,7 +22,13 @@ import com.example.azil.Activities.AdminActivity;
 import com.example.azil.Activities.EditAnimalActivity;
 import com.example.azil.Filters.AdminAnimalsFilter;
 import com.example.azil.Models.Animal;
+import com.example.azil.Models.Animal_Breed;
+import com.example.azil.Models.Animal_Location;
+import com.example.azil.Models.Animal_Time;
+import com.example.azil.Models.Breed;
+import com.example.azil.Models.Location;
 import com.example.azil.Models.Shelter_Animal;
+import com.example.azil.Models.Time;
 import com.example.azil.databinding.AnimalItemFragmentBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,8 +52,9 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
     private AnimalItemFragmentBinding binding;
     Intent intent;
     ProgressDialog progressDialog;
-    DatabaseReference dbRefSklonisteZivotinja, dbRefZivotinja, dbRefSkloniste;
-    String key;
+    DatabaseReference dbRefSklonisteZivotinja, dbRefZivotinja, dbRefSkloniste,
+            dbRefPasmina, dbRefZivotinjaPasmina, dbRefLokacija, dbRefZivotinjaLokacija, dbRefVrijeme, dbRefZivotinjaVrijeme;
+    String key, pasminaId, lokacijaId, mjesecId, pasminaNaziv, lokacijaNaziv, mjesecNaziv;
     public AdminAnimalsFilter adminAnimalsFilter;
 
     public AdminAnimalsAdapter(Context context, ArrayList<Animal> lAnimals) {
@@ -81,6 +88,12 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
             public void onClick(View v) {
                 intent = new Intent(context, EditAnimalActivity.class);
                 intent.putExtra("zivotinjaSifra", animal.getSifra());
+                intent.putExtra("pasminaId", pasminaId);
+                intent.putExtra("pasminaNaziv", pasminaNaziv);
+                intent.putExtra("lokacijaId", lokacijaId);
+                intent.putExtra("lokacijaNaziv", lokacijaNaziv);
+                intent.putExtra("mjesecId", mjesecId);
+                intent.putExtra("mjesecNaziv", mjesecNaziv);
                 context.startActivity(intent);
             }
         });
@@ -105,6 +118,116 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
             count = 0;
             Log.d("test", "Except "+e);
         }
+
+        dbRefPasmina = FirebaseDatabase.getInstance().getReference("pasmina");
+        dbRefLokacija = FirebaseDatabase.getInstance().getReference("lokacija");
+        dbRefVrijeme = FirebaseDatabase.getInstance().getReference("vrijeme");
+        dbRefZivotinjaPasmina = FirebaseDatabase.getInstance().getReference("zivotinja_pasmina");
+        dbRefZivotinjaLokacija = FirebaseDatabase.getInstance().getReference("zivotinja_lokacija");
+        dbRefZivotinjaVrijeme = FirebaseDatabase.getInstance().getReference("zivotinja_vrijeme");
+
+        String sifra = animal.getSifra();
+        Query animalBreedQuery = dbRefZivotinjaPasmina.orderByChild("zivotinja").equalTo(sifra);
+        animalBreedQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                    Animal_Breed animal_breed = dataSnapshot1.getValue(Animal_Breed.class);
+                    assert animal_breed != null;
+                    String sPasmina = animal_breed.getPasmina();
+
+                    Query breedQuery = dbRefPasmina.orderByChild("sifra").equalTo(sPasmina);
+                    breedQuery.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                Breed breed = dataSnapshot2.getValue(Breed.class);
+                                assert breed != null;
+                                pasminaId = breed.getSifra();
+                                pasminaNaziv = breed.getNaziv();
+                                holder.pasmina.setText(pasminaNaziv);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Query animalLocationQuery = dbRefZivotinjaLokacija.orderByChild("zivotinja").equalTo(sifra);
+        animalLocationQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                    Animal_Location animal_location = dataSnapshot1.getValue(Animal_Location.class);
+                    assert animal_location != null;
+                    String sLokacija = animal_location.getLokacija();
+
+                    Query locationQuery = dbRefLokacija.orderByChild("sifra").equalTo(sLokacija);
+                    locationQuery.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                Location location = dataSnapshot2.getValue(Location.class);
+                                assert location != null;
+                                lokacijaId = location.getSifra();
+                                lokacijaNaziv = location.getNaziv();
+                                holder.lokacija.setText("Lokacija pronalaska: "+lokacijaNaziv);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Query animalTimeQuery = dbRefZivotinjaVrijeme.orderByChild("zivotinja").equalTo(sifra);
+        animalTimeQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                    Animal_Time animal_time = dataSnapshot1.getValue(Animal_Time.class);
+                    assert animal_time != null;
+                    String sMjesec = animal_time.getMjesec();
+
+                    Query timeQuery = dbRefVrijeme.orderByChild("sifra").equalTo(sMjesec);
+                    timeQuery.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                Time time = dataSnapshot2.getValue(Time.class);
+                                assert time != null;
+                                mjesecId = time.getSifra();
+                                mjesecNaziv = time.getMjesec();
+                                holder.mjesec.setText("Mjesec pronalaska: "+mjesecNaziv);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void deleteAnimal(Animal animal, AdminAnimalsAdapter.ViewHolder holder) {
@@ -198,7 +321,7 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView ime, opis;
+        TextView ime, opis, pasmina, lokacija, mjesec;
         ImageView img;
         ImageButton ibEdit, ibDelete;
 
@@ -210,6 +333,10 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
             img = binding.imgZivotinja;
             ibEdit = binding.imageButtonEdit;
             ibDelete = binding.imageButtonDelete;
+
+            pasmina = binding.tvPasminaZivotinje;
+            lokacija = binding.tvLokacijaZivotinje;
+            mjesec = binding.tvMjesecZivotinje;
         }
     }
 }

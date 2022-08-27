@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,10 +44,13 @@ public class GraphBreedLocationActivity extends AppCompatActivity {
     DatabaseReference dbRefPasmina, dbRefZivotinjaPasmina, dbRefZivotinjaLokacija, dbRefLokacija;
     XAxis xAxis;
     YAxis leftYAxis, rightYAxis;
+    ArrayList<IBarDataSet> lBarDataSets = new ArrayList<>();
     BarDataSet barDataSet;
     BarData barData;
     private ArrayList<Location> lLocation;
     private ArrayList<Breed> breedArrayList;
+    ArrayList<Location> lCakovec, lKarlovac, lKoprivnica, lSisak, lVarazdin, lVirovitica, lZagreb;
+    ArrayList<BarEntry> dataVals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +128,10 @@ public class GraphBreedLocationActivity extends AppCompatActivity {
                 binding.dropdownBreed.setText(breed);
                 retrieveData(breed);
             }
-        }).show();
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getWindow().setLayout(650, 800);
     }
 
     private void retrieveData(String chosenBreed) {
@@ -133,12 +140,21 @@ public class GraphBreedLocationActivity extends AppCompatActivity {
         dbRefZivotinjaLokacija = FirebaseDatabase.getInstance().getReference("zivotinja_lokacija");
         dbRefLokacija = FirebaseDatabase.getInstance().getReference("lokacija");
 
+        lLocation = new ArrayList<>();
+
+        dataVals = new ArrayList<>();
+        lCakovec = new ArrayList<>();
+        lKarlovac = new ArrayList<>();
+        lKoprivnica = new ArrayList<>();
+        lSisak = new ArrayList<>();
+        lVarazdin = new ArrayList<>();
+        lVirovitica = new ArrayList<>();
+        lZagreb = new ArrayList<>();
+
         Query breedQuery = dbRefPasmina.orderByChild("naziv").equalTo(chosenBreed);
-        breedQuery.addValueEventListener(new ValueEventListener() {
+        breedQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<BarEntry> dataVals = new ArrayList<>();
-                lLocation = new ArrayList<>();
 
                 if(snapshot.hasChildren()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
@@ -147,7 +163,7 @@ public class GraphBreedLocationActivity extends AppCompatActivity {
                         String pasminaId = breed.getSifra();
 
                         Query animalBreedQuery = dbRefZivotinjaPasmina.orderByChild("pasmina").equalTo(pasminaId);
-                        animalBreedQuery.addValueEventListener(new ValueEventListener() {
+                        animalBreedQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
@@ -156,7 +172,7 @@ public class GraphBreedLocationActivity extends AppCompatActivity {
                                     String zivotinjaId = animal_breed.getZivotinja();
 
                                     Query animalLocationQuery = dbRefZivotinjaLokacija.orderByChild("zivotinja").equalTo(zivotinjaId);
-                                    animalLocationQuery.addValueEventListener(new ValueEventListener() {
+                                    animalLocationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
@@ -165,7 +181,7 @@ public class GraphBreedLocationActivity extends AppCompatActivity {
                                                 String lokacijaId = animal_location.getLokacija();
 
                                                 Query locationQuery = dbRefLokacija.orderByChild("sifra").equalTo(lokacijaId);
-                                                locationQuery.addValueEventListener(new ValueEventListener() {
+                                                locationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                         for(DataSnapshot dataSnapshot3 : snapshot.getChildren()){
@@ -173,45 +189,43 @@ public class GraphBreedLocationActivity extends AppCompatActivity {
                                                             lLocation.add(location);
 
                                                             assert location != null;
-                                                            float x=Float.parseFloat(location.getSifra());
-
                                                             int locationNum = Integer.parseInt(location.getSifra());
 
                                                             switch(locationNum){
                                                                 case 1:
-                                                                    ArrayList<Location> lCakovec = new ArrayList<>();
                                                                     lCakovec.add(location);
                                                                     dataVals.add(new BarEntry(1, lCakovec.size()));
+                                                                    Log.d("CK", String.valueOf(lCakovec.size()));
                                                                     break;
                                                                 case 2:
-                                                                    ArrayList<Location> lKarlovac = new ArrayList<>();
                                                                     lKarlovac.add(location);
                                                                     dataVals.add(new BarEntry(2, lKarlovac.size()));
+                                                                    Log.d("KA", String.valueOf(lKarlovac.size()));
                                                                     break;
                                                                 case 3:
-                                                                    ArrayList<Location> lKoprivnica = new ArrayList<>();
                                                                     lKoprivnica.add(location);
                                                                     dataVals.add(new BarEntry(3, lKoprivnica.size()));
+                                                                    Log.d("KC", String.valueOf(lKoprivnica.size()));
                                                                     break;
                                                                 case 4:
-                                                                    ArrayList<Location> lSisak = new ArrayList<>();
                                                                     lSisak.add(location);
                                                                     dataVals.add(new BarEntry(4, lSisak.size()));
+                                                                    Log.d("SK", String.valueOf(lSisak.size()));
                                                                     break;
                                                                 case 5:
-                                                                    ArrayList<Location> lVarazdin = new ArrayList<>();
                                                                     lVarazdin.add(location);
                                                                     dataVals.add(new BarEntry(5, lVarazdin.size()));
+                                                                    Log.d("VZ", String.valueOf(lVarazdin.size()));
                                                                     break;
                                                                 case 6:
-                                                                    ArrayList<Location> lVirovitica = new ArrayList<>();
                                                                     lVirovitica.add(location);
                                                                     dataVals.add(new BarEntry(6, lVirovitica.size()));
+                                                                    Log.d("VT", String.valueOf(lVirovitica.size()));
                                                                     break;
                                                                 case 7:
-                                                                    ArrayList<Location> lZagreb = new ArrayList<>();
                                                                     lZagreb.add(location);
                                                                     dataVals.add(new BarEntry(7, lZagreb.size()));
+                                                                    Log.d("ZG", String.valueOf(lZagreb.size()));
                                                                     break;
                                                             }
                                                         }
@@ -255,6 +269,9 @@ public class GraphBreedLocationActivity extends AppCompatActivity {
 
     private void showChart(ArrayList<BarEntry> dataVals) {
         barDataSet = new BarDataSet(dataVals, "Broj životinja odabrane pasmine po lokacijama");
+        lBarDataSets.clear();
+        lBarDataSets.add(barDataSet);
+        barDataSet.notifyDataSetChanged();
         barDataSet.setColor(Color.RED);
         ValueFormatter vf = new ValueFormatter() { //value format here, here is the overridden method
             @Override
@@ -271,7 +288,8 @@ public class GraphBreedLocationActivity extends AppCompatActivity {
         xAxis.setGranularityEnabled(true);
         xAxis.setLabelRotationAngle(-30f);
 
-        barData = new BarData(barDataSet);
+        barData = new BarData(lBarDataSets);
+        barData.notifyDataChanged();
         barData.setBarWidth(0.85f);
 
         barChart.getDescription().setEnabled(false);

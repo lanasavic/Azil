@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,10 +44,13 @@ public class GraphBreedTimeActivity extends AppCompatActivity {
     DatabaseReference dbRefPasmina, dbRefZivotinjaPasmina, dbRefZivotinjaVrijeme, dbRefVrijeme;
     XAxis xAxis;
     YAxis leftYAxis, rightYAxis;
+    ArrayList<IBarDataSet> lBarDataSets = new ArrayList<>();
     BarDataSet barDataSet;
     BarData barData;
-    private ArrayList<Time> lTime;
+    private ArrayList<Time> lTime, lSijecanj, lVeljaca, lOzujak, lTravanj, lSvibanj, lLipanj,
+            lSrpanj, lKolovoz, lRujan, lListopad, lStudeni, lProsinac;
     private ArrayList<Breed> breedArrayList;
+    ArrayList<BarEntry> dataVals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +128,10 @@ public class GraphBreedTimeActivity extends AppCompatActivity {
                 binding.dropdownBreed.setText(breed);
                 retrieveData(breed);
             }
-        }).show();
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getWindow().setLayout(650, 800);
     }
 
     private void retrieveData(String chosenBreed) {
@@ -133,22 +140,35 @@ public class GraphBreedTimeActivity extends AppCompatActivity {
         dbRefZivotinjaVrijeme = FirebaseDatabase.getInstance().getReference("zivotinja_vrijeme");
         dbRefVrijeme = FirebaseDatabase.getInstance().getReference("vrijeme");
 
+        lTime = new ArrayList<>();
+
+        dataVals = new ArrayList<>();
+        lSijecanj = new ArrayList<>();
+        lVeljaca = new ArrayList<>();
+        lOzujak = new ArrayList<>();
+        lTravanj = new ArrayList<>();
+        lSvibanj = new ArrayList<>();
+        lLipanj = new ArrayList<>();
+        lSrpanj = new ArrayList<>();
+        lKolovoz = new ArrayList<>();
+        lRujan = new ArrayList<>();
+        lListopad = new ArrayList<>();
+        lStudeni = new ArrayList<>();
+        lProsinac = new ArrayList<>();
+
         Query breedQuery = dbRefPasmina.orderByChild("naziv").equalTo(chosenBreed);
-        breedQuery.addValueEventListener(new ValueEventListener() {
+        breedQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<BarEntry> dataVals = new ArrayList<>();
-                lTime = new ArrayList<>();
 
                 if(snapshot.hasChildren()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                         Breed breed = dataSnapshot.getValue(Breed.class);
                         assert breed != null;
-                        float y=Float.parseFloat(breed.getBroj_zivotinja());
                         String pasminaId = breed.getSifra();
 
                         Query animalBreedQuery = dbRefZivotinjaPasmina.orderByChild("pasmina").equalTo(pasminaId);
-                        animalBreedQuery.addValueEventListener(new ValueEventListener() {
+                        animalBreedQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
@@ -157,7 +177,7 @@ public class GraphBreedTimeActivity extends AppCompatActivity {
                                     String zivotinjaId = animal_breed.getZivotinja();
 
                                     Query animalTimeQuery = dbRefZivotinjaVrijeme.orderByChild("zivotinja").equalTo(zivotinjaId);
-                                    animalTimeQuery.addValueEventListener(new ValueEventListener() {
+                                    animalTimeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
@@ -166,7 +186,7 @@ public class GraphBreedTimeActivity extends AppCompatActivity {
                                                 String mjesecId = animal_time.getMjesec();
 
                                                 Query timeQuery = dbRefVrijeme.orderByChild("sifra").equalTo(mjesecId);
-                                                timeQuery.addValueEventListener(new ValueEventListener() {
+                                                timeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                         for(DataSnapshot dataSnapshot3 : snapshot.getChildren()){
@@ -174,69 +194,67 @@ public class GraphBreedTimeActivity extends AppCompatActivity {
                                                             lTime.add(time);
 
                                                             assert time != null;
-                                                            float x=Float.parseFloat(time.getSifra());
-                                                            
                                                             int monthNum = Integer.parseInt(time.getSifra());
 
                                                             switch(monthNum){
                                                                 case 1:
-                                                                    ArrayList<Time> lSijecanj = new ArrayList<>();
                                                                     lSijecanj.add(time);
                                                                     dataVals.add(new BarEntry(1, lSijecanj.size()));
+                                                                    Log.d("MJ1", String.valueOf(lSijecanj.size()));
                                                                 case 2:
-                                                                    ArrayList<Time> lVeljaca = new ArrayList<>();
                                                                     lVeljaca.add(time);
                                                                     dataVals.add(new BarEntry(2, lVeljaca.size()));
+                                                                    Log.d("MJ2", String.valueOf(lVeljaca.size()));
                                                                     break;
                                                                 case 3:
-                                                                    ArrayList<Time> lOzujak = new ArrayList<>();
                                                                     lOzujak.add(time);
                                                                     dataVals.add(new BarEntry(3, lOzujak.size()));
+                                                                    Log.d("MJ3", String.valueOf(lOzujak.size()));
                                                                     break;
                                                                 case 4:
-                                                                    ArrayList<Time> lTravanj = new ArrayList<>();
                                                                     lTravanj.add(time);
                                                                     dataVals.add(new BarEntry(4, lTravanj.size()));
+                                                                    Log.d("MJ4", String.valueOf(lTravanj.size()));
                                                                     break;
                                                                 case 5:
-                                                                    ArrayList<Time> lSvibanj = new ArrayList<>();
                                                                     lSvibanj.add(time);
                                                                     dataVals.add(new BarEntry(5, lSvibanj.size()));
+                                                                    Log.d("MJ5", String.valueOf(lSvibanj.size()));
                                                                     break;
                                                                 case 6:
-                                                                    ArrayList<Time> lLipanj = new ArrayList<>();
                                                                     lLipanj.add(time);
                                                                     dataVals.add(new BarEntry(6, lLipanj.size()));
+                                                                    Log.d("MJ6", String.valueOf(lLipanj.size()));
                                                                     break;
                                                                 case 7:
-                                                                    ArrayList<Time> lSrpanj = new ArrayList<>();
                                                                     lSrpanj.add(time);
                                                                     dataVals.add(new BarEntry(7, lSrpanj.size()));
+                                                                    Log.d("MJ7", String.valueOf(lSrpanj.size()));
                                                                     break;
                                                                 case 8:
-                                                                    ArrayList<Time> lKolovoz = new ArrayList<>();
                                                                     lKolovoz.add(time);
                                                                     dataVals.add(new BarEntry(8, lKolovoz.size()));
+                                                                    Log.d("MJ8", String.valueOf(lKolovoz.size()));
                                                                     break;
                                                                 case 9:
-                                                                    ArrayList<Time> lRujan = new ArrayList<>();
                                                                     lRujan.add(time);
                                                                     dataVals.add(new BarEntry(9, lRujan.size()));
+                                                                    Log.d("MJ9", String.valueOf(lRujan.size()));
                                                                     break;
                                                                 case 10:
-                                                                    ArrayList<Time> lListopad = new ArrayList<>();
                                                                     lListopad.add(time);
                                                                     dataVals.add(new BarEntry(10, lListopad.size()));
+                                                                    Log.d("MJ10", String.valueOf(lListopad.size()));
                                                                     break;
                                                                 case 11:
-                                                                    ArrayList<Time> lStudeni = new ArrayList<>();
                                                                     lStudeni.add(time);
                                                                     dataVals.add(new BarEntry(11, lStudeni.size()));
+                                                                    Log.d("MJ11", String.valueOf(lStudeni.size()));
                                                                     break;
                                                                 case 12:
-                                                                    ArrayList<Time> lProsinac = new ArrayList<>();
                                                                     lProsinac.add(time);
                                                                     dataVals.add(new BarEntry(12, lProsinac.size()));
+                                                                    Log.d("MJ12", String.valueOf(lProsinac.size()));
                                                                     break;
                                                             }
                                                         }
@@ -280,6 +298,9 @@ public class GraphBreedTimeActivity extends AppCompatActivity {
 
     private void showChart(ArrayList<BarEntry> dataVals) {
         barDataSet = new BarDataSet(dataVals, "Broj životinja odabrane pasmine po mjesecima");
+        lBarDataSets.clear();
+        lBarDataSets.add(barDataSet);
+        barDataSet.notifyDataSetChanged();
         barDataSet.setColor(Color.RED);
         ValueFormatter vf = new ValueFormatter() { //value format here, here is the overridden method
             @Override
@@ -296,7 +317,8 @@ public class GraphBreedTimeActivity extends AppCompatActivity {
         xAxis.setGranularityEnabled(true);
         xAxis.setLabelRotationAngle(-30f);
 
-        barData = new BarData(barDataSet);
+        barData = new BarData(lBarDataSets);
+        barData.notifyDataChanged();
         barData.setBarWidth(0.85f);
 
         barChart.getDescription().setEnabled(false);

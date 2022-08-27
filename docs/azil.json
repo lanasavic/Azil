@@ -353,12 +353,12 @@
   "vrsta":{
     "1":{
       "sifra":"1",
-      "naziv":"pas",
+      "naziv":"Pas",
       "broj_zivotinja":"18"
     },
     "2":{
       "sifra":"2",
-      "naziv":"mačka",
+      "naziv":"Mačka",
       "broj_zivotinja":"0"
     }
   },
@@ -497,21 +497,26 @@
     },
     "8":{
       "sifra":"8",
-      "naziv":"Njemački ovčar",
-      "broj_zivotinja":"2"
+      "naziv":"Mješanac",
+      "broj_zivotinja":"0"
     },
     "9":{
       "sifra":"9",
-      "naziv":"Pekinezer",
+      "naziv":"Njemački ovčar",
       "broj_zivotinja":"2"
     },
     "10":{
       "sifra":"10",
-      "naziv":"Zlatni retriver",
-      "broj_zivotinja":"1"
+      "naziv":"Pekinezer",
+      "broj_zivotinja":"2"
     },
     "11":{
       "sifra":"11",
+      "naziv":"Zlatni retriver",
+      "broj_zivotinja":"1"
+    },
+    "12":{
+      "sifra":"12",
       "naziv":"Patuljasti pinč",
       "broj_zivotinja":"1"
     }
@@ -530,7 +535,7 @@
     "3":{
       "id":"3",
       "zivotinja":"2",
-      "pasmina":"11"
+      "pasmina":"12"
     },
     "4":{
       "id":"4",
@@ -555,7 +560,7 @@
     "8":{
       "id":"8",
       "zivotinja":"7",
-      "pasmina":"10"
+      "pasmina":"11"
     },
     "9":{
       "id":"9",
@@ -565,12 +570,12 @@
     "10":{
       "id":"10",
       "zivotinja":"9",
-      "pasmina":"8"
+      "pasmina":"9"
     },
     "11":{
       "id":"11",
       "zivotinja":"10",
-      "pasmina":"9"
+      "pasmina":"10"
     },
     "12":{
       "id":"12",
@@ -590,12 +595,12 @@
     "15":{
       "id":"15",
       "zivotinja":"14",
-      "pasmina":"8"
+      "pasmina":"9"
     },
     "16":{
       "id":"16",
       "zivotinja":"15",
-      "pasmina":"9"
+      "pasmina":"10"
     },
     "17":{
       "id":"17",
@@ -669,12 +674,12 @@
     "4":{
       "id":"4",
       "zivotinja":"3",
-      "lokacija":"2"
+      "lokacija":"1"
     },
     "5":{
       "id":"5",
       "zivotinja":"4",
-      "lokacija":"5"
+      "lokacija":"6"
     },
     "6":{
       "id":"6",
@@ -684,27 +689,27 @@
     "7":{
       "id":"7",
       "zivotinja":"6",
-      "lokacija":"1"
+      "lokacija":"4"
     },
     "8":{
       "id":"8",
       "zivotinja":"7",
-      "lokacija":"3"
+      "lokacija":"1"
     },
     "9":{
       "id":"9",
       "zivotinja":"8",
-      "lokacija":"2"
+      "lokacija":"6"
     },
     "10":{
       "id":"10",
       "zivotinja":"9",
-      "lokacija":"1"
+      "lokacija":"7"
     },
     "11":{
       "id":"11",
       "zivotinja":"10",
-      "lokacija":"1"
+      "lokacija":"7"
     },
     "12":{
       "id":"12",
@@ -714,22 +719,22 @@
     "13":{
       "id":"13",
       "zivotinja":"12",
-      "lokacija":"1"
+      "lokacija":"7"
     },
     "14":{
       "id":"14",
       "zivotinja":"13",
-      "lokacija":"1"
+      "lokacija":"7"
     },
     "15":{
       "id":"15",
       "zivotinja":"14",
-      "lokacija":"6"
+      "lokacija":"5"
     },
     "16":{
       "id":"16",
       "zivotinja":"15",
-      "lokacija":"6"
+      "lokacija":"1"
     },
     "17":{
       "id":"17",
@@ -744,7 +749,7 @@
     "19":{
       "id":"19",
       "zivotinja":"18",
-      "lokacija":"7"
+      "lokacija":"1"
     }
   },
   "vrijeme":{

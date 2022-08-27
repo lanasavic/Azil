@@ -8,117 +8,198 @@
     android:background="#E8CDC2B9"
     tools:context=".Activities.AddAnimalActivity">
 
-  <Button
-      android:id="@+id/btnCancel"
-      android:layout_width="wrap_content"
-      android:layout_height="55dp"
-      android:layout_marginTop="24dp"
-      android:layout_marginStart="24dp"
-      android:text="@string/btnCancel"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:text="@string/btnCancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-  <Button
-      android:id="@+id/btnSave"
-      android:layout_width="100dp"
-      android:layout_height="55dp"
-      android:layout_marginTop="24dp"
-      android:layout_marginEnd="24dp"
-      android:backgroundTint="#37B400"
-      android:text="@string/btnSave"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
-  <LinearLayout
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      android:layout_marginStart="4dp"
-      android:layout_marginTop="8dp"
-      android:layout_marginEnd="4dp"
-      android:layout_marginBottom="8dp"
-      android:orientation="vertical"
-      android:background="@drawable/layout_bg"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/btnCancel">
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#37B400"
+        android:text="@string/btnSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linearDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="7dp"
-        android:orientation="vertical">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        android:background="@drawable/layout_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCancel">
 
-      <FrameLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center">
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:orientation="vertical"
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
-            android:id="@+id/imgZivotinja"
-            android:scaleType="fitXY"
-            android:adjustViewBounds="true"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@mipmap/ic_paw_foreground"/>
-      </FrameLayout>
-
-      <Button
-          android:id="@+id/btnAddImg"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:layout_marginBottom="10dp"
-          android:text="@string/btnAddImg"/>
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/helper_Ime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="10dp"
-            android:text="@string/helper_ime"
-            android:textColor="#222222"
-            android:textSize="17sp" />
-
-        <EditText
-            android:id="@+id/etIme"
+        <LinearLayout
+            android:id="@+id/linearDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#222222"
-            android:textSize="17sp" />
-      </LinearLayout>
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="vertical">
 
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="5dp"
-          android:orientation="horizontal">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
 
-        <TextView
-            android:id="@+id/helper_Opis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="10dp"
-            android:text="@string/helper_opis"
-            android:textColor="#222222"
-            android:textSize="17sp" />
+                <ImageView
+                    android:id="@+id/imgZivotinja"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@mipmap/ic_paw_foreground"/>
+            </FrameLayout>
 
-        <EditText
-            android:id="@+id/etOpis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#222222"
-            android:textSize="17sp" />
-      </LinearLayout>
+            <Button
+                android:id="@+id/btnAddImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:text="@string/btnAddImg"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etIme"
+                    android:hint="@string/helper_ime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#222222"
+                    android:textColorHint="#515151"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etOpis"
+                    android:hint="@string/helper_opis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#222222"
+                    android:textColorHint="#515151"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dropdownSpecies"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@drawable/shape_edittext"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:hint="@string/helper_odaberiVrstu"
+                    android:paddingStart="5dp"
+                    android:textColorHint="#5C5C5C" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dropdownBreed"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@drawable/shape_edittext"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:hint="@string/helper_odaberiPasminu"
+                    android:paddingStart="5dp"
+                    android:textColorHint="#5C5C5C" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dropdownLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@drawable/shape_edittext"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:hint="@string/helper_odaberiLokaciju"
+                    android:paddingStart="5dp"
+                    android:textColorHint="#5C5C5C" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/dropdownTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@drawable/shape_edittext"
+                    android:drawableEnd="@drawable/ic_dropdown"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:hint="@string/helper_odaberiMjesec"
+                    android:paddingStart="5dp"
+                    android:textColorHint="#5C5C5C" />
+            </LinearLayout>
+        </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-  </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

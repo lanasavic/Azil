@@ -6,71 +6,115 @@
     android:padding="10dp"
     android:layout_centerVertical="true"
     android:background="@drawable/textlines"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:scaleType="fitXY"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/imgZivotinja"
-            app:srcCompat="@mipmap/ic_paw"
-            android:layout_marginEnd="5dp" />
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:scaleType="fitXY"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/imgZivotinja"
+                app:srcCompat="@mipmap/ic_paw"
+                android:layout_marginEnd="5dp" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvImeZivotinje"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:layout_toStartOf="@id/imageButtonEdit"
+                android:text="@string/holder_Ime"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPasminaZivotinje"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvImeZivotinje"
+                android:gravity="center"
+                android:layout_toStartOf="@id/imageButtonEdit"
+                android:text="@string/holder_Pasmina"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvLokacijaZivotinje"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvPasminaZivotinje"
+                android:gravity="center"
+                android:layout_toStartOf="@id/imageButtonEdit"
+                android:text="@string/holder_Lokacija"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tvMjesecZivotinje"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvLokacijaZivotinje"
+                android:layout_toStartOf="@id/imageButtonEdit"
+                android:gravity="center"
+                android:text="@string/holder_Mjesec"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <ImageButton
+                android:id="@+id/imageButtonEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="@android:color/transparent"
+                android:onClick="imageButtonEdit"
+                android:src="@drawable/ic_edit_black" />
+
+            <ImageButton
+                android:id="@+id/imageButtonDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageButtonEdit"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_delete_red" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvImeZivotinje"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@id/imageButtonEdit"
-            android:gravity="center"
-            android:text="@string/holder_Ime"
-            android:textSize="18sp" />
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tvOpisZivotinje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvImeZivotinje"
-            android:layout_toStartOf="@id/imageButtonEdit"
-            android:padding="5dp"
+            android:layout_toStartOf="@id/animalWarning"
             android:gravity="center_horizontal|center|center_vertical"
+            android:padding="5dp"
             android:text="@string/holder_Opis" />
-
-        <ImageButton
-            android:id="@+id/imageButtonEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:backgroundTint="@android:color/transparent"
-            android:onClick="imageButtonEdit"
-            android:src="@drawable/ic_edit_black" />
-
-        <ImageButton
-            android:id="@+id/imageButtonDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/imageButtonEdit"
-            android:layout_alignParentEnd="true"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/ic_delete_red" />
 
         <ImageView
             android:id="@+id/animalWarning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imageButtonDelete"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:src="@drawable/ic_warning"
             app:tint="@color/red" />
     </RelativeLayout>

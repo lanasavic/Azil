@@ -65,6 +65,10 @@
     <string name="helper_odaberiPasminu">Odaberite pasminu</string>
     <string name="helper_odaberiLokaciju">Odaberite lokaciju</string>
     <string name="helper_odaberiMjesec">Odaberite mjesec</string>
+    <string name="helper_vrsta">Vrsta: </string>
+    <string name="helper_pasmina">Pasmina: </string>
+    <string name="helper_lokacija">Lokacija: </string>
+    <string name="helper_mjesec">Mjesec: </string>
 
     <string name="holder_Naziv">_Naziv skloništa_</string>
     <string name="holder_Adresa">_Adresa_</string>
@@ -74,6 +78,9 @@
     <string name="holder_DostupnihMjesta">_Broj dostupnih mjesta_</string>
     <string name="holder_Kontakt">_Kontakt/admin email_</string>
     <string name="holder_Ime">_Ime životinje_</string>
+    <string name="holder_Pasmina">_Pasmina životinje_</string>
+    <string name="holder_Lokacija">_Lokacija životinje_</string>
+    <string name="holder_Mjesec">_Mjesec pronalaska životinje_</string>
     <string name="holder_Opis">_Opis životinje_</string>
     <string name="holder_Skloniste">_Skloniste_</string>
     <string name="holder_OpisDonacije">_Opis donacije_</string>

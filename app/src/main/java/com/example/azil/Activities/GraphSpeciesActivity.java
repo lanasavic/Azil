@@ -125,7 +125,6 @@ public class GraphSpeciesActivity extends AppCompatActivity {
 
     private void showChart(ArrayList<BarEntry> dataVals) {
         barDataSet = new BarDataSet(dataVals, "Broj životinja po vrstama");
-        Log.d("TAG", dataVals.toString());
         barDataSet.setColor(Color.RED);
         ValueFormatter vf = new ValueFormatter() { //value format here, here is the overridden method
             @Override

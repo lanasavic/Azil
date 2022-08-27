@@ -132,7 +132,7 @@ public class GraphBreedActivity extends AppCompatActivity {
         };
         barDataSet.setValueFormatter(vf);
 
-        String[] breeds = new String[]{"", "Bernski planinski pas", "Jack Russel terijer", "Jazavčar", "Jorkširski terijer", "Koker španijel", "Labrador retriver", "Maltezer", "Njemački ovčar", "Pekinezer", "Zlatni retriver", "Patuljasti pinč"};
+        String[] breeds = new String[]{"", "Bernski planinski pas", "Jack Russel terijer", "Jazavčar", "Jorkširski terijer", "Koker španijel", "Labrador retriver", "Maltezer", "Mješanac", "Njemački ovčar", "Pekinezer", "Zlatni retriver", "Patuljasti pinč"};
         xAxis.setValueFormatter(new IndexAxisValueFormatter(breeds));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1);
