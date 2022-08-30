@@ -52,10 +52,12 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
     private AnimalItemFragmentBinding binding;
     Intent intent;
     ProgressDialog progressDialog;
-    DatabaseReference dbRefSklonisteZivotinja, dbRefZivotinja, dbRefSkloniste,
+    DatabaseReference dbRefSklonisteZivotinja, dbRefZivotinja, dbRefSkloniste, dbRefVrsta, dbRefZivotinjaVrsta,
             dbRefPasmina, dbRefZivotinjaPasmina, dbRefLokacija, dbRefZivotinjaLokacija, dbRefVrijeme, dbRefZivotinjaVrijeme;
-    String key, pasminaId, lokacijaId, mjesecId, pasminaNaziv, lokacijaNaziv, mjesecNaziv;
+    String key, pasminaId, lokacijaId, mjesecId, pasminaNaziv, lokacijaNaziv, mjesecNaziv, newBrZivotinja,
+    animalSpeciesKey, animalBreedKey, animalLocationKey, animalTimeKey, speciesId, breedId, locationId, monthId;
     public AdminAnimalsFilter adminAnimalsFilter;
+    private Integer currentBrZivotinja;
 
     public AdminAnimalsAdapter(Context context, ArrayList<Animal> lAnimals) {
         this.context = context;
@@ -119,9 +121,15 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
             Log.d("test", "Except "+e);
         }
 
+        //DATABASE REFERENCES
+        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
+        //dbRefSkloniste = FirebaseDatabase.getInstance().getReference("skloniste");
+        dbRefSklonisteZivotinja = FirebaseDatabase.getInstance().getReference("skloniste_zivotinja");
+        dbRefVrsta = FirebaseDatabase.getInstance().getReference("vrsta");
         dbRefPasmina = FirebaseDatabase.getInstance().getReference("pasmina");
         dbRefLokacija = FirebaseDatabase.getInstance().getReference("lokacija");
         dbRefVrijeme = FirebaseDatabase.getInstance().getReference("vrijeme");
+        dbRefZivotinjaVrsta = FirebaseDatabase.getInstance().getReference("zivotinja_vrsta");
         dbRefZivotinjaPasmina = FirebaseDatabase.getInstance().getReference("zivotinja_pasmina");
         dbRefZivotinjaLokacija = FirebaseDatabase.getInstance().getReference("zivotinja_lokacija");
         dbRefZivotinjaVrijeme = FirebaseDatabase.getInstance().getReference("zivotinja_vrijeme");
@@ -238,6 +246,7 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
         progressDialog.setMessage("Brisanje u tijeku...");
         progressDialog.show();
 
+        //TODO: missing handler for nonexistent image url
         StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(slikaUrl);
         storageReference.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -245,13 +254,11 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
                     public void onSuccess(Void unused) {
                         Log.d("Success", "Deleted from storage");
 
-                        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
                         dbRefZivotinja.child(zivotinjaSifra).removeValue();
                         progressDialog.dismiss();
                         Toast.makeText(context, "Uspješno obrisano!", Toast.LENGTH_SHORT).show();
                         Log.d("Success", "Deleted from database");
 
-                        dbRefSklonisteZivotinja = FirebaseDatabase.getInstance().getReference("skloniste_zivotinja");
                         Query deleteShelterAnimal = dbRefSklonisteZivotinja.orderByChild("zivotinja").equalTo(zivotinjaSifra);
                         deleteShelterAnimal.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -293,6 +300,50 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                                 progressDialog.dismiss();
+                                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        //TODO: find animal species location time, -1 to all of em
+                        Query findAnimalQuery = dbRefZivotinjaPasmina.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    Animal_Breed animal_breed = dataSnapshot.getValue(Animal_Breed.class);
+                                    assert animal_breed != null;
+                                    animalBreedKey = dataSnapshot.getKey();
+                                    breedId = animal_breed.getPasmina();
+                                    assert animalBreedKey != null;
+
+                                    Query findBreedQuery = dbRefPasmina.orderByChild("sifra").equalTo(breedId);
+                                    findBreedQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                                Breed breed = dataSnapshot1.getValue(Breed.class);
+                                                assert breed != null;
+                                                String breedBrZivotinja = breed.getBroj_zivotinja();
+
+                                                currentBrZivotinja = Integer.parseInt(breedBrZivotinja);
+                                                newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                                                dbRefPasmina.child(breedId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                                                dbRefZivotinjaPasmina.child(animalBreedKey).removeValue();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
                                 Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
                             }
                         });

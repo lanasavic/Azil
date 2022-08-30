@@ -58,7 +58,9 @@ public class EditAnimalActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     DatabaseReference dbRefZivotinja, dbRefVrsta, dbRefZivotinjaVrsta, dbRefPasmina, dbRefZivotinjaPasmina,
             dbRefLokacija, dbRefZivotinjaLokacija, dbRefVrijeme, dbRefZivotinjaVrijeme;
-    private String zivotinjaSifra, pasminaId, lokacijaId, mjesecId, pasminaNaziv, lokacijaNaziv, mjesecNaziv;
+    private String zivotinjaSifra, pasminaId, lokacijaId, mjesecId, pasminaNaziv, lokacijaNaziv, mjesecNaziv,
+            breedId, newBreedId, locationId, newLocationId, monthId, newMonthId, newBrZivotinja, currentVrsta, currentPasmina, currentLokacija, currentMjesec, animalKey;
+    private Integer currentBrZivotinja;
     Intent intent;
     private ArrayList<Species> speciesArrayList;
     private ArrayList<Breed> breedArrayList;
@@ -80,6 +82,17 @@ public class EditAnimalActivity extends AppCompatActivity {
         lokacijaNaziv = getIntent().getStringExtra("lokacijaNaziv");
         mjesecId = getIntent().getStringExtra("mjesecId");
         mjesecNaziv = getIntent().getStringExtra("mjesecNaziv");
+
+        //DATABASE REFERENCES
+        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
+        dbRefVrsta = FirebaseDatabase.getInstance().getReference("vrsta");
+        dbRefPasmina = FirebaseDatabase.getInstance().getReference("pasmina");
+        dbRefLokacija = FirebaseDatabase.getInstance().getReference("lokacija");
+        dbRefVrijeme = FirebaseDatabase.getInstance().getReference("vrijeme");
+        dbRefZivotinjaVrsta = FirebaseDatabase.getInstance().getReference("zivotinja_vrsta");
+        dbRefZivotinjaPasmina = FirebaseDatabase.getInstance().getReference("zivotinja_pasmina");
+        dbRefZivotinjaLokacija = FirebaseDatabase.getInstance().getReference("zivotinja_lokacija");
+        dbRefZivotinjaVrijeme = FirebaseDatabase.getInstance().getReference("zivotinja_vrijeme");
 
         loadAnimalInfo();
 
@@ -140,7 +153,6 @@ public class EditAnimalActivity extends AppCompatActivity {
     /*private void loadSpecies() {
         speciesArrayList = new ArrayList<>();
 
-        dbRefVrsta = FirebaseDatabase.getInstance().getReference("vrsta");
         dbRefVrsta.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -179,7 +191,6 @@ public class EditAnimalActivity extends AppCompatActivity {
     private void loadBreeds() {
         breedArrayList = new ArrayList<>();
 
-        dbRefPasmina = FirebaseDatabase.getInstance().getReference("pasmina");
         dbRefPasmina.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -218,7 +229,6 @@ public class EditAnimalActivity extends AppCompatActivity {
     private void loadLocations() {
         locationArrayList = new ArrayList<>();
 
-        dbRefLokacija = FirebaseDatabase.getInstance().getReference("lokacija");
         dbRefLokacija.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -257,7 +267,6 @@ public class EditAnimalActivity extends AppCompatActivity {
     private void loadMonths() {
         timeArrayList = new ArrayList<>();
 
-        dbRefVrijeme = FirebaseDatabase.getInstance().getReference("vrijeme");
         dbRefVrijeme.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -294,7 +303,6 @@ public class EditAnimalActivity extends AppCompatActivity {
     }
 
     private void loadAnimalInfo() {
-        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
         dbRefZivotinja.child(zivotinjaSifra).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -313,15 +321,6 @@ public class EditAnimalActivity extends AppCompatActivity {
             }
         });
 
-        dbRefVrsta = FirebaseDatabase.getInstance().getReference("vrsta");
-        dbRefPasmina = FirebaseDatabase.getInstance().getReference("pasmina");
-        dbRefLokacija = FirebaseDatabase.getInstance().getReference("lokacija");
-        dbRefVrijeme = FirebaseDatabase.getInstance().getReference("vrijeme");
-        dbRefZivotinjaVrsta = FirebaseDatabase.getInstance().getReference("zivotinja_vrsta");
-        dbRefZivotinjaPasmina = FirebaseDatabase.getInstance().getReference("zivotinja_pasmina");
-        dbRefZivotinjaLokacija = FirebaseDatabase.getInstance().getReference("zivotinja_lokacija");
-        dbRefZivotinjaVrijeme = FirebaseDatabase.getInstance().getReference("zivotinja_vrijeme");
-
         Query animalSpeciesQuery = dbRefZivotinjaVrsta.orderByChild("zivotinja").equalTo(zivotinjaSifra);
         animalSpeciesQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -338,8 +337,8 @@ public class EditAnimalActivity extends AppCompatActivity {
                             for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
                                 Species species = dataSnapshot2.getValue(Species.class);
                                 assert species != null;
-                                String vrsta = species.getNaziv();
-                                binding.dropdownSpecies.setText(vrsta);
+                                currentVrsta = species.getNaziv();
+                                binding.dropdownSpecies.setText(currentVrsta);
                                 binding.dropdownSpecies.setFocusable(false);
                                 binding.dropdownSpecies.setEnabled(false);
                                 binding.dropdownSpecies.setTextColor(Color.GRAY);
@@ -374,8 +373,8 @@ public class EditAnimalActivity extends AppCompatActivity {
                             for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
                                 Breed breed = dataSnapshot2.getValue(Breed.class);
                                 assert breed != null;
-                                String pasmina = breed.getNaziv();
-                                binding.dropdownBreed.setText(pasmina);
+                                currentPasmina = breed.getNaziv();
+                                binding.dropdownBreed.setText(currentPasmina);
                             }
                         }
                         @Override
@@ -407,8 +406,8 @@ public class EditAnimalActivity extends AppCompatActivity {
                             for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
                                 Location location = dataSnapshot2.getValue(Location.class);
                                 assert location != null;
-                                String lokacija = location.getNaziv();
-                                binding.dropdownLocation.setText(lokacija);
+                                currentLokacija = location.getNaziv();
+                                binding.dropdownLocation.setText(currentLokacija);
                             }
                         }
                         @Override
@@ -440,8 +439,8 @@ public class EditAnimalActivity extends AppCompatActivity {
                             for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
                                 Time time = dataSnapshot2.getValue(Time.class);
                                 assert time != null;
-                                String mjesec = time.getMjesec();
-                                binding.dropdownTime.setText(mjesec);
+                                currentMjesec = time.getMjesec();
+                                binding.dropdownTime.setText(currentMjesec);
                             }
                         }
                         @Override
@@ -458,14 +457,14 @@ public class EditAnimalActivity extends AppCompatActivity {
         });
     }
 
-    private String ime = "", opis = "", vrsta = "", pasmina = "", lokacija = "", vrijeme = "";
+    private String ime = "", opis = "", vrsta = "", newPasmina = "", newLokacija = "", newMjesec = "";
     private void validateInputs() {
         ime = binding.etIme.getText().toString().trim();
         opis = binding.etOpis.getText().toString().trim();
         vrsta = binding.dropdownSpecies.getText().toString().trim();
-        pasmina = binding.dropdownBreed.getText().toString().trim();
-        lokacija = binding.dropdownLocation.getText().toString().trim();
-        vrijeme = binding.dropdownTime.getText().toString().trim();
+        newPasmina = binding.dropdownBreed.getText().toString().trim();
+        newLokacija = binding.dropdownLocation.getText().toString().trim();
+        newMjesec = binding.dropdownTime.getText().toString().trim();
 
         if(TextUtils.isEmpty(ime)){
             Toast.makeText(getApplicationContext(), "Unesite novo ime", Toast.LENGTH_SHORT).show();
@@ -476,13 +475,13 @@ public class EditAnimalActivity extends AppCompatActivity {
         else if(TextUtils.isEmpty(vrsta)){
             Toast.makeText(getApplicationContext(), "Odaberite vrstu", Toast.LENGTH_SHORT).show();
         }
-        else if(TextUtils.isEmpty(pasmina)){
+        else if(TextUtils.isEmpty(newPasmina)){
             Toast.makeText(getApplicationContext(), "Odaberite pasminu", Toast.LENGTH_SHORT).show();
         }
-        else if(TextUtils.isEmpty(lokacija)){
+        else if(TextUtils.isEmpty(newLokacija)){
             Toast.makeText(getApplicationContext(), "Odaberite lokaciju pronalaska", Toast.LENGTH_SHORT).show();
         }
-        else if(TextUtils.isEmpty(vrijeme)){
+        else if(TextUtils.isEmpty(newMjesec)){
             Toast.makeText(getApplicationContext(), "Odaberite vrijeme pronalaska", Toast.LENGTH_SHORT).show();
         }
         else{
@@ -503,16 +502,6 @@ public class EditAnimalActivity extends AppCompatActivity {
         hashMap.put("ime", ""+ime);
         hashMap.put("opis", ""+opis);
 
-        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
-        dbRefVrsta = FirebaseDatabase.getInstance().getReference("vrsta");
-        dbRefPasmina = FirebaseDatabase.getInstance().getReference("pasmina");
-        dbRefLokacija = FirebaseDatabase.getInstance().getReference("lokacija");
-        dbRefVrijeme = FirebaseDatabase.getInstance().getReference("vrijeme");
-        dbRefZivotinjaVrsta = FirebaseDatabase.getInstance().getReference("zivotinja_vrsta");
-        dbRefZivotinjaPasmina = FirebaseDatabase.getInstance().getReference("zivotinja_pasmina");
-        dbRefZivotinjaLokacija = FirebaseDatabase.getInstance().getReference("zivotinja_lokacija");
-        dbRefZivotinjaVrijeme = FirebaseDatabase.getInstance().getReference("zivotinja_vrijeme");
-
         dbRefZivotinja.child(zivotinjaSifra).updateChildren(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -531,8 +520,209 @@ public class EditAnimalActivity extends AppCompatActivity {
                     }
                 });
 
-        //TODO: update pasmina-br_zivotinja if pasminaNaziv != pasmina, same for lokacija and mjesec;
-        // zivotinja_pasmina,zivotinja_lokacija,zivotinja_vrijeme change pasmina, lokacija, vrijeme if necessary
+        if(!currentPasmina.equals(newPasmina)){
+            Query breedSubtractionQuery = dbRefPasmina.orderByChild("naziv").equalTo(currentPasmina);
+            breedSubtractionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Breed breed = dataSnapshot1.getValue(Breed.class);
+                        assert breed != null;
+                        String breedBrZivotinja = breed.getBroj_zivotinja();
+                        breedId = breed.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(breedBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                        dbRefPasmina.child(breedId).child("broj_zivotinja").setValue(newBrZivotinja);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Query breedAdditionQuery = dbRefPasmina.orderByChild("naziv").equalTo(newPasmina);
+            breedAdditionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Breed breed = dataSnapshot1.getValue(Breed.class);
+                        assert breed != null;
+                        String breedBrZivotinja = breed.getBroj_zivotinja();
+                        newBreedId = breed.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(breedBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja+1);
+
+                        dbRefPasmina.child(newBreedId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                        Query findAnimalQuery = dbRefZivotinjaPasmina.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                    Animal_Breed animal_breed = dataSnapshot2.getValue(Animal_Breed.class);
+                                    assert animal_breed != null;
+                                    animalKey = dataSnapshot2.getKey();
+
+                                    assert animalKey != null;
+                                    dbRefZivotinjaPasmina.child(animalKey).child("pasmina").setValue(newBreedId);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        if(!currentLokacija.equals(newLokacija)){
+            Query locationSubtractionQuery = dbRefLokacija.orderByChild("naziv").equalTo(currentLokacija);
+            locationSubtractionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Location location = dataSnapshot1.getValue(Location.class);
+                        assert location != null;
+                        String locationBrZivotinja = location.getBroj_zivotinja();
+                        locationId = location.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(locationBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                        dbRefLokacija.child(locationId).child("broj_zivotinja").setValue(newBrZivotinja);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Query locationAdditionQuery = dbRefLokacija.orderByChild("naziv").equalTo(newLokacija);
+            locationAdditionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Location location = dataSnapshot1.getValue(Location.class);
+                        assert location != null;
+                        String locationBrZivotinja = location.getBroj_zivotinja();
+                        newLocationId = location.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(locationBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja+1);
+
+                        dbRefLokacija.child(newLocationId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                        Query findAnimalQuery = dbRefZivotinjaLokacija.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                    Animal_Location animal_location = dataSnapshot2.getValue(Animal_Location.class);
+                                    assert animal_location != null;
+                                    animalKey = dataSnapshot2.getKey();
+
+                                    assert animalKey != null;
+                                    dbRefZivotinjaLokacija.child(animalKey).child("lokacija").setValue(newLocationId);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        if(!currentMjesec.equals(newMjesec)){
+            Query monthSubtractionQuery = dbRefVrijeme.orderByChild("mjesec").equalTo(currentMjesec);
+            monthSubtractionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Time time = dataSnapshot1.getValue(Time.class);
+                        assert time != null;
+                        String monthBrZivotinja = time.getBroj_zivotinja();
+                        monthId = time.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(monthBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                        dbRefVrijeme.child(monthId).child("broj_zivotinja").setValue(newBrZivotinja);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Query monthAdditionQuery = dbRefVrijeme.orderByChild("mjesec").equalTo(newMjesec);
+            monthAdditionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Time time = dataSnapshot1.getValue(Time.class);
+                        assert time != null;
+                        String monthBrZivotinja = time.getBroj_zivotinja();
+                        newMonthId = time.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(monthBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja+1);
+
+                        dbRefVrijeme.child(newMonthId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                        Query findAnimalQuery = dbRefZivotinjaVrijeme.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                    Animal_Time animal_time = dataSnapshot2.getValue(Animal_Time.class);
+                                    assert animal_time != null;
+                                    animalKey = dataSnapshot2.getKey();
+
+                                    assert animalKey != null;
+                                    dbRefZivotinjaVrijeme.child(animalKey).child("mjesec").setValue(newMonthId);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void updateAnimalWithImage() {
@@ -570,7 +760,6 @@ public class EditAnimalActivity extends AppCompatActivity {
             hashMap.put("imgurl", ""+uploadedImgUrl);
         }
 
-        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
         dbRefZivotinja.child(zivotinjaSifra).updateChildren(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -588,6 +777,210 @@ public class EditAnimalActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Došlo je do pogreške", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        if(!currentPasmina.equals(newPasmina)){
+            Query breedSubtractionQuery = dbRefPasmina.orderByChild("naziv").equalTo(currentPasmina);
+            breedSubtractionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Breed breed = dataSnapshot1.getValue(Breed.class);
+                        assert breed != null;
+                        String breedBrZivotinja = breed.getBroj_zivotinja();
+                        breedId = breed.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(breedBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                        dbRefPasmina.child(breedId).child("broj_zivotinja").setValue(newBrZivotinja);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Query breedAdditionQuery = dbRefPasmina.orderByChild("naziv").equalTo(newPasmina);
+            breedAdditionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Breed breed = dataSnapshot1.getValue(Breed.class);
+                        assert breed != null;
+                        String breedBrZivotinja = breed.getBroj_zivotinja();
+                        newBreedId = breed.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(breedBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja+1);
+
+                        dbRefPasmina.child(newBreedId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                        Query findAnimalQuery = dbRefZivotinjaPasmina.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                    Animal_Breed animal_breed = dataSnapshot2.getValue(Animal_Breed.class);
+                                    assert animal_breed != null;
+                                    animalKey = dataSnapshot2.getKey();
+
+                                    assert animalKey != null;
+                                    dbRefZivotinjaPasmina.child(animalKey).child("pasmina").setValue(newBreedId);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        if(!currentLokacija.equals(newLokacija)){
+            Query locationSubtractionQuery = dbRefLokacija.orderByChild("naziv").equalTo(currentLokacija);
+            locationSubtractionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Location location = dataSnapshot1.getValue(Location.class);
+                        assert location != null;
+                        String locationBrZivotinja = location.getBroj_zivotinja();
+                        locationId = location.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(locationBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                        dbRefLokacija.child(locationId).child("broj_zivotinja").setValue(newBrZivotinja);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Query locationAdditionQuery = dbRefLokacija.orderByChild("naziv").equalTo(newLokacija);
+            locationAdditionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Location location = dataSnapshot1.getValue(Location.class);
+                        assert location != null;
+                        String locationBrZivotinja = location.getBroj_zivotinja();
+                        newLocationId = location.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(locationBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja+1);
+
+                        dbRefLokacija.child(newLocationId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                        Query findAnimalQuery = dbRefZivotinjaLokacija.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                    Animal_Location animal_location = dataSnapshot2.getValue(Animal_Location.class);
+                                    assert animal_location != null;
+                                    animalKey = dataSnapshot2.getKey();
+
+                                    assert animalKey != null;
+                                    dbRefZivotinjaLokacija.child(animalKey).child("lokacija").setValue(newLocationId);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        if(!currentMjesec.equals(newMjesec)){
+            Query monthSubtractionQuery = dbRefVrijeme.orderByChild("mjesec").equalTo(currentMjesec);
+            monthSubtractionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Time time = dataSnapshot1.getValue(Time.class);
+                        assert time != null;
+                        String monthBrZivotinja = time.getBroj_zivotinja();
+                        monthId = time.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(monthBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                        dbRefVrijeme.child(monthId).child("broj_zivotinja").setValue(newBrZivotinja);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Query monthAdditionQuery = dbRefVrijeme.orderByChild("mjesec").equalTo(newMjesec);
+            monthAdditionQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        Time time = dataSnapshot1.getValue(Time.class);
+                        assert time != null;
+                        String monthBrZivotinja = time.getBroj_zivotinja();
+                        newMonthId = time.getSifra();
+
+                        currentBrZivotinja = Integer.parseInt(monthBrZivotinja);
+                        newBrZivotinja = String.valueOf(currentBrZivotinja+1);
+
+                        dbRefVrijeme.child(newMonthId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                        Query findAnimalQuery = dbRefZivotinjaVrijeme.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                    Animal_Time animal_time = dataSnapshot2.getValue(Animal_Time.class);
+                                    assert animal_time != null;
+                                    animalKey = dataSnapshot2.getKey();
+
+                                    assert animalKey != null;
+                                    dbRefZivotinjaVrijeme.child(animalKey).child("mjesec").setValue(newMonthId);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void addImageMenu() {
