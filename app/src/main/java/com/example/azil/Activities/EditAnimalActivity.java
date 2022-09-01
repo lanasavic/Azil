@@ -185,7 +185,7 @@ public class EditAnimalActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(650, 800);
+        //alertDialog.getWindow().setLayout(950, 1050);
     }*/
 
     private void loadBreeds() {
@@ -223,7 +223,7 @@ public class EditAnimalActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(650, 800);
+        alertDialog.getWindow().setLayout(950, 1050);
     }
 
     private void loadLocations() {
@@ -261,7 +261,7 @@ public class EditAnimalActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(650, 800);
+        alertDialog.getWindow().setLayout(950, 1050);
     }
 
     private void loadMonths() {
@@ -299,7 +299,7 @@ public class EditAnimalActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(650, 800);
+        alertDialog.getWindow().setLayout(950, 1050);
     }
 
     private void loadAnimalInfo() {

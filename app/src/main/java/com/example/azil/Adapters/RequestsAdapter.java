@@ -7,14 +7,25 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.azil.Filters.RequestsFilter;
+import com.example.azil.Models.Animal;
+import com.example.azil.Models.Animal_Request;
 import com.example.azil.Models.Request;
 import com.example.azil.databinding.RequestItemBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> implements Filterable {
@@ -22,6 +33,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     public ArrayList<Request> lRequests, requestsList;
     private RequestItemBinding binding;
     private RequestsFilter requestsFilter;
+    private String sZivotinja, formattedDate;
+    DatabaseReference dbRefZivotinjaZahtjev, dbRefZivotinja;
 
     public RequestsAdapter(Context context, ArrayList<Request> lRequests) {
         this.context = context;
@@ -53,7 +66,51 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         else{
             holder.komentar.setText("Komentar: "+komentar);
         }
-        holder.datum.setText("Datum slanja: "+datum);
+
+        SimpleDateFormat fromFirebase = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat wantedFormat = new SimpleDateFormat("dd.MM.yyyy.");
+        try {
+            formattedDate = wantedFormat.format(fromFirebase.parse(datum));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.datum.setText("Datum slanja: "+formattedDate);
+
+        dbRefZivotinjaZahtjev = FirebaseDatabase.getInstance().getReference("zivotinja_zahtjev");
+        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
+
+        String zahtjevId = request.getSifra();
+        Query animalRequestQuery = dbRefZivotinjaZahtjev.orderByChild("zahtjev").equalTo(zahtjevId);
+        animalRequestQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Animal_Request animal_request = dataSnapshot.getValue(Animal_Request.class);
+                    assert animal_request != null;
+                    sZivotinja = animal_request.getZivotinja();
+
+                    Query animalQuery = dbRefZivotinja.orderByChild("sifra").equalTo(sZivotinja);
+                    animalQuery.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                Animal animal = dataSnapshot1.getValue(Animal.class);
+                                assert animal != null;
+                                holder.zivotinja.setText("Odabrana životinja: "+animal.getIme());
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -70,7 +127,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView ime_prezime, email, komentar, datum;
+        TextView ime_prezime, email, komentar, datum, zivotinja;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,6 +136,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             email = binding.tvEmail;
             komentar = binding.tvKomentar;
             datum = binding.tvDatum;
+
+            zivotinja = binding.tvZivotinja;
         }
     }
 }

@@ -21,6 +21,7 @@
     <string name="btnEditImg">Promijeni sliku</string>
     <string name="btnReceivedDonations">Primljene donacije</string>
     <string name="btnRequests">Zahtjevi za udomljavanje</string>
+    <string name="btnStat">Statistika</string>
     <string name="btnGrafVrste">Vrste životinja</string>
     <string name="btnGrafPasmine">Pasmine</string>
     <string name="btnGrafLokacije">Lokacije pronalaska</string>
@@ -57,10 +58,11 @@
     <string name="helper_imePrezime">Ime i prezime: </string>
     <string name="helper_email">Email: </string>
     <string name="helper_komentar">Komentar: </string>
-    <string name="helper_komentarHelp">Npr. datum i vrijeme dolaska, opis svog izgleda,\nili nešto drugo!☺</string>
+    <string name="helper_komentarHelp">Npr. datum i vrijeme dolaska, tko će nam sve doći,\nili nešto drugo!☺</string>
     <string name="helper_deletionWarning">Brisanje skloništa je nepovratno!\nSvi podaci vezani uz sklonište, kao i vaš račun,
         bit će obrisani u potpunosti. Jeste li sigurni da želite nastaviti?</string>
-    <string name="helper_odaberigraf">Odaberite željeni prikaz grafa:</string>
+    <string name="helper_odaberigraf">GRAFOVI</string>
+    <string name="helper_odaberistat">STATISTIKA</string>
     <string name="helper_odaberiVrstu">Odaberite vrstu</string>
     <string name="helper_odaberiPasminu">Odaberite pasminu</string>
     <string name="helper_odaberiLokaciju">Odaberite lokaciju</string>
@@ -69,6 +71,11 @@
     <string name="helper_pasmina">Pasmina: </string>
     <string name="helper_lokacija">Lokacija: </string>
     <string name="helper_mjesec">Mjesec: </string>
+    <string name="helper_vremenski">Trenutni godišnji prosjek životinja u skloništima: </string>
+    <string name="helper_vrste">Omjer pasa i mačaka u skloništima: </string>
+    <string name="helper_lokacije">Srednja vrijednost broja životinja po lokacijama: </string>
+    <string name="helper_pasmine">Srednja vrijednost broja životinja po pasminama: </string>
+    <string name="helper_pasmineMod">Najčešći broj životinja u skloništima po pasminama: </string>
 
     <string name="holder_Naziv">_Naziv skloništa_</string>
     <string name="holder_Adresa">_Adresa_</string>
@@ -94,4 +101,9 @@
     <string name="holder_OdabranaZivotinja">%1$s vas čeka!\nDođite na našu adresu i upoznajte se.</string>
     <string name="holder_Rand">Molimo unesite podatke kako bismo bili spremni za vašu posjetu. Hvala!</string>
     <string name="holder_Optional">*Opcionalno</string>
+    <string name="holder_Naslov">Statistički prikaz podataka</string>
+    <string name="holder_Vremenski">_Godišnji prosjek_</string>
+    <string name="holder_Lokacije">_Lokacije_</string>
+    <string name="holder_Vrste">_Vrste omjer_</string>
+    <string name="holder_Pasmine">_Pasmine_</string>
 </resources>

@@ -49,7 +49,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class AddAnimalActivity extends AppCompatActivity {
     private ActivityAddAnimalBinding binding;
@@ -170,7 +169,7 @@ public class AddAnimalActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(650, 800);
+        //alertDialog.getWindow().setLayout(950, 1050);
     }
 
     private void loadBreeds() {
@@ -209,7 +208,7 @@ public class AddAnimalActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(650, 800);
+        alertDialog.getWindow().setLayout(950, 1050);
     }
 
     private void loadLocations() {
@@ -248,7 +247,7 @@ public class AddAnimalActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(650, 800);
+        alertDialog.getWindow().setLayout(950, 1050);
     }
 
     private void loadMonths() {
@@ -287,7 +286,7 @@ public class AddAnimalActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(650, 800);
+        alertDialog.getWindow().setLayout(950, 1050);
     }
 
     private String ime = "", opis = "", vrsta = "", pasmina = "", lokacija = "", vrijeme = "";

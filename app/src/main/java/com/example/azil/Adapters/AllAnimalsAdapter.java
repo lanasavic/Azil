@@ -34,16 +34,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.ViewHolder> implements Filterable {
-    private Context context;
+public class AllAnimalsAdapter extends RecyclerView.Adapter<AllAnimalsAdapter.ViewHolder>  { //implements Filterable
+    private Activity activity;
     public ArrayList<Animal> lAnimals, animalsList;
-    public AnimalsFilter animalsFilter;
+    //public AnimalsFilter animalsFilter;
     private AnimalItemBinding binding;
-    private RecyclerViewClickListener listener;
+    private AllAnimalsAdapter.RecyclerViewClickListener listener;
     DatabaseReference dbRefPasmina, dbRefZivotinjaPasmina, dbRefLokacija, dbRefZivotinjaLokacija, dbRefVrijeme, dbRefZivotinjaVrijeme;
 
-    public AnimalsAdapter(Context context, ArrayList<Animal> lAnimals, RecyclerViewClickListener listener) {
-        this.context = context;
+    public AllAnimalsAdapter(FragmentActivity activity, ArrayList<Animal> lAnimals, AllAnimalsAdapter.RecyclerViewClickListener listener) {
+        this.activity = activity;
         this.lAnimals = lAnimals;
         this.animalsList = lAnimals;
         this.listener = listener;
@@ -51,13 +51,13 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.ViewHold
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = AnimalItemBinding.inflate(LayoutInflater.from(context), parent, false);
-        return new ViewHolder(binding.getRoot());
+    public AllAnimalsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        binding = AnimalItemBinding.inflate(LayoutInflater.from(activity), parent, false);
+        return new AllAnimalsAdapter.ViewHolder(binding.getRoot());
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AllAnimalsAdapter.ViewHolder holder, int position) {
         Animal animal = lAnimals.get(position);
 
         String ime = animal.getIme();
@@ -104,14 +104,14 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.ViewHold
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -136,14 +136,14 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.ViewHold
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -168,14 +168,14 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.ViewHold
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -185,13 +185,13 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.ViewHold
         return lAnimals.size();
     }
 
-    @Override
+    /*@Override
     public Filter getFilter(){
         if (animalsFilter == null){
             animalsFilter = new AnimalsFilter(animalsList, this);
         }
         return animalsFilter;
-    }
+    }*/
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView ime, opis, pasmina, lokacija, mjesec;

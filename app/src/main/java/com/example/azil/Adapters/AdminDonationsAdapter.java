@@ -3,7 +3,6 @@ package com.example.azil.Adapters;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +109,6 @@ public class AdminDonationsAdapter extends RecyclerView.Adapter<AdminDonationsAd
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     key = dataSnapshot.getKey();
                     assert key != null;
-                    //Log.d("check:0", key);
                     dbRefSklonisteDonacija.child(key).removeValue();
                     dbRefTrazenaDonacija.child(donacijaSifra).removeValue();
                     progressDialog.dismiss();
@@ -123,13 +121,10 @@ public class AdminDonationsAdapter extends RecyclerView.Adapter<AdminDonationsAd
                             for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
                                 key1 = dataSnapshot1.getKey();
                                 assert key1 != null;
-                                //Log.d("check:1", key1);
                                 Requested_Received requested_received = dataSnapshot1.getValue(Requested_Received.class);
                                 assert requested_received != null;
                                 received = requested_received.getZaprimljeno();
                                 requested = requested_received.getTrazeno();
-                                //Log.d("check:received", received);
-                                //Log.d("check:requested", requested);
 
                                 if(donacijaSifra.equals(requested)){
                                     dbRefTrazenoZaprimljeno.child(key1).removeValue();
@@ -152,8 +147,8 @@ public class AdminDonationsAdapter extends RecyclerView.Adapter<AdminDonationsAd
                             for (DataSnapshot dataSnapshot2 : snapshot.getChildren()) {
                                 key2 = dataSnapshot2.getKey();
                                 assert key2 != null;
-                                //Log.d("check:key2", key2);
                                 ReceivedDonation receivedDonation = dataSnapshot2.getValue(ReceivedDonation.class);
+                                assert receivedDonation != null;
                                 String receivedDonId = receivedDonation.getSifra();
 
                                 if(receivedDonId.equals(received)){

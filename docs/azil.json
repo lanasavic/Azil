@@ -507,17 +507,17 @@
     },
     "10":{
       "sifra":"10",
-      "naziv":"Pekinezer",
-      "broj_zivotinja":"2"
+      "naziv":"Patuljasti pinč",
+      "broj_zivotinja":"1"
     },
     "11":{
       "sifra":"11",
-      "naziv":"Zlatni retriver",
-      "broj_zivotinja":"1"
+      "naziv":"Pekinezer",
+      "broj_zivotinja":"2"
     },
     "12":{
       "sifra":"12",
-      "naziv":"Patuljasti pinč",
+      "naziv":"Zlatni retriver",
       "broj_zivotinja":"1"
     }
   },
@@ -530,12 +530,12 @@
     "2":{
       "id":"2",
       "zivotinja":"1",
-      "pasmina":"1"
+      "pasmina":"2"
     },
     "3":{
       "id":"3",
       "zivotinja":"2",
-      "pasmina":"12"
+      "pasmina":"10"
     },
     "4":{
       "id":"4",
@@ -545,22 +545,22 @@
     "5":{
       "id":"5",
       "zivotinja":"4",
-      "pasmina":"4"
+      "pasmina":"1"
     },
     "6":{
       "id":"6",
       "zivotinja":"5",
-      "pasmina":"2"
+      "pasmina":"3"
     },
     "7":{
       "id":"7",
       "zivotinja":"6",
-      "pasmina":"3"
+      "pasmina":"4"
     },
     "8":{
       "id":"8",
       "zivotinja":"7",
-      "pasmina":"11"
+      "pasmina":"12"
     },
     "9":{
       "id":"9",
@@ -575,17 +575,17 @@
     "11":{
       "id":"11",
       "zivotinja":"10",
-      "pasmina":"10"
+      "pasmina":"11"
     },
     "12":{
       "id":"12",
       "zivotinja":"11",
-      "pasmina":"2"
+      "pasmina":"3"
     },
     "13":{
       "id":"13",
       "zivotinja":"12",
-      "pasmina":"3"
+      "pasmina":"4"
     },
     "14":{
       "id":"14",
@@ -600,7 +600,7 @@
     "16":{
       "id":"16",
       "zivotinja":"15",
-      "pasmina":"10"
+      "pasmina":"11"
     },
     "17":{
       "id":"17",
@@ -610,12 +610,12 @@
     "18":{
       "id":"18",
       "zivotinja":"17",
-      "pasmina":"4"
+      "pasmina":"1"
     },
     "19":{
       "id":"19",
       "zivotinja":"18",
-      "pasmina":"1"
+      "pasmina":"2"
     }
   },
   "lokacija":{
@@ -664,12 +664,12 @@
     "2":{
       "id":"2",
       "zivotinja":"1",
-      "lokacija":"2"
+      "lokacija":"1"
     },
     "3":{
       "id":"3",
       "zivotinja":"2",
-      "lokacija":"2"
+      "lokacija":"1"
     },
     "4":{
       "id":"4",
@@ -689,12 +689,12 @@
     "7":{
       "id":"7",
       "zivotinja":"6",
-      "lokacija":"4"
+      "lokacija":"5"
     },
     "8":{
       "id":"8",
       "zivotinja":"7",
-      "lokacija":"1"
+      "lokacija":"2"
     },
     "9":{
       "id":"9",
@@ -714,7 +714,7 @@
     "12":{
       "id":"12",
       "zivotinja":"11",
-      "lokacija":"4"
+      "lokacija":"2"
     },
     "13":{
       "id":"13",
@@ -734,12 +734,12 @@
     "16":{
       "id":"16",
       "zivotinja":"15",
-      "lokacija":"1"
+      "lokacija":"4"
     },
     "17":{
       "id":"17",
       "zivotinja":"16",
-      "lokacija":"5"
+      "lokacija":"4"
     },
     "18":{
       "id":"18",

@@ -131,7 +131,7 @@ public class GraphBreedTimeActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(650, 800);
+        alertDialog.getWindow().setLayout(950, 1050);
     }
 
     private void retrieveData(String chosenBreed) {

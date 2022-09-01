@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.example.azil.R;
 
 public class StatisticsActivity extends AppCompatActivity {
-    private Button btnBack, btnGrafVrste, btnGrafPasmine, btnGrafLokacije, btnGrafVrijeme, btnGrafPasmineLokacije, btnGrafPasmineVrijeme;
+    private Button btnBack, btnStat, btnGrafVrste, btnGrafPasmine, btnGrafLokacije, btnGrafVrijeme, btnGrafPasmineLokacije, btnGrafPasmineVrijeme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,16 @@ public class StatisticsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        btnStat = (Button) findViewById(R.id.btnStat);
+        btnStat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), StatisticsDataActivity.class);
                 startActivity(intent);
                 finish();
             }

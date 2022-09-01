@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Azil">
         <activity
+            android:name=".Activities.StatisticsDataActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.AllAnimalsActivity"
             android:exported="false" />
         <activity

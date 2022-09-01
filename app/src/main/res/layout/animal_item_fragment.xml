@@ -116,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_warning"
+            android:layout_alignParentBottom="true"
             app:tint="@color/red" />
     </RelativeLayout>
 </LinearLayout>

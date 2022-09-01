@@ -24,10 +24,12 @@ import com.example.azil.Filters.AdminAnimalsFilter;
 import com.example.azil.Models.Animal;
 import com.example.azil.Models.Animal_Breed;
 import com.example.azil.Models.Animal_Location;
+import com.example.azil.Models.Animal_Species;
 import com.example.azil.Models.Animal_Time;
 import com.example.azil.Models.Breed;
 import com.example.azil.Models.Location;
 import com.example.azil.Models.Shelter_Animal;
+import com.example.azil.Models.Species;
 import com.example.azil.Models.Time;
 import com.example.azil.databinding.AnimalItemFragmentBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -246,18 +248,17 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
         progressDialog.setMessage("Brisanje u tijeku...");
         progressDialog.show();
 
-        //TODO: missing handler for nonexistent image url
         StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(slikaUrl);
         storageReference.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d("Success", "Deleted from storage");
+                        Log.d("IMG EXISTS: Success", "Deleted from storage");
 
                         dbRefZivotinja.child(zivotinjaSifra).removeValue();
                         progressDialog.dismiss();
                         Toast.makeText(context, "Uspješno obrisano!", Toast.LENGTH_SHORT).show();
-                        Log.d("Success", "Deleted from database");
+                        Log.d("IMG EXISTS: Success", "Deleted from database");
 
                         Query deleteShelterAnimal = dbRefSklonisteZivotinja.orderByChild("zivotinja").equalTo(zivotinjaSifra);
                         deleteShelterAnimal.addValueEventListener(new ValueEventListener() {
@@ -304,9 +305,51 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
                             }
                         });
 
-                        //TODO: find animal species location time, -1 to all of em
-                        Query findAnimalQuery = dbRefZivotinjaPasmina.orderByChild("zivotinja").equalTo(zivotinjaSifra);
-                        findAnimalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        Query findAnimalSpeciesQuery = dbRefZivotinjaVrsta.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalSpeciesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    Animal_Species animal_species = dataSnapshot.getValue(Animal_Species.class);
+                                    assert animal_species != null;
+                                    animalSpeciesKey = dataSnapshot.getKey();
+                                    speciesId = animal_species.getVrsta();
+                                    assert animalSpeciesKey != null;
+
+                                    Query findSpeciesQuery = dbRefVrsta.orderByChild("sifra").equalTo(speciesId);
+                                    findSpeciesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                                Species species = dataSnapshot1.getValue(Species.class);
+                                                assert species != null;
+                                                String speciesBrZivotinja = species.getBroj_zivotinja();
+
+                                                currentBrZivotinja = Integer.parseInt(speciesBrZivotinja);
+                                                newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                                                dbRefVrsta.child(speciesId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                                                dbRefZivotinjaVrsta.child(animalSpeciesKey).removeValue();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        Query findAnimalBreedQuery = dbRefZivotinjaPasmina.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalBreedQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
@@ -347,13 +390,320 @@ public class AdminAnimalsAdapter extends RecyclerView.Adapter<AdminAnimalsAdapte
                                 Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
                             }
                         });
+
+                        Query findAnimalLocationQuery = dbRefZivotinjaLokacija.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalLocationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    Animal_Location animal_location = dataSnapshot.getValue(Animal_Location.class);
+                                    assert animal_location != null;
+                                    animalLocationKey = dataSnapshot.getKey();
+                                    locationId = animal_location.getLokacija();
+                                    assert animalLocationKey != null;
+
+                                    Query findLocationQuery = dbRefLokacija.orderByChild("sifra").equalTo(locationId);
+                                    findLocationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                                Location location = dataSnapshot1.getValue(Location.class);
+                                                assert location != null;
+                                                String locationBrZivotinja = location.getBroj_zivotinja();
+
+                                                currentBrZivotinja = Integer.parseInt(locationBrZivotinja);
+                                                newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                                                dbRefLokacija.child(locationId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                                                dbRefZivotinjaLokacija.child(animalLocationKey).removeValue();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        Query findAnimalTimeQuery = dbRefZivotinjaVrijeme.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalTimeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    Animal_Time animal_time = dataSnapshot.getValue(Animal_Time.class);
+                                    assert animal_time != null;
+                                    animalTimeKey = dataSnapshot.getKey();
+                                    monthId = animal_time.getMjesec();
+                                    assert animalTimeKey != null;
+
+                                    Query findTimeQuery = dbRefVrijeme.orderByChild("sifra").equalTo(monthId);
+                                    findTimeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                                Time time = dataSnapshot1.getValue(Time.class);
+                                                assert time != null;
+                                                String timeBrZivotinja = time.getBroj_zivotinja();
+
+                                                currentBrZivotinja = Integer.parseInt(timeBrZivotinja);
+                                                newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                                                dbRefVrijeme.child(monthId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                                                dbRefZivotinjaVrijeme.child(animalTimeKey).removeValue();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d("NO IMG: Success", "No image found | " + e);
+
+                        dbRefZivotinja.child(zivotinjaSifra).removeValue();
                         progressDialog.dismiss();
-                        Toast.makeText(context, "Error: " + e, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Uspješno obrisano!", Toast.LENGTH_SHORT).show();
+                        Log.d("NO IMG: Success", "Deleted from database");
+
+                        Query deleteShelterAnimal = dbRefSklonisteZivotinja.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        deleteShelterAnimal.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    key = dataSnapshot.getKey();
+                                    assert key != null;
+                                    dbRefSklonisteZivotinja.child(key).removeValue();
+
+                                    Shelter_Animal shelter_animal = dataSnapshot.getValue(Shelter_Animal.class);
+                                    assert shelter_animal != null;
+                                    String sSklonisteOib = shelter_animal.getSkloniste();
+
+                                    dbRefSkloniste = FirebaseDatabase.getInstance().getReference("skloniste").child(sSklonisteOib).child("dostupnih_mjesta");
+                                    dbRefSkloniste.runTransaction(new Transaction.Handler() {
+                                        @NonNull
+                                        @Override
+                                        public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                                            int count;
+                                            try {
+                                                count = Integer.parseInt(currentData.getValue(String.class));
+                                            } catch (NumberFormatException e) {
+                                                count = 0;
+                                            }
+                                            count++;
+                                            currentData.setValue(Integer.toString(count));
+                                            intent = new Intent(context, AdminActivity.class);
+                                            context.startActivity(intent);
+                                            return Transaction.success(currentData);
+                                        }
+
+                                        @Override
+                                        public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                                            Log.d("TAG", "countTransaction:onComplete -- Error:" + error);
+                                        }
+                                    });
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                progressDialog.dismiss();
+                                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        Query findAnimalSpeciesQuery = dbRefZivotinjaVrsta.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalSpeciesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    Animal_Species animal_species = dataSnapshot.getValue(Animal_Species.class);
+                                    assert animal_species != null;
+                                    animalSpeciesKey = dataSnapshot.getKey();
+                                    speciesId = animal_species.getVrsta();
+                                    assert animalSpeciesKey != null;
+
+                                    Query findSpeciesQuery = dbRefVrsta.orderByChild("sifra").equalTo(speciesId);
+                                    findSpeciesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                                Species species = dataSnapshot1.getValue(Species.class);
+                                                assert species != null;
+                                                String speciesBrZivotinja = species.getBroj_zivotinja();
+
+                                                currentBrZivotinja = Integer.parseInt(speciesBrZivotinja);
+                                                newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                                                dbRefVrsta.child(speciesId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                                                dbRefZivotinjaVrsta.child(animalSpeciesKey).removeValue();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        Query findAnimalBreedQuery = dbRefZivotinjaPasmina.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalBreedQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    Animal_Breed animal_breed = dataSnapshot.getValue(Animal_Breed.class);
+                                    assert animal_breed != null;
+                                    animalBreedKey = dataSnapshot.getKey();
+                                    breedId = animal_breed.getPasmina();
+                                    assert animalBreedKey != null;
+
+                                    Query findBreedQuery = dbRefPasmina.orderByChild("sifra").equalTo(breedId);
+                                    findBreedQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                                Breed breed = dataSnapshot1.getValue(Breed.class);
+                                                assert breed != null;
+                                                String breedBrZivotinja = breed.getBroj_zivotinja();
+
+                                                currentBrZivotinja = Integer.parseInt(breedBrZivotinja);
+                                                newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                                                dbRefPasmina.child(breedId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                                                dbRefZivotinjaPasmina.child(animalBreedKey).removeValue();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        Query findAnimalLocationQuery = dbRefZivotinjaLokacija.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalLocationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    Animal_Location animal_location = dataSnapshot.getValue(Animal_Location.class);
+                                    assert animal_location != null;
+                                    animalLocationKey = dataSnapshot.getKey();
+                                    locationId = animal_location.getLokacija();
+                                    assert animalLocationKey != null;
+
+                                    Query findLocationQuery = dbRefLokacija.orderByChild("sifra").equalTo(locationId);
+                                    findLocationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                                Location location = dataSnapshot1.getValue(Location.class);
+                                                assert location != null;
+                                                String locationBrZivotinja = location.getBroj_zivotinja();
+
+                                                currentBrZivotinja = Integer.parseInt(locationBrZivotinja);
+                                                newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                                                dbRefLokacija.child(locationId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                                                dbRefZivotinjaLokacija.child(animalLocationKey).removeValue();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        Query findAnimalTimeQuery = dbRefZivotinjaVrijeme.orderByChild("zivotinja").equalTo(zivotinjaSifra);
+                        findAnimalTimeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                    Animal_Time animal_time = dataSnapshot.getValue(Animal_Time.class);
+                                    assert animal_time != null;
+                                    animalTimeKey = dataSnapshot.getKey();
+                                    monthId = animal_time.getMjesec();
+                                    assert animalTimeKey != null;
+
+                                    Query findTimeQuery = dbRefVrijeme.orderByChild("sifra").equalTo(monthId);
+                                    findTimeQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                                Time time = dataSnapshot1.getValue(Time.class);
+                                                assert time != null;
+                                                String timeBrZivotinja = time.getBroj_zivotinja();
+
+                                                currentBrZivotinja = Integer.parseInt(timeBrZivotinja);
+                                                newBrZivotinja = String.valueOf(currentBrZivotinja-1);
+
+                                                dbRefVrijeme.child(monthId).child("broj_zivotinja").setValue(newBrZivotinja);
+
+                                                dbRefZivotinjaVrijeme.child(animalTimeKey).removeValue();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
     }
