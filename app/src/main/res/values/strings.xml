@@ -25,9 +25,9 @@
     <string name="btnGrafVrste">Vrste životinja</string>
     <string name="btnGrafPasmine">Pasmine</string>
     <string name="btnGrafLokacije">Lokacije pronalaska</string>
-    <string name="btnGrafVrijeme">Vrijeme rođenja</string>
+    <string name="btnGrafVrijeme">Mjesec pronalaska</string>
     <string name="btnGrafPasmineLokacije">Pasmine - najčešće lokacije</string>
-    <string name="btnGrafPasmineVrijeme">Pasmine - najčešće vrijeme</string>
+    <string name="btnGrafPasmineVrijeme">Pasmine - najčešći mjesec</string>
 
     <!-- Txt, placeholders, or whatever -->
     <string name="helperMain">Skloništa za životinje u RH</string>
