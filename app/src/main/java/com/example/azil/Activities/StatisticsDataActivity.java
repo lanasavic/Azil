@@ -105,7 +105,6 @@ public class StatisticsDataActivity extends AppCompatActivity {
                     sum = sum + lAnimalsMonths.get(i);
                 }
                 double mean = sum/lAnimalsMonths.size(); //arithmetic mean
-                //String stringMean = Double.toString(mean);
 
                 DecimalFormat df = new DecimalFormat("#.###");
                 df.setRoundingMode(RoundingMode.CEILING);
@@ -237,6 +236,7 @@ public class StatisticsDataActivity extends AppCompatActivity {
                 }
                 //System.out.println(lAnimalsBreeds);
 
+                //MEDIJAN
                 Object[] numArray = lAnimalsBreeds.toArray();
                 Arrays.sort(numArray);
                 //System.out.println(Arrays.toString(numArray));
@@ -249,6 +249,7 @@ public class StatisticsDataActivity extends AppCompatActivity {
 
                 tvPasmineMedijan.setText(Double.toString(median));
 
+                //MOD
                 double epsilon = 0.001; //TOLERANCE
                 double maxValue = -1.0d;
                 int maxCount = 0;
