@@ -20,7 +20,8 @@
             android:exported="false" />
         <activity
             android:name=".Activities.AllAnimalsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".Activities.GraphBreedTimeActivity"
             android:exported="false" />

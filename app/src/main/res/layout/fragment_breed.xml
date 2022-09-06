@@ -25,7 +25,7 @@
                 android:src="@drawable/ic_search_white" />
 
             <EditText
-                android:id="@+id/search_fragmentAnimals"
+                android:id="@+id/search_fragmentBreed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/helper_search"/>

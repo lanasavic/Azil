@@ -10,9 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +44,7 @@ public class SpeciesFragment extends Fragment {
     RecyclerView rvSpecies;
     ArrayList<Animal> lAnimals;
     private AllAnimalsAdapter allAnimalsAdapter;
+    private EditText search_fragmentSpecies, hiddenSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +56,28 @@ public class SpeciesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 speciesPickDialog();
+            }
+        });
+
+        search_fragmentSpecies = view.findViewById(R.id.search_fragmentSpecies);
+        search_fragmentSpecies.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    allAnimalsAdapter.getFilter().filter(s);
+                }
+                catch (Exception e){
+                    Log.d("ERROR", "Error:" + e.getMessage());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 
@@ -144,7 +171,7 @@ public class SpeciesFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 String species = speciesArray[which];
                 dropdownSpecies.setText(species);
-                retrieveData(species);
+                //retrieveData(species);
             }
         });
         AlertDialog alertDialog = builder.create();
@@ -154,6 +181,7 @@ public class SpeciesFragment extends Fragment {
 
     private void retrieveData(String chosenSpecies) {
         //Log.d("tag", chosenSpecies);
+        //lAnimals.clear();
         Query speciesQuery = dbRefVrsta.orderByChild("naziv").equalTo(chosenSpecies);
         speciesQuery.addValueEventListener(new ValueEventListener() {
             @Override

@@ -1,7 +1,6 @@
 package com.example.azil.Adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.azil.Filters.AnimalsFilter;
+import com.example.azil.Filters.AllAnimalsFilter;
 import com.example.azil.Models.Animal;
 import com.example.azil.Models.Animal_Breed;
 import com.example.azil.Models.Animal_Location;
 import com.example.azil.Models.Animal_Time;
 import com.example.azil.Models.Breed;
 import com.example.azil.Models.Location;
+import com.example.azil.Models.Species;
 import com.example.azil.Models.Time;
 import com.example.azil.databinding.AnimalItemBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -34,10 +34,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AllAnimalsAdapter extends RecyclerView.Adapter<AllAnimalsAdapter.ViewHolder>  { //implements Filterable
+public class AllAnimalsAdapter extends RecyclerView.Adapter<AllAnimalsAdapter.ViewHolder> implements Filterable {
     private Activity activity;
     public ArrayList<Animal> lAnimals, animalsList;
-    //public AnimalsFilter animalsFilter;
+    public AllAnimalsFilter allAnimalsFilter;
+    public ArrayList<Species> speciesList;
     private AnimalItemBinding binding;
     private AllAnimalsAdapter.RecyclerViewClickListener listener;
     DatabaseReference dbRefPasmina, dbRefZivotinjaPasmina, dbRefLokacija, dbRefZivotinjaLokacija, dbRefVrijeme, dbRefZivotinjaVrijeme;
@@ -185,13 +186,13 @@ public class AllAnimalsAdapter extends RecyclerView.Adapter<AllAnimalsAdapter.Vi
         return lAnimals.size();
     }
 
-    /*@Override
+    @Override
     public Filter getFilter(){
-        if (animalsFilter == null){
-            animalsFilter = new AnimalsFilter(animalsList, this);
+        if (allAnimalsFilter == null){
+            allAnimalsFilter = new AllAnimalsFilter(animalsList, this);
         }
-        return animalsFilter;
-    }*/
+        return allAnimalsFilter;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView ime, opis, pasmina, lokacija, mjesec;

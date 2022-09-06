@@ -10,9 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +44,7 @@ public class LocationFragment extends Fragment {
     RecyclerView rvLocation;
     ArrayList<Animal> lAnimals;
     private AllAnimalsAdapter allAnimalsAdapter;
+    private EditText search_fragmentLocation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +56,28 @@ public class LocationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 locationPickDialog();
+            }
+        });
+
+        search_fragmentLocation = view.findViewById(R.id.search_fragmentLocation);
+        search_fragmentLocation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    allAnimalsAdapter.getFilter().filter(s);
+                }
+                catch (Exception e){
+                    Log.d("ERROR", "Error:" + e.getMessage());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 
@@ -149,7 +176,7 @@ public class LocationFragment extends Fragment {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(950, 1050);
+        //alertDialog.getWindow().setLayout(950, 1050);
     }
 
     private void retrieveData(String chosenLocation) {
