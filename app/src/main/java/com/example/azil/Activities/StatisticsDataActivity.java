@@ -149,8 +149,14 @@ public class StatisticsDataActivity extends AppCompatActivity {
                                             Species species = dataSnapshot2.getValue(Species.class);
                                             assert species != null;
                                             catsNum = species.getBroj_zivotinja();
+                                            int catsNumInt = Integer.parseInt(catsNum);
 
-                                            tvVrste.setText(dogsNum + " : " + catsNum);
+                                            if(catsNumInt == 0){
+                                                tvVrste.setText("Psi: "+dogsNum+", podataka o mačkama nema.\nOmjer nije moguće prikazati.");
+                                            }
+                                            else{
+                                                tvVrste.setText(dogsNum + " : " + catsNum);
+                                            }
                                         }
                                     }
                                     @Override
@@ -269,7 +275,12 @@ public class StatisticsDataActivity extends AppCompatActivity {
                     }
                 }
                 //System.out.println("mode: " + maxValue);
-                tvPasmineMod.setText(Double.toString(maxValue));
+                if(Double.isNaN(maxValue)){
+                    tvPasmineMod.setText("Nema vrijednosti koja se ponavlja.");
+                }
+                else{
+                    tvPasmineMod.setText(Double.toString(maxValue));
+                }
             }
 
             @Override
