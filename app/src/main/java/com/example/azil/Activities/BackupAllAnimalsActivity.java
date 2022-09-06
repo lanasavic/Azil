@@ -16,8 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.azil.Adapters.SheltersAdapter;
-import com.example.azil.Models.Shelter;
+import com.example.azil.Adapters.AllAnimalsAdapter;
+import com.example.azil.Models.Animal;
 import com.example.azil.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,44 +27,34 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    private Button btnLogin, btnStats;
-    private RecyclerView rvMain;
-    DatabaseReference databaseReference;
-    private SheltersAdapter sheltersAdapter;
-    ArrayList<Shelter> lShelters;
-    private EditText search_main;
-
-    public void imageButtonPaw(View v) {
-        Intent intent = new Intent(getApplicationContext(), BackupAllAnimalsActivity.class);
-        startActivity(intent);
-    }
+/** Backup plan - instead of AllAnimalsActivity and Fragments
+ * Issue: dropdown filters
+ */
+public class BackupAllAnimalsActivity extends AppCompatActivity {
+    private Button btnBack;
+    private RecyclerView rvAllAnimalsB;
+    private AllAnimalsAdapter allAnimalsAdapter;
+    private EditText search_allAnimalsB;
+    ArrayList<Animal> lAnimals;
+    DatabaseReference dbRefZivotinja, dbRefPasmina, dbRefZivotinjaPasmina;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_backup_all_animals);
 
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnBack = (Button) findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
-        btnStats = (Button) findViewById(R.id.btnStats);
-        btnStats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), StatisticsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        search_main = findViewById(R.id.search_main);
-        search_main.addTextChangedListener(new TextWatcher() {
+        search_allAnimalsB = findViewById(R.id.search_allAnimalsB);
+        search_allAnimalsB.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -73,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
-                    sheltersAdapter.getFilter().filter(s);
+                    allAnimalsAdapter.getFilter().filter(s);
                 }
                 catch (Exception e){
                     Log.d("ERROR", "Error:" + e.getMessage());
@@ -85,16 +75,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        rvMain = findViewById(R.id.rvMain);
-        rvMain.setHasFixedSize(true);
-        rvMain.setLayoutManager(new LinearLayoutManager(this));
+        //DATABASE REFERENCES
+        dbRefZivotinja = FirebaseDatabase.getInstance().getReference("zivotinja");
+        dbRefPasmina = FirebaseDatabase.getInstance().getReference("pasmina");
+        dbRefZivotinjaPasmina = FirebaseDatabase.getInstance().getReference("zivotinja_pasmina");
 
-        lShelters = new ArrayList<>();
-        sheltersAdapter = new SheltersAdapter(this, lShelters, this::selectedShelter);
-        rvMain.setAdapter(sheltersAdapter);
+        rvAllAnimalsB = findViewById(R.id.rvAllAnimalsB);
+        rvAllAnimalsB.setHasFixedSize(true);
+        rvAllAnimalsB.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        lAnimals = new ArrayList<>();
+        allAnimalsAdapter = new AllAnimalsAdapter(getApplicationContext(), lAnimals, this::selectedAnimal);
+        rvAllAnimalsB.setAdapter(allAnimalsAdapter);
 
         ImageView ivNoResult = findViewById(R.id.ivNoResult);
-        sheltersAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        allAnimalsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 super.onChanged();
@@ -114,28 +109,28 @@ public class MainActivity extends AppCompatActivity {
             }
 
             void checkEmpty() {
-                ivNoResult.setVisibility(sheltersAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+                ivNoResult.setVisibility(allAnimalsAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
             }
         });
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("skloniste");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        dbRefZivotinja.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Shelter shelter = dataSnapshot.getValue(Shelter.class);
-                    lShelters.add(shelter);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Animal animals = dataSnapshot.getValue(Animal.class);
+                    lAnimals.add(animals);
                 }
-                sheltersAdapter.notifyDataSetChanged();
+                allAnimalsAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("ERROR", "Error:" + error.getMessage());
+                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void selectedShelter(Shelter shelter) {
-        startActivity(new Intent(this, SheltersActivity.class).putExtra("data", shelter));
+    public void selectedAnimal(Animal animal) {
+        startActivity(new Intent(getApplicationContext(), AdoptActivity.class).putExtra("data2", animal));
     }
 }

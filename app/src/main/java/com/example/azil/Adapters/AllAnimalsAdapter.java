@@ -1,6 +1,7 @@
 package com.example.azil.Adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +36,23 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class AllAnimalsAdapter extends RecyclerView.Adapter<AllAnimalsAdapter.ViewHolder> implements Filterable {
-    private Activity activity;
+    private Context context;
+    //private Activity activity;
     public ArrayList<Animal> lAnimals, animalsList;
     public AllAnimalsFilter allAnimalsFilter;
-    public ArrayList<Species> speciesList;
     private AnimalItemBinding binding;
     private AllAnimalsAdapter.RecyclerViewClickListener listener;
     DatabaseReference dbRefPasmina, dbRefZivotinjaPasmina, dbRefLokacija, dbRefZivotinjaLokacija, dbRefVrijeme, dbRefZivotinjaVrijeme;
 
-    public AllAnimalsAdapter(FragmentActivity activity, ArrayList<Animal> lAnimals, AllAnimalsAdapter.RecyclerViewClickListener listener) {
+    /*public AllAnimalsAdapter(FragmentActivity activity, ArrayList<Animal> lAnimals, AllAnimalsAdapter.RecyclerViewClickListener listener) {
         this.activity = activity;
+        this.lAnimals = lAnimals;
+        this.animalsList = lAnimals;
+        this.listener = listener;
+    }*/
+
+    public AllAnimalsAdapter(Context context, ArrayList<Animal> lAnimals, AllAnimalsAdapter.RecyclerViewClickListener listener) {
+        this.context = context;
         this.lAnimals = lAnimals;
         this.animalsList = lAnimals;
         this.listener = listener;
@@ -53,7 +61,7 @@ public class AllAnimalsAdapter extends RecyclerView.Adapter<AllAnimalsAdapter.Vi
     @NonNull
     @Override
     public AllAnimalsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = AnimalItemBinding.inflate(LayoutInflater.from(activity), parent, false);
+        binding = AnimalItemBinding.inflate(LayoutInflater.from(context), parent, false);
         return new AllAnimalsAdapter.ViewHolder(binding.getRoot());
     }
 
@@ -105,14 +113,14 @@ public class AllAnimalsAdapter extends RecyclerView.Adapter<AllAnimalsAdapter.Vi
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -137,14 +145,14 @@ public class AllAnimalsAdapter extends RecyclerView.Adapter<AllAnimalsAdapter.Vi
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -169,14 +177,14 @@ public class AllAnimalsAdapter extends RecyclerView.Adapter<AllAnimalsAdapter.Vi
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(activity, "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
